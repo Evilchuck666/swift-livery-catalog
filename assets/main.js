@@ -176,7 +176,7 @@
     const viewChips = byId("viewChips");
 
     if (liveryChips) {
-      const allLiveries = createChip("Todas", null, true);
+      const allLiveries = createChip("Todas", "全", true);
       allLiveries.dataset.key = "all";
       allLiveries.addEventListener("click", () => {
         activeLivery = "all";
@@ -205,7 +205,7 @@
     }
 
     if (viewChips) {
-      const allViews = createChip("Todas", null, true);
+      const allViews = createChip("Todas", "全", true);
       allViews.dataset.key = "all";
       allViews.addEventListener("click", () => {
         activeView = "all";
