@@ -770,8 +770,8 @@ button {
 .color-wheel {
   position: relative;
   width: 124px;
-  height: 90px;
-  border-radius: 10px;
+  height: 124px;
+  border-radius: 50%;
   background:
     linear-gradient(to bottom, transparent, #000),
     linear-gradient(to right, #fff, hsl(var(--wheel-hue), 100%, 50%));
