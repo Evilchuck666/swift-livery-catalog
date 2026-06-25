@@ -140,7 +140,7 @@ button {
 }
 
 .topnav {
-  flex: 1;
+  flex: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -190,6 +190,7 @@ button {
 
 .sidebar-toggle {
   flex-shrink: 0;
+  margin-left: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
