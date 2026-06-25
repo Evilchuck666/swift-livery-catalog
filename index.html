@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Catálogo de livery · Suzuki Swift Sport</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Archivo:wght@400;500;600;700;800&amp;family=Noto+Sans+JP:wght@500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="assets/styles.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="topbar">
+<a class="brand" href="#top">
+<span class="brand__mark">金</span>
+<span class="brand__txt">Swift Livery</span>
+</a>
+<nav aria-label="Secciones del catálogo" class="topnav" role="tablist">
+<button aria-controls="galleryPanel" aria-selected="true" class="tab-button is-active" data-tab="gallery" id="tabGallery" role="tab" type="button">Galería</button>
+<button aria-controls="resourcesPanel" aria-selected="false" class="tab-button" data-tab="resources" id="tabResources" role="tab" type="button">Recursos</button>
+</nav>
+<span class="topbar__meta"><b id="topTotal">15</b> imágenes · estático</span>
+</header>
+<main class="page" id="top">
+<aside aria-label="Filtros de catálogo" class="controls">
+<div class="controls__inner">
+<div class="controls__title">
+<strong><span class="filtros_css">Filtros</span></strong>
+</div>
+<div class="fgroup">
+<span class="fgroup__label">Vista</span>
+<div class="chips" id="viewChips"></div>
+</div>
+<div class="result">Mostrando <b id="count">15</b> imágenes</div>
+</div>
+</aside>
+<div class="page__content">
+<section class="hero hero--compact gallery-only" id="galleryHero">
+<div aria-hidden="true" class="hero__kanji">金</div>
+<div class="wrap hero__inner">
+<p class="hero__eyebrow eyebrow"><span></span>Suzuki Swift Sport · Estudio de rotulación</p>
+<h1>Propuesta <span class="y">de livery</span></h1>
+<p class="hero__sub"><b id="heroTotal">15</b> Mockups para el Suzuki Swift Sport ZC33S. Pulsa cualquier imagen para verla a tamaño completo.</p>
+<div class="stats">
+<div class="stat"><div class="stat__n" id="statViews">0</div><div class="stat__l">Vistas</div></div>
+<div class="stat"><div class="stat__n" id="statFiles">15</div><div class="stat__l">Imágenes</div></div>
+</div>
+</div>
+</section>
+<div aria-label="Listado de imágenes" class="scroll-area gallery-only" id="galleryPanel" role="tabpanel" tabindex="0">
+<div class="wrap gallery" id="gallery"></div>
+<div class="wrap"><div class="empty" id="empty">No hay imágenes con este filtro. <b>Prueba otra vista.</b></div></div>
+<footer class="foot">
+<div class="wrap foot__inner">
+<div class="foot__txt">Galería del livery · Suzuki Swift Sport · <b><span id="footTotal">15</span> Mockups</b></div>
+<div class="foot__jp">金 轟 スウィフトレモン</div>
+</div>
+</footer>
+</div>
+<div aria-labelledby="tabResources" class="resources-area scroll-area is-hidden-tab" hidden id="resourcesPanel" role="tabpanel" tabindex="0">
+<div class="wrap resources" id="resourcesRoot"></div>
+<footer class="foot">
+<div class="wrap foot__inner">
+<div class="foot__txt">Especificaciones técnicas · Colores, acabados, kamon y kanji</div>
+<div class="foot__jp">金 轟 スウィフトレモン</div>
+</div>
+</footer>
+</div>
+</div>
+</main>
+<div aria-label="Vista ampliada" aria-modal="true" class="lb" id="lb" role="dialog">
+<button aria-label="Cerrar (Esc)" class="lb__close" id="lbClose">✕</button>
+<button aria-label="Anterior (←)" class="lb__btn lb__prev" id="lbPrev">‹</button>
+<button aria-label="Siguiente (→)" class="lb__btn lb__next" id="lbNext">›</button>
+<figure class="lb__fig">
+<div class="lb__plate"><img alt="" id="lbImg"/></div>
+<figcaption class="lb__cap">
+<span class="lb__glyph" id="lbGlyph"></span>
+<span>
+<span class="lb__name" id="lbName"></span><br/>
+<span class="lb__sub" id="lbSub"></span>
+</span>
+<span class="lb__idx"><b id="lbCur">1</b> / <span id="lbTot">15</span></span>
+</figcaption>
+</figure>
+</div>
+<script src="assets/catalog-data.js"></script>
+<script src="assets/main.js"></script>
+</body>
+</html>
