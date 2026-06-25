@@ -6,91 +6,91 @@ window.CATALOG_DATA = {
       "livery": "purpura",
       "view": "frontal",
       "shot": "frontal_centrado",
-      "uri": "resources/purpura/frontal_centrado.png"
+      "uri": "resources/liveries/purpura/frontal_centrado.png"
     },
     {
       "livery": "purpura",
       "view": "delantero",
       "shot": "tres_cuartos_delantero_izquierdo",
-      "uri": "resources/purpura/tres_cuartos_delantero_izquierdo.png"
+      "uri": "resources/liveries/purpura/tres_cuartos_delantero_izquierdo.png"
     },
     {
       "livery": "purpura",
       "view": "delantero",
       "shot": "tres_cuartos_delantero_derecho",
-      "uri": "resources/purpura/tres_cuartos_delantero_derecho.png"
+      "uri": "resources/liveries/purpura/tres_cuartos_delantero_derecho.png"
     },
     {
       "livery": "purpura",
       "view": "lateral",
       "shot": "perfil_completo_izquierdo",
-      "uri": "resources/purpura/perfil_completo_izquierdo.png"
+      "uri": "resources/liveries/purpura/perfil_completo_izquierdo.png"
     },
     {
       "livery": "purpura",
       "view": "lateral",
       "shot": "perfil_completo_izquierdo_ladeado",
-      "uri": "resources/purpura/perfil_completo_izquierdo_ladeado.png"
+      "uri": "resources/liveries/purpura/perfil_completo_izquierdo_ladeado.png"
     },
     {
       "livery": "purpura",
       "view": "lateral",
       "shot": "perfil_completo_derecho",
-      "uri": "resources/purpura/perfil_completo_derecho.png"
+      "uri": "resources/liveries/purpura/perfil_completo_derecho.png"
     },
     {
       "livery": "purpura",
       "view": "lateral",
       "shot": "perfil_completo_derecho_ladeado",
-      "uri": "resources/purpura/perfil_completo_derecho_ladeado.png"
+      "uri": "resources/liveries/purpura/perfil_completo_derecho_ladeado.png"
     },
     {
       "livery": "purpura",
       "view": "trasero",
       "shot": "tres_cuartos_trasero_izquierdo",
-      "uri": "resources/purpura/tres_cuartos_trasero_izquierdo.png"
+      "uri": "resources/liveries/purpura/tres_cuartos_trasero_izquierdo.png"
     },
     {
       "livery": "purpura",
       "view": "trasero",
       "shot": "tres_cuartos_trasero_derecho",
-      "uri": "resources/purpura/tres_cuartos_trasero_derecho.png"
+      "uri": "resources/liveries/purpura/tres_cuartos_trasero_derecho.png"
     },
     {
       "livery": "purpura",
       "view": "cola",
       "shot": "cola_centrada",
-      "uri": "resources/purpura/cola_centrada.png"
+      "uri": "resources/liveries/purpura/cola_centrada.png"
     },
     {
       "livery": "purpura",
       "view": "cenital",
       "shot": "cenital_delantero",
-      "uri": "resources/purpura/cenital_delantero.png"
+      "uri": "resources/liveries/purpura/cenital_delantero.png"
     },
     {
       "livery": "purpura",
       "view": "cenital",
       "shot": "cenital_trasero",
-      "uri": "resources/purpura/cenital_trasero.png"
+      "uri": "resources/liveries/purpura/cenital_trasero.png"
     },
     {
       "livery": "purpura",
       "view": "detalle",
       "shot": "detalle_kanji_desenfocado",
-      "uri": "resources/purpura/detalle_kanji_desenfocado.png"
+      "uri": "resources/liveries/purpura/detalle_kanji_desenfocado.png"
     },
     {
       "livery": "purpura",
       "view": "detalle",
       "shot": "detalle_kanji_enfocado",
-      "uri": "resources/purpura/detalle_kanji_enfocado.png"
+      "uri": "resources/liveries/purpura/detalle_kanji_enfocado.png"
     },
     {
       "livery": "purpura",
       "view": "detalle",
       "shot": "detalle_llanta_delantera",
-      "uri": "resources/purpura/detalle_llanta_delantera.png"
+      "uri": "resources/liveries/purpura/detalle_llanta_delantera.png"
     }
   ],
   "meta": {

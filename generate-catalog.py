@@ -12,8 +12,9 @@ import re
 import sys
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-CATALOG_JS  = os.path.join(SCRIPT_DIR, "assets", "catalog-data.js")
-RESOURCES   = os.path.join(SCRIPT_DIR, "resources")
+CATALOG_JS   = os.path.join(SCRIPT_DIR, "assets", "catalog-data.js")
+RESOURCES    = os.path.join(SCRIPT_DIR, "resources")
+LIVERIES_DIR = os.path.join(SCRIPT_DIR, "resources", "liveries")
 
 # Subdirectorios de resources/ que son assets compartidos, no liveries
 SHARED_DIRS = {"kamon", "kanji"}
@@ -213,7 +214,7 @@ def main():
 
     shot_view_map = build_shot_view_map(data.get("items", []))
 
-    livery_dirs = scan_livery_dirs(RESOURCES)
+    livery_dirs = scan_livery_dirs(LIVERIES_DIR)
     if not livery_dirs:
         print("⚠  No se encontraron subdirectorios en resources/. Nada que hacer.")
         return
@@ -243,7 +244,7 @@ def main():
                 "livery": livery_key,
                 "view":   view,
                 "shot":   shot,
-                "uri":    f"resources/{livery_key}/{fname}",
+                "uri":    f"resources/liveries/{livery_key}/{fname}",
             })
 
         # Ordenar por shot_order
