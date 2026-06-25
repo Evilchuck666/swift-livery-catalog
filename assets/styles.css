@@ -309,7 +309,7 @@ button{font-family:inherit;color:inherit;cursor:pointer;border:0;background:none
   transform:translateY(-50%);
   font-family:var(--ff-jp);
   font-weight:900;
-  font-size:clamp(5rem,18vw,14rem);
+  font-size:clamp(8rem,26vw,20rem);
   line-height:.8;
   color:rgba(244,221,0,.045);
   pointer-events:none;
