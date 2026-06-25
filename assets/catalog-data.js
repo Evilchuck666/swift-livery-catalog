@@ -105,43 +105,36 @@ window.CATALOG_DATA = {
     "views": {
       "frontal": {
         "name": "Frontal",
-        "short": "Frontal",
         "glyph": "正",
         "sub": "Vista frontal centrada"
       },
       "delantero": {
         "name": "3/4 Delantero",
-        "short": "Delantero",
         "glyph": "前",
         "sub": "Ángulos delanteros"
       },
       "lateral": {
         "name": "Lateral",
-        "short": "Lateral",
         "glyph": "側",
         "sub": "Perfiles completos"
       },
       "trasero": {
         "name": "3/4 Trasero",
-        "short": "Trasero",
         "glyph": "後",
         "sub": "Ángulos traseros"
       },
       "cola": {
         "name": "Cola",
-        "short": "Cola",
         "glyph": "尾",
         "sub": "Trasera centrada"
       },
       "cenital": {
         "name": "Cenital",
-        "short": "Cenital",
         "glyph": "上",
         "sub": "Vistas superiores"
       },
       "detalle": {
         "name": "Detalle",
-        "short": "Detalle",
         "glyph": "細",
         "sub": "Detalles de vinilos y llantas"
       }
@@ -206,8 +199,7 @@ window.CATALOG_DATA = {
         "cenital_trasero",
         "detalle_kanji_desenfocado",
         "detalle_kanji_enfocado",
-        "detalle_llanta_delantera",
-        "detalle_lateral_vinilo"
+        "detalle_llanta_delantera"
       ]
     },
     "resources": {

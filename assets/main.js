@@ -88,7 +88,6 @@
   const labelFor = item => {
     const view = metaFor("views", item.view, {
       name: humanize(item.view),
-      short: humanize(item.view),
       glyph: "◆",
       sub: "Vista"
     });
