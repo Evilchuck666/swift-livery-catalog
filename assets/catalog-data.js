@@ -3,6 +3,96 @@
 window.CATALOG_DATA = {
   "items": [
     {
+      "livery": "blanco",
+      "view": "frontal",
+      "shot": "frontal_centrado",
+      "uri": "resources/liveries/blanco/frontal_centrado.png"
+    },
+    {
+      "livery": "blanco",
+      "view": "delantero",
+      "shot": "tres_cuartos_delantero_izquierdo",
+      "uri": "resources/liveries/blanco/tres_cuartos_delantero_izquierdo.png"
+    },
+    {
+      "livery": "blanco",
+      "view": "delantero",
+      "shot": "tres_cuartos_delantero_derecho",
+      "uri": "resources/liveries/blanco/tres_cuartos_delantero_derecho.png"
+    },
+    {
+      "livery": "blanco",
+      "view": "lateral",
+      "shot": "perfil_completo_izquierdo",
+      "uri": "resources/liveries/blanco/perfil_completo_izquierdo.png"
+    },
+    {
+      "livery": "blanco",
+      "view": "lateral",
+      "shot": "perfil_completo_izquierdo_ladeado",
+      "uri": "resources/liveries/blanco/perfil_completo_izquierdo_ladeado.png"
+    },
+    {
+      "livery": "blanco",
+      "view": "lateral",
+      "shot": "perfil_completo_derecho",
+      "uri": "resources/liveries/blanco/perfil_completo_derecho.png"
+    },
+    {
+      "livery": "blanco",
+      "view": "lateral",
+      "shot": "perfil_completo_derecho_ladeado",
+      "uri": "resources/liveries/blanco/perfil_completo_derecho_ladeado.png"
+    },
+    {
+      "livery": "blanco",
+      "view": "trasero",
+      "shot": "tres_cuartos_trasero_izquierdo",
+      "uri": "resources/liveries/blanco/tres_cuartos_trasero_izquierdo.png"
+    },
+    {
+      "livery": "blanco",
+      "view": "trasero",
+      "shot": "tres_cuartos_trasero_derecho",
+      "uri": "resources/liveries/blanco/tres_cuartos_trasero_derecho.png"
+    },
+    {
+      "livery": "blanco",
+      "view": "cola",
+      "shot": "cola_centrada",
+      "uri": "resources/liveries/blanco/cola_centrada.png"
+    },
+    {
+      "livery": "blanco",
+      "view": "cenital",
+      "shot": "cenital_delantero",
+      "uri": "resources/liveries/blanco/cenital_delantero.png"
+    },
+    {
+      "livery": "blanco",
+      "view": "cenital",
+      "shot": "cenital_trasero",
+      "uri": "resources/liveries/blanco/cenital_trasero.png"
+    },
+    {
+      "livery": "blanco",
+      "view": "detalle",
+      "shot": "detalle_kanji_desenfocado",
+      "uri": "resources/liveries/blanco/detalle_kanji_desenfocado.png"
+    },
+    {
+      "livery": "blanco",
+      "view": "detalle",
+      "shot": "detalle_kanji_enfocado",
+      "uri": "resources/liveries/blanco/detalle_kanji_enfocado.png"
+    },
+    {
+      "livery": "blanco",
+      "view": "detalle",
+      "shot": "detalle_llanta_delantera",
+      "uri": "resources/liveries/blanco/detalle_llanta_delantera.png"
+    },
+    {
       "livery": "purpura",
       "view": "frontal",
       "shot": "frontal_centrado",
@@ -95,6 +185,11 @@ window.CATALOG_DATA = {
   ],
   "meta": {
     "liveries": {
+      "blanco": {
+        "name": "Blanco",
+        "glyph": "紫",
+        "hex": "#FFFFFF"
+      },
       "purpura": {
         "name": "Púrpura",
         "glyph": "紫",
@@ -187,6 +282,7 @@ window.CATALOG_DATA = {
     },
     "order": {
       "liveries": [
+        "blanco",
         "purpura"
       ],
       "views": [
@@ -217,6 +313,70 @@ window.CATALOG_DATA = {
       ]
     },
     "resources": {
+      "blanco": {
+        "colors": [
+          {
+            "name": "Racing stripe central",
+            "role": "Franja longitudinal principal",
+            "hex": "#FFFFFF",
+            "rgb": "255, 255, 255",
+            "hsv": {
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 100.0
+            },
+            "cmyk": "100.00%, 100.00%, 100.00%, 0.00%",
+            "pantone": "7679 C",
+            "matte": "Acabado satinado",
+            "matteLevel": "medium"
+          },
+          {
+            "name": "Racing stripe lateral",
+            "role": "Franja lateral",
+            "hex": "#FFFFFF",
+            "rgb": "255, 255, 255",
+            "hsv": {
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 100.0
+            },
+            "cmyk": "100.00%, 100.00%, 100.00%, 0.00%",
+            "pantone": "7679 C",
+            "matte": "Acabado satinado",
+            "matteLevel": "medium"
+          },
+          {
+            "name": "Kanji",
+            "role": "Grafía japonesa",
+            "hex": "#101820",
+            "rgb": "16, 24, 32",
+            "hsv": {
+              "hue": 210.0,
+              "saturation": 50.0,
+              "value": 12.55
+            },
+            "cmyk": "50.00%, 25.00%, 0.00%, 87.45%",
+            "pantone": "Black 6 C",
+            "matte": "Acabado mate",
+            "matteLevel": "none"
+          },
+          {
+            "name": "Kamon",
+            "role": "Emblemas laterales y maletero",
+            "hex": "#101820",
+            "rgb": "16, 24, 32",
+            "hsv": {
+              "hue": 210.0,
+              "saturation": 50.0,
+              "value": 12.55
+            },
+            "cmyk": "50.00%, 25.00%, 0.00%, 87.45%",
+            "pantone": "Black 6 C",
+            "matte": "Acabado mate",
+            "matteLevel": "none"
+          }
+        ]
+      },
       "purpura": {
         "colors": [
           {
