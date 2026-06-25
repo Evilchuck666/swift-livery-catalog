@@ -381,23 +381,25 @@
     (resources.colors || []).forEach(item => {
       const card = document.createElement("article");
       card.className = "resource-card color-card reveal";
+      const hsv = item.hsv || {};
+      const hsvStr = (hsv.hue != null) ? `${hsv.hue}°, ${hsv.saturation}%, ${hsv.value}%` : "—";
       card.style.setProperty("--swatch", item.hex || "#888888");
-      card.style.setProperty("--wheel-hue", `${Number(item.hsvHue || 0)}deg`);
-      card.style.setProperty("--wheel-hue-pct", ((Number(item.hsvHue || 0) / 360) * 100).toFixed(2));
-      card.style.setProperty("--wheel-sat", Number(item.hsvSaturation ?? 100));
-      card.style.setProperty("--wheel-val", Number(item.hsvValue ?? 100));
+      card.style.setProperty("--wheel-hue", `${Number(hsv.hue || 0)}deg`);
+      card.style.setProperty("--wheel-hue-pct", ((Number(hsv.hue || 0) / 360) * 100).toFixed(2));
+      card.style.setProperty("--wheel-sat", Number(hsv.saturation ?? 100));
+      card.style.setProperty("--wheel-val", Number(hsv.value ?? 100));
 
       const visual = document.createElement("div");
       visual.className = "color-card__visual";
 
       const wheel = document.createElement("div");
       wheel.className = "color-wheel";
-      wheel.setAttribute("aria-label", `Mapa HSV: ${item.hsv || item.hex || "sin valor"}`);
+      wheel.setAttribute("aria-label", `Mapa HSV: ${hsvStr}`);
       visual.append(wheel);
 
       const hueStrip = document.createElement("div");
       hueStrip.className = "hue-strip";
-      hueStrip.setAttribute("aria-label", `Tono: ${Math.round(item.hsvHue || 0)}°`);
+      hueStrip.setAttribute("aria-label", `Tono: ${Math.round(hsv.hue || 0)}°`);
       visual.append(hueStrip);
 
       const swatch = document.createElement("div");
@@ -415,7 +417,7 @@
       specs.className = "spec-grid";
       specs.append(specRow("HEX", item.hex || "—", "spec-row--hex"));
       specs.append(specRow("RGB", item.rgb || "—"));
-      specs.append(specRow("HSV", item.hsv || "—"));
+      specs.append(specRow("HSV", hsvStr));
       specs.append(specRow("CMYK", item.cmyk || "—"));
       specs.append(specRow("Pantone", item.pantone || "—"));
       body.append(specs);

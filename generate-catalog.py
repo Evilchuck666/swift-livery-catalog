@@ -141,16 +141,13 @@ def scan_image_assets(shared_root, asset_type, existing_meta):
 
 
 _BLACK_COLOR = {
-    "hex":            "#101820",
-    "rgb":            "16, 24, 32",
-    "hsv":            "210°, 50%, 12.55%",
-    "hsvHue":         210,
-    "hsvSaturation":  50,
-    "hsvValue":       12.55,
-    "cmyk":           "50.00%, 25.00%, 0.00%, 87.45%",
-    "pantone":        "Black 6 C",
-    "matte":          "Acabado mate",
-    "matteLevel":     "none",
+    "hex":        "#101820",
+    "rgb":        "16, 24, 32",
+    "hsv":        {"hue": 210, "saturation": 50, "value": 12.55},
+    "cmyk":       "50.00%, 25.00%, 0.00%, 87.45%",
+    "pantone":    "Black 6 C",
+    "matte":      "Acabado mate",
+    "matteLevel": "none",
 }
 
 
@@ -171,20 +168,16 @@ def colors_from_livery_json(lj):
     cmyk_v = lj.get("cmyk", [0, 0, 0, 0])
 
     rgb_str  = ", ".join(str(v) for v in rgb_v) if rgb_v else "—"
-    hsv_str  = f"{hsv_v[0]}°, {hsv_v[1]}%, {hsv_v[2]}%" if len(hsv_v) == 3 else "—"
     cmyk_str = ", ".join(f"{x:.2f}%" for x in cmyk_v) if cmyk_v else "—"
 
     stripe = {
-        "hex":           hex_,
-        "rgb":           rgb_str,
-        "hsv":           hsv_str,
-        "hsvHue":        hsv_v[0] if hsv_v else 0,
-        "hsvSaturation": hsv_v[1] if len(hsv_v) > 1 else 0,
-        "hsvValue":      hsv_v[2] if len(hsv_v) > 2 else 0,
-        "cmyk":          cmyk_str,
-        "pantone":       lj.get("pantone", "—"),
-        "matte":         "Acabado satinado",
-        "matteLevel":    "medium",
+        "hex":        hex_,
+        "rgb":        rgb_str,
+        "hsv":        {"hue": hsv_v[0], "saturation": hsv_v[1], "value": hsv_v[2]} if len(hsv_v) == 3 else {},
+        "cmyk":       cmyk_str,
+        "pantone":    lj.get("pantone", "—"),
+        "matte":      "Acabado satinado",
+        "matteLevel": "medium",
     }
 
     return [
