@@ -125,7 +125,6 @@
   }
 
   setText("topTotal", DATA.length);
-  setText("heroTotal", DATA.length);
   setText("footTotal", DATA.length);
 
   const itemLabel = item => {
