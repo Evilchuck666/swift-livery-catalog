@@ -50,6 +50,13 @@
 
   const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  const isDarkColor = hex => {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return (0.299 * r + 0.587 * g + 0.114 * b) < 128;
+  };
+
   const revealElements = (scope = document) => {
     const items = scope.querySelectorAll(".reveal");
 
@@ -183,7 +190,10 @@
         const meta = LIVERIES_META[key] || { name: humanize(key), glyph: "◆" };
         const button = createChip(meta.name, meta.glyph, false);
         button.dataset.key = key;
-        if (meta.hex) button.style.setProperty("--livery-chip-color", meta.hex);
+        if (meta.hex) {
+          button.style.setProperty("--livery-chip-color", meta.hex);
+          button.style.setProperty("--livery-chip-text", isDarkColor(meta.hex) ? "#fff" : "#000");
+        }
         button.addEventListener("click", () => {
           activeLivery = key;
           syncPressed(liveryChips, activeLivery);

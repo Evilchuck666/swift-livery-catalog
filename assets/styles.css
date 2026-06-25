@@ -365,11 +365,11 @@ button {
 .chip[style*="--livery-chip-color"][aria-pressed="true"] {
   border-color: var(--livery-chip-color);
   background: var(--livery-chip-color);
-  color: #fff;
+  color: var(--livery-chip-text, #fff);
 }
 
 .chip[style*="--livery-chip-color"][aria-pressed="true"] .jp {
-  color: #fff;
+  color: var(--livery-chip-text, #fff);
 }
 
 .chip:active {
