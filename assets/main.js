@@ -368,12 +368,19 @@
       return { ...livery, kamon: sharedKamon, kanji: sharedKanji };
     }
 
-    return liveries.reduce((merged, key) => {
+    const merged = liveries.reduce((acc, key) => {
       const current = resources[key] || {};
-      if (!merged.intro && current.intro) merged.intro = current.intro;
-      merged.colors.push(...(current.colors || []));
-      return merged;
+      if (!acc.intro && current.intro) acc.intro = current.intro;
+      acc.colors.push(...(current.colors || []));
+      return acc;
     }, { intro: "", colors: [], kamon: sharedKamon, kanji: sharedKanji });
+
+    const seen = new Set();
+    merged.colors = merged.colors.filter(c => {
+      const id = `${c.name}|${c.hex}`;
+      return seen.has(id) ? false : seen.add(id);
+    });
+    return merged;
   };
 
   const renderColorResources = (root, resources) => {
