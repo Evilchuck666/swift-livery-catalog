@@ -142,9 +142,9 @@ window.CATALOG_DATA = {
     }
   ],
   "meta": {
-    "title": "Catálogo de livery · Suzuki Swift Sport",
+    "title": "Catálogo de livery · Suzuki Swift Sport ZC33S",
     "brand": "Swift Livery",
-    "eyebrow": "Suzuki Swift Sport · Estudio de rotulación",
+    "eyebrow": "Suzuki Swift Sport ZC33S · Estudio de rotulación",
     "heroTitleTop": "Propuesta",
     "heroTitleBottom": "de vinilos",
     "heroBadge": "金",

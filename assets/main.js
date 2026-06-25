@@ -274,7 +274,7 @@
       img.loading = "lazy";
       img.decoding = "async";
       img.src = item.uri;
-      img.alt = `Suzuki Swift Sport, vista ${vm.name.toLowerCase()}, toma ${sm.name.toLowerCase()}.`;
+      img.alt = `Suzuki Swift Sport ZC33S, vista ${vm.name.toLowerCase()}, toma ${sm.name.toLowerCase()}.`;
       imgBox.append(img);
       card.append(imgBox);
 
@@ -366,7 +366,7 @@
     const intro = document.createElement("section");
     intro.className = "resource-hero";
     intro.innerHTML = `
-      <p class="hero__eyebrow eyebrow"><span></span>Suzuki Swift Sport · Recursos de producción${liveryLabel}</p>
+      <p class="hero__eyebrow eyebrow"><span></span>Suzuki Swift Sport ZC33S · Recursos de producción${liveryLabel}</p>
       <h1>Especificaciones <span class="y">del diseño</span></h1>
       <p>${RESOURCES.intro || "Especificación visual de colores, acabados y emblemas."}</p>
     `;
@@ -541,7 +541,7 @@
     if (!item || !lbImg) return;
     const { vm, sm } = itemLabel(item);
     lbImg.src = item.uri;
-    lbImg.alt = `Suzuki Swift Sport, vista ${vm.name.toLowerCase()}, toma ${sm.name.toLowerCase()}.`;
+    lbImg.alt = `Suzuki Swift Sport ZC33S, vista ${vm.name.toLowerCase()}, toma ${sm.name.toLowerCase()}.`;
     setText("lbGlyph", vm.glyph || "◆");
     setText("lbName", sm.name);
     setText("lbSub", vm.name);
