@@ -15,11 +15,6 @@ CATALOG_JS   = os.path.join(SCRIPT_DIR, "assets", "catalog-data.js")
 RESOURCES    = os.path.join(SCRIPT_DIR, "resources")
 LIVERIES_DIR = os.path.join(SCRIPT_DIR, "resources", "liveries")
 
-CATALOG_HEADER = (
-    "// Catálogo externo para uso local con doble click (file://).\n"
-    "// No usa fetch(), así que no necesita servidor HTTP.\n"
-)
-
 # ── Metadatos estáticos ───────────────────────────────────────────────────────
 
 VIEWS_META = {
@@ -176,7 +171,7 @@ def colors_from_livery_json(lj):
 
 def write_catalog_js(path, data, dry_run=False):
     json_str = json.dumps(data, ensure_ascii=False, indent=2)
-    output   = f"{CATALOG_HEADER}window.CATALOG_DATA = {json_str};\n"
+    output   = f"window.CATALOG_DATA = {json_str};\n"
     if dry_run:
         print("\n── DRY RUN ── catalog-data.js resultante:\n")
         print(output)
