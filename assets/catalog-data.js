@@ -321,7 +321,11 @@ window.CATALOG_DATA = {
             "role": "Franja longitudinal principal",
             "hex": "#563D82",
             "rgb": "86, 61, 130",
-            "hsv": { "hue": 261.74, "saturation": 53.08, "value": 50.98 },
+            "hsv": {
+              "hue": 261.74,
+              "saturation": 53.08,
+              "value": 50.98
+            },
             "cmyk": "33.85%, 53.08%, 0.00%, 49.02%",
             "pantone": "7679 C",
             "matte": "Acabado satinado",
@@ -333,7 +337,11 @@ window.CATALOG_DATA = {
             "role": "Franja lateral",
             "hex": "#563D82",
             "rgb": "86, 61, 130",
-            "hsv": { "hue": 261.74, "saturation": 53.08, "value": 50.98 },
+            "hsv": {
+              "hue": 261.74,
+              "saturation": 53.08,
+              "value": 50.98
+            },
             "cmyk": "33.85%, 53.08%, 0.00%, 49.02%",
             "pantone": "7679 C",
             "matte": "Acabado satinado",
@@ -345,7 +353,11 @@ window.CATALOG_DATA = {
             "role": "Grafía japonesa",
             "hex": "#101820",
             "rgb": "16, 24, 32",
-            "hsv": { "hue": 210, "saturation": 50, "value": 12.55 },
+            "hsv": {
+              "hue": 210,
+              "saturation": 50,
+              "value": 12.55
+            },
             "cmyk": "50.00%, 25.00%, 0.00%, 87.45%",
             "pantone": "Black 6 C",
             "matte": "Acabado mate",
@@ -357,7 +369,11 @@ window.CATALOG_DATA = {
             "role": "Emblemas laterales y maletero",
             "hex": "#101820",
             "rgb": "16, 24, 32",
-            "hsv": { "hue": 210, "saturation": 50, "value": 12.55 },
+            "hsv": {
+              "hue": 210,
+              "saturation": 50,
+              "value": 12.55
+            },
             "cmyk": "50.00%, 25.00%, 0.00%, 87.45%",
             "pantone": "Black 6 C",
             "matte": "Acabado mate",
