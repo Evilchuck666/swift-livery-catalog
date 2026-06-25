@@ -93,8 +93,7 @@
       sub: "Vista"
     });
     const shot = metaFor("shots", item.shot, {
-      name: humanize(item.shot),
-      dot: "#888888"
+      name: humanize(item.shot)
     });
     const livery = LIVERIES_META[item.livery] || {
       name: humanize(item.livery),
@@ -308,10 +307,6 @@
         const caption = document.createElement("div");
         caption.className = "card__cap";
 
-        const dot = document.createElement("span");
-        dot.className = "dot";
-        dot.style.background = shot.dot || "#888888";
-        caption.append(dot);
         caption.append(createText("span", "card__name", shot.name));
         caption.append(createText("span", "tag tag--view", view.short || view.name));
 

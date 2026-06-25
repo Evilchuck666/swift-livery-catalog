@@ -148,65 +148,35 @@ window.CATALOG_DATA = {
     },
     "shots": {
       "frontal_centrado": {
-        "name": "Frontal centrado",
-        "dot": "#563D82"
-      },
+        "name": "Frontal centrado"      },
       "tres_cuartos_delantero_izquierdo": {
-        "name": "3/4 Delantero izquierdo",
-        "dot": "#563D82"
-      },
+        "name": "3/4 Delantero izquierdo"      },
       "tres_cuartos_delantero_derecho": {
-        "name": "3/4 Delantero derecho",
-        "dot": "#563D82"
-      },
+        "name": "3/4 Delantero derecho"      },
       "perfil_completo_izquierdo": {
-        "name": "Perfil completo izquierdo",
-        "dot": "#f4dd00"
-      },
+        "name": "Perfil completo izquierdo"      },
       "perfil_completo_izquierdo_ladeado": {
-        "name": "Perfil completo izquierdo ladeado",
-        "dot": "#f4dd00"
-      },
+        "name": "Perfil completo izquierdo ladeado"      },
       "perfil_completo_derecho": {
-        "name": "Perfil completo derecho",
-        "dot": "#f4dd00"
-      },
+        "name": "Perfil completo derecho"      },
       "perfil_completo_derecho_ladeado": {
-        "name": "Perfil completo derecho ladeado",
-        "dot": "#f4dd00"
-      },
+        "name": "Perfil completo derecho ladeado"      },
       "tres_cuartos_trasero_izquierdo": {
-        "name": "3/4 Trasero izquierdo",
-        "dot": "#563D82"
-      },
+        "name": "3/4 Trasero izquierdo"      },
       "tres_cuartos_trasero_derecho": {
-        "name": "3/4 Trasero derecho",
-        "dot": "#563D82"
-      },
+        "name": "3/4 Trasero derecho"      },
       "cola_centrada": {
-        "name": "Cola centrada",
-        "dot": "#563D82"
-      },
+        "name": "Cola centrada"      },
       "cenital_delantero": {
-        "name": "Cenital delantero",
-        "dot": "#563D82"
-      },
+        "name": "Cenital delantero"      },
       "cenital_trasero": {
-        "name": "Cenital trasero",
-        "dot": "#563D82"
-      },
+        "name": "Cenital trasero"      },
       "detalle_kanji_desenfocado": {
-        "name": "Detalle kanji desenfocado",
-        "dot": "#c99a2e"
-      },
+        "name": "Detalle kanji desenfocado"      },
       "detalle_kanji_enfocado": {
-        "name": "Detalle kanji enfocado",
-        "dot": "#c99a2e"
-      },
+        "name": "Detalle kanji enfocado"      },
       "detalle_llanta_delantera": {
-        "name": "Detalle llanta delantera",
-        "dot": "#c99a2e"
-      }
+        "name": "Detalle llanta delantera"      }
     },
     "order": {
       "liveries": [
