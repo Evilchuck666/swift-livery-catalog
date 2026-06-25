@@ -772,7 +772,7 @@ button {
   position: relative;
   width: 124px;
   height: 124px;
-  border-radius: 50%;
+  border-radius: 0%;
   background:
     linear-gradient(to bottom, transparent, #000),
     linear-gradient(to right, #fff, hsl(var(--wheel-hue), 100%, 50%));
