@@ -288,36 +288,36 @@ window.CATALOG_DATA = {
             "matte": "Acabado mate",
             "matteLevel": "none"
           }
-        ],
-        "kamon": [
-          {
-            "name": "Aries Ferrus",
-            "placement": "Lado derecho",
-            "uri": "resources/kamon/derecho.png",
-            "preview": "resources/kamon/previews/derecho_preview.png"
-          },
-          {
-            "name": "Aries Ferrus",
-            "placement": "Lado izquierdo",
-            "uri": "resources/kamon/izquierdo.png",
-            "preview": "resources/kamon/previews/izquierdo_preview.png"
-          },
-          {
-            "name": "TRO",
-            "placement": "Maletero",
-            "uri": "resources/kamon/tro.png",
-            "preview": "resources/kamon/previews/tro_preview.png"
-          }
-        ],
-        "kanji": [
-          {
-            "name": "Kin (Oro, Metal)",
-            "placement": "Ambos lados",
-            "uri": "resources/kanji/kin.png",
-            "preview": "resources/kanji/previews/kin_preview.png"
-          }
         ]
-      }
+      },
+      "kamon": [
+        {
+          "name": "Aries Ferrus",
+          "placement": "Lado derecho",
+          "uri": "resources/kamon/derecho.png",
+          "preview": "resources/kamon/previews/derecho_preview.png"
+        },
+        {
+          "name": "Aries Ferrus",
+          "placement": "Lado izquierdo",
+          "uri": "resources/kamon/izquierdo.png",
+          "preview": "resources/kamon/previews/izquierdo_preview.png"
+        },
+        {
+          "name": "TRO",
+          "placement": "Maletero",
+          "uri": "resources/kamon/tro.png",
+          "preview": "resources/kamon/previews/tro_preview.png"
+        }
+      ],
+      "kanji": [
+        {
+          "name": "Kin (Oro, Metal)",
+          "placement": "Ambos lados",
+          "uri": "resources/kanji/kin.png",
+          "preview": "resources/kanji/previews/kin_preview.png"
+        }
+      ]
     }
   }
 };

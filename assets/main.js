@@ -357,17 +357,20 @@
 
   const resolveResources = () => {
     const resources = META.resources || {};
+    const sharedKamon = resources.kamon || [];
+    const sharedKanji = resources.kanji || [];
 
-    if (activeLivery !== "all") return resources[activeLivery] || {};
+    if (activeLivery !== "all") {
+      const livery = resources[activeLivery] || {};
+      return { ...livery, kamon: sharedKamon, kanji: sharedKanji };
+    }
 
     return liveries.reduce((merged, key) => {
       const current = resources[key] || {};
       if (!merged.intro && current.intro) merged.intro = current.intro;
       merged.colors.push(...(current.colors || []));
-      merged.kamon.push(...(current.kamon || []));
-      merged.kanji.push(...(current.kanji || []));
       return merged;
-    }, { intro: "", colors: [], kamon: [], kanji: [] });
+    }, { intro: "", colors: [], kamon: sharedKamon, kanji: sharedKanji });
   };
 
   const renderColorResources = (root, resources) => {

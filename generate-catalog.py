@@ -108,13 +108,12 @@ def scan_image_assets(shared_root, asset_type, existing_meta):
     if not os.path.isdir(root):
         return []
 
-    # Mapa filename→{name,placement} del meta conocido
+    # Mapa filename→{name,placement} del meta conocido (kamon/kanji en nivel compartido)
     known = {}
-    for ref_livery, ref_data in existing_meta.get("resources", {}).items():
-        for item in ref_data.get(asset_type, []):
-            key = os.path.basename(item.get("uri", ""))
-            if key:
-                known[key] = {"name": item.get("name", ""), "placement": item.get("placement", "")}
+    for item in existing_meta.get("resources", {}).get(asset_type, []):
+        key = os.path.basename(item.get("uri", ""))
+        if key:
+            known[key] = {"name": item.get("name", ""), "placement": item.get("placement", "")}
 
     result = []
     for fname in sorted(os.listdir(root)):
@@ -298,8 +297,6 @@ def main():
                       (livery_json.get("intro", "") if livery_json else "") or
                       f"TODO: descripción del livery '{livery_key}'",
             "colors": colors,
-            "kamon":  kamon_shared,
-            "kanji":  kanji_shared,
         }
 
         # ── Log ──────────────────────────────────────────────────────────────
@@ -309,6 +306,10 @@ def main():
         json_info    = "" if livery_json else " [sin livery.json]"
         print(f"{marker} Livery: {livery_key} → {len(livery_items)} shots, "
               f"{len(kamon_shared)} kamon, {len(kanji_shared)} kanji{json_info}{unknown_info}")
+
+    # Assets compartidos — nivel raíz de resources, no por livery
+    meta["resources"]["kamon"] = kamon_shared
+    meta["resources"]["kanji"] = kanji_shared
 
     # Actualizar order.liveries preservando orden existente + nuevos al final
     seen = set()
