@@ -375,11 +375,21 @@
       return acc;
     }, { intro: "", colors: [], kamon: sharedKamon, kanji: sharedKanji });
 
-    const seen = new Set();
-    merged.colors = merged.colors.filter(c => {
+    const counts = new Map();
+    merged.colors.forEach(c => {
       const id = `${c.name}|${c.hex}`;
-      return seen.has(id) ? false : seen.add(id);
+      counts.set(id, (counts.get(id) || 0) + 1);
     });
+
+    const seen = new Set();
+    const perLivery = [], shared = [];
+    for (const c of merged.colors) {
+      const id = `${c.name}|${c.hex}`;
+      if (seen.has(id)) continue;
+      seen.add(id);
+      (counts.get(id) > 1 ? shared : perLivery).push(c);
+    }
+    merged.colors = [...perLivery, ...shared];
     return merged;
   };
 
