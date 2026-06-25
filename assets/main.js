@@ -583,6 +583,14 @@
   const lbClose = $("lbClose");
   const lbPrev = $("lbPrev");
   const lbNext = $("lbNext");
+  const sidebarToggleBtn = $("sidebarToggle");
+  if (sidebarToggleBtn) {
+    sidebarToggleBtn.addEventListener("click", () => {
+      const collapsed = $("top").classList.toggle("sidebar-collapsed");
+      sidebarToggleBtn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+    });
+  }
+
   if (lbClose) lbClose.addEventListener("click", closeLB);
   if (lbPrev) lbPrev.addEventListener("click", () => step(-1));
   if (lbNext) lbNext.addEventListener("click", () => step(1));

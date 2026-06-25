@@ -21,25 +21,9 @@
 <button aria-controls="galleryPanel" aria-selected="true" class="tab-button is-active" data-tab="gallery" id="tabGallery" role="tab" type="button">Galería</button>
 <button aria-controls="resourcesPanel" aria-selected="false" class="tab-button" data-tab="resources" id="tabResources" role="tab" type="button">Recursos</button>
 </nav>
-<span class="topbar__meta"><b id="topTotal">15</b> imágenes · estático</span>
+<button id="sidebarToggle" class="sidebar-toggle" type="button" aria-label="Mostrar u ocultar filtros" aria-expanded="true"><span></span><span></span><span></span></button>
 </header>
 <main class="page" id="top">
-<aside aria-label="Filtros de catálogo" class="controls">
-<div class="controls__inner">
-<div class="controls__title">
-<strong><span class="filtros_css">Filtros</span></strong>
-</div>
-<div class="fgroup">
-<span class="fgroup__label">Paleta</span>
-<div class="chips" id="liveryChips"></div>
-</div>
-<div class="fgroup gallery-only">
-<span class="fgroup__label">Vista</span>
-<div class="chips" id="viewChips"></div>
-</div>
-<div class="result gallery-only">Mostrando <b id="count">15</b> imágenes</div>
-</div>
-</aside>
 <div class="page__content">
 <section class="hero hero--compact gallery-only" id="galleryHero">
 <div aria-hidden="true" class="hero__kanji">金</div>
@@ -69,6 +53,22 @@
 </footer>
 </div>
 </div>
+<aside aria-label="Filtros de catálogo" class="controls">
+<div class="controls__inner">
+<div class="controls__title">
+<strong><span class="filtros_css">Filtros</span></strong>
+</div>
+<div class="fgroup">
+<span class="fgroup__label">Paleta</span>
+<div class="chips" id="liveryChips"></div>
+</div>
+<div class="fgroup gallery-only">
+<span class="fgroup__label">Vista</span>
+<div class="chips" id="viewChips"></div>
+</div>
+<div class="result gallery-only">Mostrando <b id="count">15</b> imágenes</div>
+</div>
+</aside>
 </main>
 <div aria-label="Vista ampliada" aria-modal="true" class="lb" id="lb" role="dialog">
 <button aria-label="Cerrar (Esc)" class="lb__close" id="lbClose">✕</button>
