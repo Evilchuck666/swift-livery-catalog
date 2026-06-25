@@ -383,15 +383,22 @@
       card.className = "resource-card color-card reveal";
       card.style.setProperty("--swatch", item.hex || "#888888");
       card.style.setProperty("--wheel-hue", `${Number(item.hsvHue || 0)}deg`);
+      card.style.setProperty("--wheel-hue-pct", ((Number(item.hsvHue || 0) / 360) * 100).toFixed(2));
+      card.style.setProperty("--wheel-sat", Number(item.hsvSaturation ?? 100));
+      card.style.setProperty("--wheel-val", Number(item.hsvValue ?? 100));
 
       const visual = document.createElement("div");
       visual.className = "color-card__visual";
 
       const wheel = document.createElement("div");
       wheel.className = "color-wheel";
-      wheel.setAttribute("aria-label", `Ruleta HSV: ${item.hsv || item.hex || "sin valor"}`);
-      wheel.append(createText("span", "color-wheel__core", ""));
+      wheel.setAttribute("aria-label", `Mapa HSV: ${item.hsv || item.hex || "sin valor"}`);
       visual.append(wheel);
+
+      const hueStrip = document.createElement("div");
+      hueStrip.className = "hue-strip";
+      hueStrip.setAttribute("aria-label", `Tono: ${Math.round(item.hsvHue || 0)}°`);
+      visual.append(hueStrip);
 
       const swatch = document.createElement("div");
       swatch.className = "swatch";
