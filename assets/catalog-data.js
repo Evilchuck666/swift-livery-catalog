@@ -313,7 +313,7 @@ window.CATALOG_DATA = {
     },
     "resources": {
       "purpura": {
-        "intro": "Especificación de colores y acabados para los vinilos principales del Suzuki Swift Sport ZC33S.",
+        "intro": "Colores y acabados para los vinilos principales del Suzuki Swift Sport ZC33S.",
         "colors": [
           {
             "name": "Racing stripe central",
