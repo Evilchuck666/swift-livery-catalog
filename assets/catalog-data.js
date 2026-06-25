@@ -1,176 +1,105 @@
 // Catálogo externo para uso local con doble click (file://).
 // No usa fetch(), así que no necesita servidor HTTP.
 window.CATALOG_DATA = {
-  "generatedAt": "2026-06-25T00:00:00+00:00",
-  "routePattern": "Local resources directory",
-  "total": 15,
   "items": [
     {
       "livery": "purpura",
       "view": "frontal",
       "shot": "frontal_centrado",
-      "uri": "resources/purpura/frontal_centrado.png",
-      "filename": "frontal_centrado.png",
-      "route": "resources/purpura/frontal_centrado.png",
-      "source": "resources/purpura/frontal_centrado.png"
+      "uri": "resources/purpura/frontal_centrado.png"
     },
     {
       "livery": "purpura",
       "view": "delantero",
       "shot": "tres_cuartos_delantero_izquierdo",
-      "uri": "resources/purpura/tres_cuartos_delantero_izquierdo.png",
-      "filename": "tres_cuartos_delantero_izquierdo.png",
-      "route": "resources/purpura/tres_cuartos_delantero_izquierdo.png",
-      "source": "resources/purpura/tres_cuartos_delantero_izquierdo.png"
+      "uri": "resources/purpura/tres_cuartos_delantero_izquierdo.png"
     },
     {
       "livery": "purpura",
       "view": "delantero",
       "shot": "tres_cuartos_delantero_derecho",
-      "uri": "resources/purpura/tres_cuartos_delantero_derecho.png",
-      "filename": "tres_cuartos_delantero_derecho.png",
-      "route": "resources/purpura/tres_cuartos_delantero_derecho.png",
-      "source": "resources/purpura/tres_cuartos_delantero_derecho.png"
+      "uri": "resources/purpura/tres_cuartos_delantero_derecho.png"
     },
     {
       "livery": "purpura",
       "view": "lateral",
       "shot": "perfil_completo_izquierdo",
-      "uri": "resources/purpura/perfil_completo_izquierdo.png",
-      "filename": "perfil_completo_izquierdo.png",
-      "route": "resources/purpura/perfil_completo_izquierdo.png",
-      "source": "resources/purpura/perfil_completo_izquierdo.png"
+      "uri": "resources/purpura/perfil_completo_izquierdo.png"
     },
     {
       "livery": "purpura",
       "view": "lateral",
       "shot": "perfil_completo_izquierdo_ladeado",
-      "uri": "resources/purpura/perfil_completo_izquierdo_ladeado.png",
-      "filename": "perfil_completo_izquierdo_ladeado.png",
-      "route": "resources/purpura/perfil_completo_izquierdo_ladeado.png",
-      "source": "resources/purpura/perfil_completo_izquierdo_ladeado.png"
+      "uri": "resources/purpura/perfil_completo_izquierdo_ladeado.png"
     },
     {
       "livery": "purpura",
       "view": "lateral",
       "shot": "perfil_completo_derecho",
-      "uri": "resources/purpura/perfil_completo_derecho.png",
-      "filename": "perfil_completo_derecho.png",
-      "route": "resources/purpura/perfil_completo_derecho.png",
-      "source": "resources/purpura/perfil_completo_derecho.png"
+      "uri": "resources/purpura/perfil_completo_derecho.png"
     },
     {
       "livery": "purpura",
       "view": "lateral",
       "shot": "perfil_completo_derecho_ladeado",
-      "uri": "resources/purpura/perfil_completo_derecho_ladeado.png",
-      "filename": "perfil_completo_derecho_ladeado.png",
-      "route": "resources/purpura/perfil_completo_derecho_ladeado.png",
-      "source": "resources/purpura/perfil_completo_derecho_ladeado.png"
+      "uri": "resources/purpura/perfil_completo_derecho_ladeado.png"
     },
     {
       "livery": "purpura",
       "view": "trasero",
       "shot": "tres_cuartos_trasero_izquierdo",
-      "uri": "resources/purpura/tres_cuartos_trasero_izquierdo.png",
-      "filename": "tres_cuartos_trasero_izquierdo.png",
-      "route": "resources/purpura/tres_cuartos_trasero_izquierdo.png",
-      "source": "resources/purpura/tres_cuartos_trasero_izquierdo.png"
+      "uri": "resources/purpura/tres_cuartos_trasero_izquierdo.png"
     },
     {
       "livery": "purpura",
       "view": "trasero",
       "shot": "tres_cuartos_trasero_derecho",
-      "uri": "resources/purpura/tres_cuartos_trasero_derecho.png",
-      "filename": "tres_cuartos_trasero_derecho.png",
-      "route": "resources/purpura/tres_cuartos_trasero_derecho.png",
-      "source": "resources/purpura/tres_cuartos_trasero_derecho.png"
+      "uri": "resources/purpura/tres_cuartos_trasero_derecho.png"
     },
     {
       "livery": "purpura",
       "view": "cola",
       "shot": "cola_centrada",
-      "uri": "resources/purpura/cola_centrada.png",
-      "filename": "cola_centrada.png",
-      "route": "resources/purpura/cola_centrada.png",
-      "source": "resources/purpura/cola_centrada.png"
+      "uri": "resources/purpura/cola_centrada.png"
     },
     {
       "livery": "purpura",
       "view": "cenital",
       "shot": "cenital_delantero",
-      "uri": "resources/purpura/cenital_delantero.png",
-      "filename": "cenital_delantero.png",
-      "route": "resources/purpura/cenital_delantero.png",
-      "source": "resources/purpura/cenital_delantero.png"
+      "uri": "resources/purpura/cenital_delantero.png"
     },
     {
       "livery": "purpura",
       "view": "cenital",
       "shot": "cenital_trasero",
-      "uri": "resources/purpura/cenital_trasero.png",
-      "filename": "cenital_trasero.png",
-      "route": "resources/purpura/cenital_trasero.png",
-      "source": "resources/purpura/cenital_trasero.png"
+      "uri": "resources/purpura/cenital_trasero.png"
     },
     {
       "livery": "purpura",
       "view": "detalle",
       "shot": "detalle_kanji_desenfocado",
-      "uri": "resources/purpura/detalle_kanji_desenfocado.png",
-      "filename": "detalle_kanji_desenfocado.png",
-      "route": "resources/purpura/detalle_kanji_desenfocado.png",
-      "source": "resources/purpura/detalle_kanji_desenfocado.png"
+      "uri": "resources/purpura/detalle_kanji_desenfocado.png"
     },
     {
       "livery": "purpura",
       "view": "detalle",
       "shot": "detalle_kanji_enfocado",
-      "uri": "resources/purpura/detalle_kanji_enfocado.png",
-      "filename": "detalle_kanji_enfocado.png",
-      "route": "resources/purpura/detalle_kanji_enfocado.png",
-      "source": "resources/purpura/detalle_kanji_enfocado.png"
+      "uri": "resources/purpura/detalle_kanji_enfocado.png"
     },
     {
       "livery": "purpura",
       "view": "detalle",
       "shot": "detalle_llanta_delantera",
-      "uri": "resources/purpura/detalle_llanta_delantera.png",
-      "filename": "detalle_llanta_delantera.png",
-      "route": "resources/purpura/detalle_llanta_delantera.png",
-      "source": "resources/purpura/detalle_llanta_delantera.png"
+      "uri": "resources/purpura/detalle_llanta_delantera.png"
     }
   ],
   "meta": {
-    "title": "Catálogo de livery · Suzuki Swift Sport ZC33S",
-    "brand": "Swift Livery",
-    "eyebrow": "Suzuki Swift Sport ZC33S · Estudio de rotulación",
-    "heroTitleTop": "Propuesta",
-    "heroTitleBottom": "de vinilos",
-    "heroBadge": "金",
-    "footerJP": "金 轟 スウィフトレモン",
-    "routePattern": "Local resources directory",
     "liveries": {
       "purpura": {
         "name": "Púrpura",
         "short": "Púrpura",
         "glyph": "紫",
-        "hex": "#563D82",
-        "label": "Racing stripe púrpura"
-      },
-      "kamon": {
-        "name": "TODO: nombre del livery 'kamon'",
-        "short": "TODO",
-        "glyph": "TODO",
-        "hex": "#TODO",
-        "label": "TODO: descripción del livery 'kamon'"
-      },
-      "kanji": {
-        "name": "TODO: nombre del livery 'kanji'",
-        "short": "TODO",
-        "glyph": "TODO",
-        "hex": "#TODO",
-        "label": "TODO: descripción del livery 'kanji'"
+        "hex": "#563D82"
       }
     },
     "views": {
@@ -317,15 +246,10 @@ window.CATALOG_DATA = {
         "colors": [
           {
             "name": "Racing stripe central",
-            "short": "Racing stripe completo",
             "role": "Franja longitudinal principal",
             "hex": "#563D82",
             "rgb": "86, 61, 130",
-            "hsv": {
-              "hue": 261.74,
-              "saturation": 53.08,
-              "value": 50.98
-            },
+            "hsv": { "hue": 261.74, "saturation": 53.08, "value": 50.98 },
             "cmyk": "33.85%, 53.08%, 0.00%, 49.02%",
             "pantone": "7679 C",
             "matte": "Acabado satinado",
@@ -333,15 +257,10 @@ window.CATALOG_DATA = {
           },
           {
             "name": "Racing stripe lateral",
-            "short": "Racing stripe lateral",
             "role": "Franja lateral",
             "hex": "#563D82",
             "rgb": "86, 61, 130",
-            "hsv": {
-              "hue": 261.74,
-              "saturation": 53.08,
-              "value": 50.98
-            },
+            "hsv": { "hue": 261.74, "saturation": 53.08, "value": 50.98 },
             "cmyk": "33.85%, 53.08%, 0.00%, 49.02%",
             "pantone": "7679 C",
             "matte": "Acabado satinado",
@@ -349,15 +268,10 @@ window.CATALOG_DATA = {
           },
           {
             "name": "Kanji",
-            "short": "Kanji",
             "role": "Grafía japonesa",
             "hex": "#101820",
             "rgb": "16, 24, 32",
-            "hsv": {
-              "hue": 210,
-              "saturation": 50,
-              "value": 12.55
-            },
+            "hsv": { "hue": 210, "saturation": 50, "value": 12.55 },
             "cmyk": "50.00%, 25.00%, 0.00%, 87.45%",
             "pantone": "Black 6 C",
             "matte": "Acabado mate",
@@ -365,15 +279,10 @@ window.CATALOG_DATA = {
           },
           {
             "name": "Kamon",
-            "short": "Kamon",
             "role": "Emblemas laterales y maletero",
             "hex": "#101820",
             "rgb": "16, 24, 32",
-            "hsv": {
-              "hue": 210,
-              "saturation": 50,
-              "value": 12.55
-            },
+            "hsv": { "hue": 210, "saturation": 50, "value": 12.55 },
             "cmyk": "50.00%, 25.00%, 0.00%, 87.45%",
             "pantone": "Black 6 C",
             "matte": "Acabado mate",
@@ -385,21 +294,18 @@ window.CATALOG_DATA = {
             "name": "Aries Ferrus",
             "placement": "Lado derecho",
             "uri": "resources/kamon/derecho.png",
-            "filename": "derecho.png",
             "preview": "resources/kamon/previews/derecho_preview.png"
           },
           {
             "name": "Aries Ferrus",
             "placement": "Lado izquierdo",
             "uri": "resources/kamon/izquierdo.png",
-            "filename": "izquierdo.png",
             "preview": "resources/kamon/previews/izquierdo_preview.png"
           },
           {
             "name": "TRO",
             "placement": "Maletero",
             "uri": "resources/kamon/tro.png",
-            "filename": "tro.png",
             "preview": "resources/kamon/previews/tro_preview.png"
           }
         ],
@@ -408,91 +314,6 @@ window.CATALOG_DATA = {
             "name": "Kin (Oro, Metal)",
             "placement": "Ambos lados",
             "uri": "resources/kanji/kin.png",
-            "filename": "kin.png",
-            "preview": "resources/kanji/previews/kin_preview.png"
-          }
-        ]
-      },
-      "kamon": {
-        "intro": "TODO: descripción del livery 'kamon'",
-        "colors": [
-          {
-            "name": "TODO",
-            "role": "TODO",
-            "hex": "#TODO"
-          }
-        ],
-        "kamon": [
-          {
-            "name": "Aries Ferrus",
-            "placement": "Lado derecho",
-            "uri": "resources/kamon/derecho.png",
-            "filename": "derecho.png",
-            "preview": "resources/kamon/previews/derecho_preview.png"
-          },
-          {
-            "name": "Aries Ferrus",
-            "placement": "Lado izquierdo",
-            "uri": "resources/kamon/izquierdo.png",
-            "filename": "izquierdo.png",
-            "preview": "resources/kamon/previews/izquierdo_preview.png"
-          },
-          {
-            "name": "TRO",
-            "placement": "Maletero",
-            "uri": "resources/kamon/tro.png",
-            "filename": "tro.png",
-            "preview": "resources/kamon/previews/tro_preview.png"
-          }
-        ],
-        "kanji": [
-          {
-            "name": "Kin (Oro, Metal)",
-            "placement": "Ambos lados",
-            "uri": "resources/kanji/kin.png",
-            "filename": "kin.png",
-            "preview": "resources/kanji/previews/kin_preview.png"
-          }
-        ]
-      },
-      "kanji": {
-        "intro": "TODO: descripción del livery 'kanji'",
-        "colors": [
-          {
-            "name": "TODO",
-            "role": "TODO",
-            "hex": "#TODO"
-          }
-        ],
-        "kamon": [
-          {
-            "name": "Aries Ferrus",
-            "placement": "Lado derecho",
-            "uri": "resources/kamon/derecho.png",
-            "filename": "derecho.png",
-            "preview": "resources/kamon/previews/derecho_preview.png"
-          },
-          {
-            "name": "Aries Ferrus",
-            "placement": "Lado izquierdo",
-            "uri": "resources/kamon/izquierdo.png",
-            "filename": "izquierdo.png",
-            "preview": "resources/kamon/previews/izquierdo_preview.png"
-          },
-          {
-            "name": "TRO",
-            "placement": "Maletero",
-            "uri": "resources/kamon/tro.png",
-            "filename": "tro.png",
-            "preview": "resources/kamon/previews/tro_preview.png"
-          }
-        ],
-        "kanji": [
-          {
-            "name": "Kin (Oro, Metal)",
-            "placement": "Ambos lados",
-            "uri": "resources/kanji/kin.png",
-            "filename": "kin.png",
             "preview": "resources/kanji/previews/kin_preview.png"
           }
         ]

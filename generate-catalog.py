@@ -112,7 +112,7 @@ def scan_image_assets(shared_root, asset_type, existing_meta):
     known = {}
     for ref_livery, ref_data in existing_meta.get("resources", {}).items():
         for item in ref_data.get(asset_type, []):
-            key = item.get("filename") or os.path.basename(item.get("uri", ""))
+            key = os.path.basename(item.get("uri", ""))
             if key:
                 known[key] = {"name": item.get("name", ""), "placement": item.get("placement", "")}
 
@@ -132,7 +132,7 @@ def scan_image_assets(shared_root, asset_type, existing_meta):
         preview       = f"resources/{asset_type}/previews/{preview_fname}" \
                         if os.path.isfile(preview_full) else None
 
-        entry = {"name": name, "placement": placement, "uri": uri, "filename": fname}
+        entry = {"name": name, "placement": placement, "uri": uri}
         if preview:
             entry["preview"] = preview
         result.append(entry)
@@ -181,12 +181,10 @@ def colors_from_livery_json(lj):
     }
 
     return [
-        {"name": "Racing stripe central", "short": "Racing stripe completo",
-         "role": "Franja longitudinal principal", **stripe},
-        {"name": "Racing stripe lateral", "short": "Racing stripe lateral",
-         "role": "Franja lateral", **stripe},
-        {"name": "Kanji",  "short": "Kanji",  "role": "Grafía japonesa",             **_BLACK_COLOR},
-        {"name": "Kamon",  "short": "Kamon",  "role": "Emblemas laterales y maletero", **_BLACK_COLOR},
+        {"name": "Racing stripe central", "role": "Franja longitudinal principal", **stripe},
+        {"name": "Racing stripe lateral", "role": "Franja lateral",               **stripe},
+        {"name": "Kanji", "role": "Grafía japonesa",                **_BLACK_COLOR},
+        {"name": "Kamon", "role": "Emblemas laterales y maletero",  **_BLACK_COLOR},
     ]
 
 
@@ -243,13 +241,10 @@ def main():
                 unknown_shots.append(shot)
             fname = f"{shot}.png"
             livery_items.append({
-                "livery":   livery_key,
-                "view":     view,
-                "shot":     shot,
-                "uri":      f"resources/{livery_key}/{fname}",
-                "filename": fname,
-                "route":    f"resources/{livery_key}/{fname}",
-                "source":   f"resources/{livery_key}/{fname}",
+                "livery": livery_key,
+                "view":   view,
+                "shot":   shot,
+                "uri":    f"resources/{livery_key}/{fname}",
             })
 
         # Ordenar por shot_order
@@ -268,10 +263,9 @@ def main():
             lj_name = livery_json.get("livery", existing_lm.get("name", livery_key))
             meta["liveries"][livery_key] = {
                 "name":  lj_name,
-                "short": livery_json.get("short",  existing_lm.get("short", lj_name)),
-                "glyph": livery_json.get("glyph",  existing_lm.get("glyph", "◆")),
-                "hex":   livery_json.get("hex",    existing_lm.get("hex", "#888888")),
-                "label": livery_json.get("label",  existing_lm.get("label", "")),
+                "short": livery_json.get("short", existing_lm.get("short", lj_name)),
+                "glyph": livery_json.get("glyph", existing_lm.get("glyph", "◆")),
+                "hex":   livery_json.get("hex",   existing_lm.get("hex", "#888888")),
             }
         elif not existing_lm:
             # Nuevo livery sin livery.json → placeholder TODO
@@ -280,7 +274,6 @@ def main():
                 "short": "TODO",
                 "glyph": "TODO",
                 "hex":   "#TODO",
-                "label": f"TODO: descripción del livery '{livery_key}'"
             }
             warnings.append(
                 f"⚠  Livery nuevo '{livery_key}' sin livery.json: "
@@ -329,7 +322,6 @@ def main():
 
     # Actualizar datos
     data["items"] = new_items
-    data["total"] = len(new_items)
     data["meta"]  = meta
 
     # Warnings
