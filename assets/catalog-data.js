@@ -157,6 +157,20 @@ window.CATALOG_DATA = {
         "glyph": "紫",
         "hex": "#563D82",
         "label": "Racing stripe púrpura"
+      },
+      "kamon": {
+        "name": "TODO: nombre del livery 'kamon'",
+        "short": "TODO",
+        "glyph": "TODO",
+        "hex": "#TODO",
+        "label": "TODO: descripción del livery 'kamon'"
+      },
+      "kanji": {
+        "name": "TODO: nombre del livery 'kanji'",
+        "short": "TODO",
+        "glyph": "TODO",
+        "hex": "#TODO",
+        "label": "TODO: descripción del livery 'kanji'"
       }
     },
     "views": {
@@ -366,32 +380,116 @@ window.CATALOG_DATA = {
           {
             "name": "Aries Ferrus",
             "placement": "Lado derecho",
-            "uri": "resources/purpura/kamon/derecho.png",
+            "uri": "resources/kamon/derecho.png",
             "filename": "derecho.png",
-            "preview": "resources/purpura/kamon/previews/derecho_preview.png"
+            "preview": "resources/kamon/previews/derecho_preview.png"
           },
           {
             "name": "Aries Ferrus",
             "placement": "Lado izquierdo",
-            "uri": "resources/purpura/kamon/izquierdo.png",
+            "uri": "resources/kamon/izquierdo.png",
             "filename": "izquierdo.png",
-            "preview": "resources/purpura/kamon/previews/izquierdo_preview.png"
+            "preview": "resources/kamon/previews/izquierdo_preview.png"
           },
           {
             "name": "TRO",
             "placement": "Maletero",
-            "uri": "resources/purpura/kamon/tro.png",
+            "uri": "resources/kamon/tro.png",
             "filename": "tro.png",
-            "preview": "resources/purpura/kamon/previews/tro_preview.png"
+            "preview": "resources/kamon/previews/tro_preview.png"
           }
         ],
         "kanji": [
           {
             "name": "Kin (Oro, Metal)",
             "placement": "Ambos lados",
-            "uri": "resources/purpura/kanji/kin.png",
+            "uri": "resources/kanji/kin.png",
             "filename": "kin.png",
-            "preview": "resources/purpura/kanji/previews/kin_preview.png"
+            "preview": "resources/kanji/previews/kin_preview.png"
+          }
+        ]
+      },
+      "kamon": {
+        "intro": "TODO: descripción del livery 'kamon'",
+        "colors": [
+          {
+            "name": "TODO",
+            "role": "TODO",
+            "hex": "#TODO"
+          }
+        ],
+        "kamon": [
+          {
+            "name": "Aries Ferrus",
+            "placement": "Lado derecho",
+            "uri": "resources/kamon/derecho.png",
+            "filename": "derecho.png",
+            "preview": "resources/kamon/previews/derecho_preview.png"
+          },
+          {
+            "name": "Aries Ferrus",
+            "placement": "Lado izquierdo",
+            "uri": "resources/kamon/izquierdo.png",
+            "filename": "izquierdo.png",
+            "preview": "resources/kamon/previews/izquierdo_preview.png"
+          },
+          {
+            "name": "TRO",
+            "placement": "Maletero",
+            "uri": "resources/kamon/tro.png",
+            "filename": "tro.png",
+            "preview": "resources/kamon/previews/tro_preview.png"
+          }
+        ],
+        "kanji": [
+          {
+            "name": "Kin (Oro, Metal)",
+            "placement": "Ambos lados",
+            "uri": "resources/kanji/kin.png",
+            "filename": "kin.png",
+            "preview": "resources/kanji/previews/kin_preview.png"
+          }
+        ]
+      },
+      "kanji": {
+        "intro": "TODO: descripción del livery 'kanji'",
+        "colors": [
+          {
+            "name": "TODO",
+            "role": "TODO",
+            "hex": "#TODO"
+          }
+        ],
+        "kamon": [
+          {
+            "name": "Aries Ferrus",
+            "placement": "Lado derecho",
+            "uri": "resources/kamon/derecho.png",
+            "filename": "derecho.png",
+            "preview": "resources/kamon/previews/derecho_preview.png"
+          },
+          {
+            "name": "Aries Ferrus",
+            "placement": "Lado izquierdo",
+            "uri": "resources/kamon/izquierdo.png",
+            "filename": "izquierdo.png",
+            "preview": "resources/kamon/previews/izquierdo_preview.png"
+          },
+          {
+            "name": "TRO",
+            "placement": "Maletero",
+            "uri": "resources/kamon/tro.png",
+            "filename": "tro.png",
+            "preview": "resources/kamon/previews/tro_preview.png"
+          }
+        ],
+        "kanji": [
+          {
+            "name": "Kin (Oro, Metal)",
+            "placement": "Ambos lados",
+            "uri": "resources/kanji/kin.png",
+            "filename": "kin.png",
+            "preview": "resources/kanji/previews/kin_preview.png"
           }
         ]
       }

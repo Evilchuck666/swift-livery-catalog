@@ -15,6 +15,9 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 CATALOG_JS  = os.path.join(SCRIPT_DIR, "assets", "catalog-data.js")
 RESOURCES   = os.path.join(SCRIPT_DIR, "resources")
 
+# Subdirectorios de resources/ que son assets compartidos, no liveries
+SHARED_DIRS = {"kamon", "kanji"}
+
 # ── Helpers ──────────────────────────────────────────────────────────────────
 
 def read_catalog_js(path):
@@ -79,7 +82,7 @@ def scan_livery_dirs(resources_root):
         raise FileNotFoundError(f"No existe el directorio: {resources_root}")
     entries = sorted(
         e for e in os.listdir(resources_root)
-        if os.path.isdir(os.path.join(resources_root, e))
+        if os.path.isdir(os.path.join(resources_root, e)) and e not in SHARED_DIRS
     )
     return [(e, os.path.join(resources_root, e)) for e in entries]
 
@@ -94,13 +97,13 @@ def scan_shots(livery_path):
     return shots
 
 
-def scan_image_assets(subdir_path, livery_key, asset_type, existing_meta):
+def scan_image_assets(shared_root, asset_type, existing_meta):
     """
-    Escanea resources/{livery}/{asset_type}/*.png (excluyendo previews/).
+    Escanea resources/{asset_type}/*.png (nivel compartido, excluyendo previews/).
     Reutiliza name/placement del meta existente si el filename coincide.
-    Retorna lista de dicts.
+    Retorna lista de dicts con URIs sin prefijo de livery.
     """
-    root = os.path.join(subdir_path, asset_type)
+    root = os.path.join(shared_root, asset_type)
     previews_dir = os.path.join(root, "previews")
     if not os.path.isdir(root):
         return []
@@ -123,11 +126,11 @@ def scan_image_assets(subdir_path, livery_key, asset_type, existing_meta):
         name      = meta_entry.get("name") or f"TODO: nombre de {stem}"
         placement = meta_entry.get("placement") or "TODO: ubicación"
 
-        uri     = f"resources/{livery_key}/{asset_type}/{fname}"
+        uri           = f"resources/{asset_type}/{fname}"
         preview_fname = f"{stem}_preview.png"
         preview_full  = os.path.join(previews_dir, preview_fname)
-        preview = f"resources/{livery_key}/{asset_type}/previews/{preview_fname}" \
-                  if os.path.isfile(preview_full) else None
+        preview       = f"resources/{asset_type}/previews/{preview_fname}" \
+                        if os.path.isfile(preview_full) else None
 
         entry = {"name": name, "placement": placement, "uri": uri, "filename": fname}
         if preview:
@@ -168,14 +171,18 @@ def main():
         print("⚠  No se encontraron subdirectorios en resources/. Nada que hacer.")
         return
 
+    # Kamon y kanji son compartidos — se escanean una sola vez desde resources/
+    kamon_shared = scan_image_assets(RESOURCES, "kamon", meta)
+    kanji_shared = scan_image_assets(RESOURCES, "kanji", meta)
+
     new_items  = []
     new_livery_order = []
     warnings   = []
 
     for livery_key, livery_path in livery_dirs:
         shots = scan_shots(livery_path)
-        kamon = scan_image_assets(livery_path, livery_key, "kamon", meta)
-        kanji = scan_image_assets(livery_path, livery_key, "kanji", meta)
+        kamon = kamon_shared
+        kanji = kanji_shared
 
         # Construir items de este livery
         livery_items = []
