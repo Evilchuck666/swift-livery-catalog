@@ -127,8 +127,6 @@
     });
   }
 
-  setText("topTotal", DATA.length);
-
   const itemLabel = item => {
     const vm = metaFor("views", item.view, { name: humanize(item.view), short: humanize(item.view), glyph: "◆", sub: "Vista" });
     const sm = metaFor("shots", item.shot, { name: humanize(item.shot), dot: "#888888" });
