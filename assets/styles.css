@@ -237,7 +237,7 @@ button{font-family:inherit;color:inherit;cursor:pointer;border:0;background:none
   :root{--sidebar-w:1fr;--topbar-h:50px;}
   .page{display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);height:calc(100vh - var(--topbar-h) - var(--ui-gap));height:calc(100dvh - var(--topbar-h) - var(--ui-gap));overflow:hidden;}
   .page__content{height:100%;min-height:0;display:grid;grid-template-rows:minmax(0,1fr);overflow:hidden;}
-  .controls{height:auto;max-height:38vh;margin:0 var(--ui-gap) var(--ui-gap);border-radius:0 0 14px 14px;}
+  .controls{height:auto;max-height:38vh;margin:var(--ui-gap);border-radius:14px;}
   .page.sidebar-collapsed .controls{display:none;}
   .controls__inner{gap:.85rem;padding:.8rem clamp(1.1rem,3vw,2.1rem);}
   .controls__title{display:none;}
