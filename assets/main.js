@@ -584,7 +584,6 @@
     sidebarToggleBtn.addEventListener("click", () => {
       const collapsed = $("top").classList.toggle("sidebar-collapsed");
       sidebarToggleBtn.setAttribute("aria-expanded", collapsed ? "false" : "true");
-      document.documentElement.classList.toggle("sidebar-mode-collapsed", collapsed);
     });
   }
 
