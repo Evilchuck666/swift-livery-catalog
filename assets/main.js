@@ -484,15 +484,13 @@
     root.innerHTML = "";
 
     const resources = resolveResources();
-    const liveryMeta = activeLivery !== "all" ? LIVERIES_META[activeLivery] || {} : {};
-    const liveryLabel = activeLivery !== "all" ? ` · ${liveryMeta.name || humanize(activeLivery)}` : "";
 
     const intro = document.createElement("section");
     intro.className = "resource-hero";
 
     const eyebrow = createText("p", "hero__eyebrow eyebrow", "");
     eyebrow.append(createText("span", "", ""));
-    eyebrow.append(document.createTextNode(`Suzuki Swift Sport ZC33S · Recursos de producción${liveryLabel}`));
+    eyebrow.append(document.createTextNode(`Suzuki Swift Sport ZC33S · Recursos de producción`));
     intro.append(eyebrow);
 
     const title = document.createElement("h1");
