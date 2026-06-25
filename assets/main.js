@@ -66,11 +66,8 @@
   const scrollItemsToTop = () => {
     const scrollArea = activeScrollArea();
     const behavior = prefersReducedMotion() ? "auto" : "smooth";
-    if (scrollArea) {
-      scrollArea.scrollTo({ top: 0, left: 0, behavior });
-    } else {
-      window.scrollTo({ top: 0, left: 0, behavior });
-    }
+    if (scrollArea) scrollArea.scrollTo({ top: 0, left: 0, behavior });
+    window.scrollTo({ top: 0, left: 0, behavior });
   };
 
   const setTab = tab => {
@@ -587,6 +584,7 @@
     sidebarToggleBtn.addEventListener("click", () => {
       const collapsed = $("top").classList.toggle("sidebar-collapsed");
       sidebarToggleBtn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+      document.documentElement.classList.toggle("sidebar-mode-collapsed", collapsed);
     });
   }
 
@@ -622,4 +620,12 @@
   } else {
     setTab("gallery");
   }
+
+  const setVh = () => {
+    const h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    document.documentElement.style.setProperty('--vh', h + 'px');
+  };
+  setVh();
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', setVh);
+  else window.addEventListener('resize', setVh);
 })();
