@@ -307,8 +307,7 @@
         const caption = document.createElement("div");
         caption.className = "card__cap";
 
-        caption.append(createText("span", "card__name", shot.name));
-        caption.append(createText("span", "tag tag--view", view.short || view.name));
+        caption.append(createText("span", "tag tag--view", shot.name));
 
         if (liveries.length > 1 && item.livery) {
           const tag = createText("span", "tag tag--livery", livery.short || livery.name);
