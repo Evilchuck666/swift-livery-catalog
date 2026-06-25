@@ -44,20 +44,20 @@ window.CATALOG_DATA = {
     {
       "livery": "purpura",
       "view": "lateral",
-      "shot": "perfil_completo_derecho",
-      "uri": "resources/purpura/perfil_completo_derecho.png",
-      "filename": "perfil_completo_derecho.png",
-      "route": "resources/purpura/perfil_completo_derecho.png",
-      "source": "resources/purpura/perfil_completo_derecho.png"
-    },
-    {
-      "livery": "purpura",
-      "view": "lateral",
       "shot": "perfil_completo_izquierdo_ladeado",
       "uri": "resources/purpura/perfil_completo_izquierdo_ladeado.png",
       "filename": "perfil_completo_izquierdo_ladeado.png",
       "route": "resources/purpura/perfil_completo_izquierdo_ladeado.png",
       "source": "resources/purpura/perfil_completo_izquierdo_ladeado.png"
+    },
+    {
+      "livery": "purpura",
+      "view": "lateral",
+      "shot": "perfil_completo_derecho",
+      "uri": "resources/purpura/perfil_completo_derecho.png",
+      "filename": "perfil_completo_derecho.png",
+      "route": "resources/purpura/perfil_completo_derecho.png",
+      "source": "resources/purpura/perfil_completo_derecho.png"
     },
     {
       "livery": "purpura",
@@ -365,24 +365,24 @@ window.CATALOG_DATA = {
         "kamon": [
           {
             "name": "Aries Ferrus",
-            "placement": "Lado izquierdo",
-            "uri": "resources/purpura/kamon/izquierdo.png",
-            "preview": "resources/purpura/kamon/previews/izquierdo_preview.png",
-            "filename": "izquierdo.png"
+            "placement": "Lado derecho",
+            "uri": "resources/purpura/kamon/derecho.png",
+            "filename": "derecho.png",
+            "preview": "resources/purpura/kamon/previews/derecho_preview.png"
           },
           {
             "name": "Aries Ferrus",
-            "placement": "Lado derecho",
-            "uri": "resources/purpura/kamon/derecho.png",
-            "preview": "resources/purpura/kamon/previews/derecho_preview.png",
-            "filename": "derecho.png"
+            "placement": "Lado izquierdo",
+            "uri": "resources/purpura/kamon/izquierdo.png",
+            "filename": "izquierdo.png",
+            "preview": "resources/purpura/kamon/previews/izquierdo_preview.png"
           },
           {
             "name": "TRO",
             "placement": "Maletero",
             "uri": "resources/purpura/kamon/tro.png",
-            "preview": "resources/purpura/kamon/previews/tro_preview.png",
-            "filename": "tro.png"
+            "filename": "tro.png",
+            "preview": "resources/purpura/kamon/previews/tro_preview.png"
           }
         ],
         "kanji": [
@@ -390,15 +390,14 @@ window.CATALOG_DATA = {
             "name": "Kin (Oro, Metal)",
             "placement": "Ambos lados",
             "uri": "resources/purpura/kanji/kin.png",
-            "preview": "resources/purpura/kanji/previews/kin_preview.png",
-            "filename": "kin.png"
+            "filename": "kin.png",
+            "preview": "resources/purpura/kanji/previews/kin_preview.png"
           }
         ]
       }
     }
   }
 };
-
 // Compatibilidad con el main.js existente:
 // si espera un <script id="catalog-data" type="application/json">,
 // lo recreamos dinámicamente antes de cargar assets/main.js.
