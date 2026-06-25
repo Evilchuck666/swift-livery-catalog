@@ -96,6 +96,12 @@
 
     if (page) page.classList.toggle("resources-mode", isResources);
 
+    const sidebarTitle = document.querySelector(".filtros_css");
+    if (sidebarTitle) sidebarTitle.textContent = isResources ? "Livery" : "Filtros";
+    const paletaLabel = document.querySelector("#liveryChips")
+      ?.closest(".fgroup")?.querySelector(".fgroup__label");
+    if (paletaLabel) paletaLabel.textContent = isResources ? "Especificación" : "Paleta";
+
     const activePanel = isResources ? resourcesPanel : $("galleryPanel");
     if (activePanel) {
       activePanel.querySelectorAll(".reveal").forEach(el => el.classList.add("in"));

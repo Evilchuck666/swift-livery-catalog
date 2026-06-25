@@ -266,8 +266,6 @@ button{font-family:inherit;color:inherit;cursor:pointer;border:0;background:none
 .tab-button:active{transform:scale(.97);}
 .tab-button:focus-visible{outline:3px solid var(--yellow);outline-offset:3px;}
 .is-hidden-tab{display:none !important;}
-.page.resources-mode{grid-template-columns:minmax(0,1fr);}
-.page.resources-mode .controls{display:none;}
 .resources-area{
   grid-row:1 / -1;
   min-height:0;
