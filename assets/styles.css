@@ -113,7 +113,7 @@ button{font-family:inherit;color:inherit;cursor:pointer;border:0;background:none
   font-family:var(--ff-display);
   font-weight:400;
   font-size:clamp(2rem,4.8vw,4rem);
-  line-height:.95;
+  line-height:1.20;
   letter-spacing:.01em;
   text-transform:uppercase;
   margin:0;
@@ -177,7 +177,7 @@ button{font-family:inherit;color:inherit;cursor:pointer;border:0;background:none
 .dhead__body{padding-bottom:.2rem;min-width:0;}
 .dhead__eyebrow{display:flex;align-items:center;gap:.55rem;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-lite);margin-bottom:.35rem;}
 .dhead__eyebrow .num{color:var(--purple-lite);}
-.dhead h2{font-family:var(--ff-display);font-weight:400;font-size:clamp(1.55rem,3.8vw,2.55rem);line-height:.95;text-transform:uppercase;margin:0;color:var(--paper);letter-spacing:.01em;}
+.dhead h2{font-family:var(--ff-display);font-weight:400;font-size:clamp(1.55rem,3.8vw,2.55rem);line-height:1.20;text-transform:uppercase;margin:0;color:var(--paper);letter-spacing:.01em;}
 .dhead__meta{margin-top:.35rem;font-size:.84rem;color:var(--muted);}
 .dhead__meta b{color:var(--paper-dim);font-weight:600;}
 .pinstripe{height:0;border-top:2px solid var(--gold);position:relative;margin-bottom:1.2rem;opacity:.55;}
@@ -320,7 +320,7 @@ button{font-family:inherit;color:inherit;cursor:pointer;border:0;background:none
   font-family:var(--ff-display);
   font-weight:400;
   font-size:clamp(2rem,5vw,4rem);
-  line-height:.95;
+  line-height:1.20;
   text-transform:uppercase;
   color:var(--paper);
 }
@@ -333,7 +333,7 @@ button{font-family:inherit;color:inherit;cursor:pointer;border:0;background:none
   font-family:var(--ff-display);
   font-weight:400;
   font-size:clamp(1.65rem,3.6vw,2.7rem);
-  line-height:.95;
+  line-height:1.20;
   margin:0;
   text-transform:uppercase;
   color:var(--paper);
