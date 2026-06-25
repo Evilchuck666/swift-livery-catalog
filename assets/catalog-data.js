@@ -496,26 +496,3 @@ window.CATALOG_DATA = {
     }
   }
 };
-// Compatibilidad con el main.js existente:
-// si espera un <script id="catalog-data" type="application/json">,
-// lo recreamos dinámicamente antes de cargar assets/main.js.
-(function () {
-  const existing = document.getElementById("catalog-data");
-
-  if (existing) {
-    return;
-  }
-
-  const script = document.createElement("script");
-  script.id = "catalog-data";
-  script.type = "application/json";
-  script.textContent = JSON.stringify(window.CATALOG_DATA);
-
-  const currentScript = document.currentScript;
-
-  if (currentScript && currentScript.parentNode) {
-    currentScript.insertAdjacentElement("afterend", script);
-  } else {
-    document.head.appendChild(script);
-  }
-})();
