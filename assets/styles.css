@@ -94,7 +94,7 @@ button{font-family:inherit;color:inherit;cursor:pointer;border:0;background:none
   user-select:none;
   z-index:0;
 }
-.hero__inner{position:relative;z-index:1;padding-block:clamp(1.25rem,3vw,2.2rem);}
+.hero__inner{position:relative;z-index:1;padding-block:clamp(0.65rem,3vw,1.6rem);}
 .hero__eyebrow{display:flex;align-items:center;gap:.7rem;margin-bottom:.75rem;}
 .hero__eyebrow span{height:1px;width:36px;background:var(--gold);display:inline-block;}
 .hero h1{
