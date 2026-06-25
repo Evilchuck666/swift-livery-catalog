@@ -1,49 +1,21 @@
 (() => {
   "use strict";
 
-  const payload = JSON.parse(document.getElementById("catalog-data").textContent);
+  const payload = window.CATALOG_DATA || JSON.parse(document.getElementById("catalog-data")?.textContent || "{}");
   const DATA = payload.items || [];
   const META = payload.meta || {};
   const ORDER = META.order || {};
   const LIVERIES_META = META.liveries || {};
-  const $ = id => document.getElementById(id);
+
+  const byId = id => document.getElementById(id);
 
   const humanize = value => String(value || "")
-    .replace(/[_\-]+/g, " ")
+    .replace(/[_-]+/g, " ")
     .replace(/\s+/g, " ")
     .trim()
     .replace(/\b\w/g, ch => ch.toUpperCase()) || "Sin nombre";
 
-  const metaFor = (group, key, fallback = {}) => {
-    const src = (META[group] && META[group][key]) || {};
-    return Object.assign({}, fallback, src);
-  };
-
-  const orderedKeys = (values, preferred = []) => {
-    const set = new Set(values);
-    const ordered = preferred.filter(key => set.has(key));
-    Array.from(set).sort().forEach(key => {
-      if (!ordered.includes(key)) ordered.push(key);
-    });
-    return ordered;
-  };
-
-  const views = orderedKeys(DATA.map(item => item.view), ORDER.views || []);
-  const liveries = orderedKeys(DATA.map(item => item.livery).filter(Boolean), ORDER.liveries || []);
-  const shots = ORDER.shots || [];
-  const viewOrder = ORDER.views || [];
-
-  const shotSortIndex = shot => {
-    const i = shots.indexOf(shot);
-    return i === -1 ? 10000 : i;
-  };
-
-  const viewSortIndex = view => {
-    const i = viewOrder.indexOf(view);
-    return i === -1 ? 10000 : i;
-  };
-
-  const text = (tag, className, value) => {
+  const createText = (tag, className, value) => {
     const el = document.createElement(tag);
     if (className) el.className = className;
     el.textContent = value;
@@ -51,33 +23,108 @@
   };
 
   const setText = (id, value) => {
-    const el = $(id);
+    const el = byId(id);
     if (el) el.textContent = value;
   };
 
-  const prefersReducedMotion = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const metaFor = (group, key, fallback = {}) => ({
+    ...fallback,
+    ...((META[group] && META[group][key]) || {})
+  });
 
-  const activeScrollArea = () => {
-    const resourcesPanel = $("resourcesPanel");
-    if (resourcesPanel && !resourcesPanel.hidden) return resourcesPanel;
-    return $("galleryPanel") || $("itemScroll");
+  const orderedKeys = (values, preferred = []) => {
+    const unique = new Set(values.filter(Boolean));
+    const ordered = preferred.filter(key => unique.has(key));
+
+    Array.from(unique).sort().forEach(key => {
+      if (!ordered.includes(key)) ordered.push(key);
+    });
+
+    return ordered;
   };
 
-  const scrollItemsToTop = () => {
-    const scrollArea = activeScrollArea();
+  const orderIndex = (list, key) => {
+    const index = list.indexOf(key);
+    return index === -1 ? 10000 : index;
+  };
+
+  const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const revealElements = (scope = document) => {
+    const items = scope.querySelectorAll(".reveal");
+
+    if (!("IntersectionObserver" in window) || prefersReducedMotion()) {
+      items.forEach(el => el.classList.add("in"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("in");
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 });
+
+    items.forEach(el => observer.observe(el));
+  };
+
+  const views = orderedKeys(DATA.map(item => item.view), ORDER.views || []);
+  const liveries = orderedKeys(DATA.map(item => item.livery), ORDER.liveries || []);
+  const shots = ORDER.shots || [];
+  const viewOrder = ORDER.views || [];
+
+  let activeView = "all";
+  let activeLivery = "all";
+  let lastFocus = null;
+  let lightboxItems = [];
+  let lightboxIndex = 0;
+
+  const cards = [];
+  const gallery = byId("gallery");
+  const lightbox = byId("lb");
+  const lightboxImg = byId("lbImg");
+
+  const labelFor = item => {
+    const view = metaFor("views", item.view, {
+      name: humanize(item.view),
+      short: humanize(item.view),
+      glyph: "◆",
+      sub: "Vista"
+    });
+    const shot = metaFor("shots", item.shot, {
+      name: humanize(item.shot),
+      dot: "#888888"
+    });
+    const livery = LIVERIES_META[item.livery] || {
+      name: humanize(item.livery),
+      short: humanize(item.livery),
+      glyph: "◆",
+      hex: "#888888"
+    };
+
+    return { view, shot, livery };
+  };
+
+  const currentPanel = () => {
+    const resourcesPanel = byId("resourcesPanel");
+    return resourcesPanel && !resourcesPanel.hidden ? resourcesPanel : byId("galleryPanel");
+  };
+
+  const scrollToPanelTop = () => {
     const behavior = prefersReducedMotion() ? "auto" : "smooth";
-    if (scrollArea) scrollArea.scrollTo({ top: 0, left: 0, behavior });
+    currentPanel()?.scrollTo({ top: 0, left: 0, behavior });
     window.scrollTo({ top: 0, left: 0, behavior });
   };
 
   const setTab = tab => {
-    const page = $("top");
     const isResources = tab === "resources";
+
     document.querySelectorAll(".tab-button").forEach(button => {
-      const active = button.dataset.tab === tab;
-      button.classList.toggle("is-active", active);
-      button.setAttribute("aria-selected", active ? "true" : "false");
-      button.tabIndex = active ? 0 : -1;
+      const isActive = button.dataset.tab === tab;
+      button.classList.toggle("is-active", isActive);
+      button.setAttribute("aria-selected", isActive ? "true" : "false");
+      button.tabIndex = isActive ? 0 : -1;
     });
 
     document.querySelectorAll(".gallery-only").forEach(el => {
@@ -85,301 +132,253 @@
       el.hidden = isResources;
     });
 
-    const resourcesPanel = $("resourcesPanel");
+    const resourcesPanel = byId("resourcesPanel");
     if (resourcesPanel) {
       resourcesPanel.classList.toggle("is-hidden-tab", !isResources);
       resourcesPanel.hidden = !isResources;
     }
 
-    if (page) page.classList.toggle("resources-mode", isResources);
-
-    const sidebarTitle = document.querySelector(".filtros_css");
+    const sidebarTitle = document.querySelector(".controls__heading-label");
     if (sidebarTitle) sidebarTitle.textContent = isResources ? "Livery" : "Filtros";
-    const paletaLabel = document.querySelector("#liveryChips")
-      ?.closest(".fgroup")?.querySelector(".fgroup__label");
-    if (paletaLabel) paletaLabel.textContent = isResources ? "Especificación" : "Paleta";
 
-    const activePanel = isResources ? resourcesPanel : $("galleryPanel");
-    if (activePanel) {
-      activePanel.querySelectorAll(".reveal").forEach(el => el.classList.add("in"));
-    }
+    const liveryLabel = byId("liveryChips")?.closest(".fgroup")?.querySelector(".fgroup__label");
+    if (liveryLabel) liveryLabel.textContent = isResources ? "Especificación" : "Paleta";
 
-    scrollItemsToTop();
+    currentPanel()?.querySelectorAll(".reveal").forEach(el => el.classList.add("in"));
+    scrollToPanelTop();
   };
 
-  document.querySelectorAll(".tab-button").forEach(button => {
-    button.addEventListener("click", () => setTab(button.dataset.tab || "gallery"));
-    button.addEventListener("keydown", event => {
-      if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
-      event.preventDefault();
-      const next = (button.dataset.tab === "gallery") ? "resources" : "gallery";
-      const nextButton = document.querySelector(`.tab-button[data-tab="${next}"]`);
-      if (nextButton) nextButton.focus();
-      setTab(next);
-    });
-  });
+  const createChip = (label, glyph, pressed) => {
+    const button = document.createElement("button");
+    button.className = "chip";
+    button.type = "button";
+    button.setAttribute("aria-pressed", pressed ? "true" : "false");
 
-  const brandLink = document.querySelector(".brand");
-  if (brandLink) {
-    brandLink.addEventListener("click", event => {
-      event.preventDefault();
-      setTab("gallery");
-    });
-  }
+    if (glyph) button.append(createText("span", "jp", glyph));
+    button.append(document.createTextNode(label));
 
-  const itemLabel = item => {
-    const vm = metaFor("views", item.view, { name: humanize(item.view), short: humanize(item.view), glyph: "◆", sub: "Vista" });
-    const sm = metaFor("shots", item.shot, { name: humanize(item.shot), dot: "#888888" });
-    const lm = (LIVERIES_META[item.livery]) || { name: humanize(item.livery || ""), hex: "#888888", glyph: "◆" };
-    return { vm, sm, lm };
-  };
-
-  let fView = "all";
-  let fLivery = "all";
-
-  const chip = (label, jp, pressed) => {
-    const b = document.createElement("button");
-    b.className = "chip";
-    b.type = "button";
-    b.setAttribute("aria-pressed", pressed ? "true" : "false");
-    if (jp) b.append(text("span", "jp", jp));
-    b.append(document.createTextNode(label));
-    return b;
+    return button;
   };
 
   const syncPressed = (container, key) => {
-    if (!container) return;
-    container.querySelectorAll(".chip").forEach(c => {
-      c.setAttribute("aria-pressed", c.dataset.key === key ? "true" : "false");
+    container?.querySelectorAll(".chip").forEach(chip => {
+      chip.setAttribute("aria-pressed", chip.dataset.key === key ? "true" : "false");
     });
   };
 
-  // Livery chips
-  const liveryChips = $("liveryChips");
-  if (liveryChips) {
-    const allLiveries = chip("Todas", null, true);
-    allLiveries.dataset.key = "all";
-    allLiveries.addEventListener("click", () => {
-      fLivery = "all";
-      syncPressed(liveryChips, fLivery);
-      applyFilters();
-      renderResources();
-    });
-    liveryChips.append(allLiveries);
+  const renderFilterChips = () => {
+    const liveryChips = byId("liveryChips");
+    const viewChips = byId("viewChips");
 
-    liveries.forEach(key => {
-      const lm = LIVERIES_META[key] || { name: humanize(key), glyph: "◆" };
-      const b = chip(lm.name, lm.glyph, false);
-      b.dataset.key = key;
-      if (lm.hex) b.style.setProperty("--livery-chip-color", lm.hex);
-      b.addEventListener("click", () => {
-        fLivery = key;
-        syncPressed(liveryChips, fLivery);
+    if (liveryChips) {
+      const allLiveries = createChip("Todas", null, true);
+      allLiveries.dataset.key = "all";
+      allLiveries.addEventListener("click", () => {
+        activeLivery = "all";
+        syncPressed(liveryChips, activeLivery);
         applyFilters();
         renderResources();
       });
-      liveryChips.append(b);
+      liveryChips.append(allLiveries);
+
+      liveries.forEach(key => {
+        const meta = LIVERIES_META[key] || { name: humanize(key), glyph: "◆" };
+        const button = createChip(meta.name, meta.glyph, false);
+        button.dataset.key = key;
+        if (meta.hex) button.style.setProperty("--livery-chip-color", meta.hex);
+        button.addEventListener("click", () => {
+          activeLivery = key;
+          syncPressed(liveryChips, activeLivery);
+          applyFilters();
+          renderResources();
+        });
+        liveryChips.append(button);
+      });
+    }
+
+    if (viewChips) {
+      const allViews = createChip("Todas", null, true);
+      allViews.dataset.key = "all";
+      allViews.addEventListener("click", () => {
+        activeView = "all";
+        syncPressed(viewChips, activeView);
+        applyFilters();
+      });
+      viewChips.append(allViews);
+
+      views.forEach(key => {
+        const meta = metaFor("views", key, { name: humanize(key), glyph: "◆" });
+        const button = createChip(meta.name, meta.glyph, false);
+        button.dataset.key = key;
+        button.addEventListener("click", () => {
+          activeView = key;
+          syncPressed(viewChips, activeView);
+          applyFilters();
+        });
+        viewChips.append(button);
+      });
+    }
+  };
+
+  const renderGallery = () => {
+    if (!gallery) return;
+
+    views.forEach((viewKey, viewIndex) => {
+      const items = DATA
+        .filter(item => item.view === viewKey)
+        .sort((a, b) =>
+          orderIndex(viewOrder, a.view) - orderIndex(viewOrder, b.view)
+          || orderIndex(shots, a.shot) - orderIndex(shots, b.shot)
+          || a.uri.localeCompare(b.uri)
+        );
+
+      if (!items.length) return;
+
+      const viewMeta = metaFor("views", viewKey, {
+        name: humanize(viewKey),
+        glyph: "◆",
+        sub: "Vista"
+      });
+
+      const section = document.createElement("section");
+      section.className = "vsec";
+      section.dataset.view = viewKey;
+      section.id = `v-${viewKey}`;
+
+      const head = document.createElement("div");
+      head.className = "dhead";
+
+      const glyph = createText("div", "dhead__glyph", viewMeta.glyph || "◆");
+      glyph.setAttribute("aria-hidden", "true");
+      head.append(glyph);
+
+      const body = document.createElement("div");
+      body.className = "dhead__body";
+
+      const eyebrow = document.createElement("div");
+      eyebrow.className = "dhead__eyebrow";
+      eyebrow.append(createText("span", "num", String(viewIndex + 1).padStart(2, "0")));
+      eyebrow.append(document.createTextNode(" Vista"));
+      body.append(eyebrow);
+
+      body.append(createText("h2", "", viewMeta.name));
+
+      const metaLine = document.createElement("div");
+      metaLine.className = "dhead__meta";
+      metaLine.append(document.createTextNode(`${viewMeta.sub || "Vista"} · `));
+
+      const countLabel = items.length > 1 ? " imágenes" : " imagen";
+      const strong = document.createElement("b");
+      strong.append(createText("span", "cnt", items.length));
+      strong.append(document.createTextNode(countLabel));
+      metaLine.append(strong);
+      body.append(metaLine);
+
+      head.append(body);
+      section.append(head);
+
+      const rule = document.createElement("div");
+      rule.className = "pinstripe";
+      section.append(rule);
+
+      const grid = document.createElement("div");
+      grid.className = "grid";
+
+      items.forEach(item => {
+        const { view, shot, livery } = labelFor(item);
+        const card = document.createElement("button");
+        card.className = "card reveal";
+        card.type = "button";
+        card.dataset.view = item.view;
+        card.dataset.shot = item.shot;
+        card.dataset.livery = item.livery || "";
+        card.setAttribute("aria-label", `Ampliar ${view.name} · ${shot.name}`);
+
+        const imageWrap = document.createElement("div");
+        imageWrap.className = "card__img";
+
+        const image = document.createElement("img");
+        image.loading = "lazy";
+        image.decoding = "async";
+        image.src = item.uri;
+        image.alt = `Suzuki Swift Sport ZC33S, vista ${view.name.toLowerCase()}, toma ${shot.name.toLowerCase()}.`;
+        imageWrap.append(image);
+        card.append(imageWrap);
+
+        const caption = document.createElement("div");
+        caption.className = "card__cap";
+
+        const dot = document.createElement("span");
+        dot.className = "dot";
+        dot.style.background = shot.dot || "#888888";
+        caption.append(dot);
+        caption.append(createText("span", "card__name", shot.name));
+        caption.append(createText("span", "tag tag--view", view.short || view.name));
+
+        if (liveries.length > 1 && item.livery) {
+          const tag = createText("span", "tag tag--livery", livery.short || livery.name);
+          tag.style.setProperty("--livery-tag-color", livery.hex || "#888888");
+          caption.append(tag);
+        }
+
+        card.append(caption);
+        card.addEventListener("click", () => openLightbox(item));
+        grid.append(card);
+        cards.push({ el: card, view: item.view, livery: item.livery || "", item });
+      });
+
+      section.append(grid);
+      gallery.append(section);
     });
-  }
-
-  // View chips
-  const viewChips = $("viewChips");
-  if (viewChips) {
-    const allViews = chip("Todas", null, true);
-    allViews.dataset.key = "all";
-    allViews.addEventListener("click", () => { fView = "all"; syncPressed(viewChips, fView); applyFilters(); });
-    viewChips.append(allViews);
-
-    views.forEach(key => {
-      const vm = metaFor("views", key, { name: humanize(key), short: humanize(key), glyph: "◆" });
-      const b = chip(vm.name, vm.glyph, false);
-      b.dataset.key = key;
-      b.addEventListener("click", () => { fView = key; syncPressed(viewChips, fView); applyFilters(); });
-      viewChips.append(b);
-    });
-  }
-
-  const gallery = $("gallery");
-  const cardEls = [];
-
-  views.forEach((vkey, vi) => {
-    const items = DATA.filter(item => item.view === vkey)
-      .sort((a, b) =>
-        viewSortIndex(a.view) - viewSortIndex(b.view)
-        || shotSortIndex(a.shot) - shotSortIndex(b.shot)
-        || a.uri.localeCompare(b.uri)
-      );
-    if (!items.length || !gallery) return;
-
-    const vm = metaFor("views", vkey, { name: humanize(vkey), glyph: "◆", sub: "Vista" });
-
-    const section = document.createElement("section");
-    section.className = "vsec";
-    section.dataset.view = vkey;
-    section.id = `v-${vkey}`;
-
-    const head = document.createElement("div");
-    head.className = "dhead";
-
-    const glyph = text("div", "dhead__glyph", vm.glyph || "◆");
-    glyph.setAttribute("aria-hidden", "true");
-    head.append(glyph);
-
-    const body = document.createElement("div");
-    body.className = "dhead__body";
-
-    const eyebrow = document.createElement("div");
-    eyebrow.className = "dhead__eyebrow";
-    eyebrow.append(text("span", "num", String(vi + 1).padStart(2, "0")));
-    eyebrow.append(document.createTextNode(" Vista"));
-    body.append(eyebrow);
-
-    body.append(text("h2", "", vm.name));
-
-    const metaLine = document.createElement("div");
-    metaLine.className = "dhead__meta";
-    metaLine.append(document.createTextNode(`${vm.sub || "Vista"} · `));
-
-    const imgText = items.length > 1 ? " imágenes" : " imagen";
-
-    const strong = document.createElement("b");
-    strong.append(text("span", "cnt", items.length));
-    strong.append(document.createTextNode(imgText));
-    metaLine.append(strong);
-    body.append(metaLine);
-
-    head.append(body);
-    section.append(head);
-
-    const rule = document.createElement("div");
-    rule.className = "pinstripe";
-    section.append(rule);
-
-    const grid = document.createElement("div");
-    grid.className = "grid";
-
-    items.forEach(item => {
-      const { vm, sm, lm } = itemLabel(item);
-      const card = document.createElement("button");
-      card.className = "card reveal";
-      card.type = "button";
-      card.setAttribute("aria-label", `Ampliar ${vm.name} · ${sm.name}`);
-      card.dataset.view = item.view;
-      card.dataset.shot = item.shot;
-      card.dataset.livery = item.livery || "";
-
-      const imgBox = document.createElement("div");
-      imgBox.className = "card__img";
-      const img = document.createElement("img");
-      img.loading = "lazy";
-      img.decoding = "async";
-      img.src = item.uri;
-      img.alt = `Suzuki Swift Sport ZC33S, vista ${vm.name.toLowerCase()}, toma ${sm.name.toLowerCase()}.`;
-      imgBox.append(img);
-      card.append(imgBox);
-
-      const cap = document.createElement("div");
-      cap.className = "card__cap";
-      const dot = document.createElement("span");
-      dot.className = "dot";
-      dot.style.background = sm.dot || "#888888";
-      cap.append(dot);
-      cap.append(text("span", "card__name", sm.name));
-      cap.append(text("span", "tag tag--view", vm.short || vm.name));
-
-      if (liveries.length > 1 && item.livery) {
-        const livTag = text("span", "tag tag--livery", lm.short || lm.name);
-        livTag.style.setProperty("--livery-tag-color", lm.hex || "#888888");
-        cap.append(livTag);
-      }
-
-      card.append(cap);
-
-      card.addEventListener("click", () => openLB(item));
-      grid.append(card);
-      cardEls.push({ el: card, view: item.view, livery: item.livery || "", item });
-    });
-
-    section.append(grid);
-    gallery.append(section);
-  });
-
-  const finishBadge = (label, level) => {
-    const badge = text("span", `finish-badge finish-badge--${level || "none"}`, label);
-    return badge;
   };
 
   const specRow = (label, value, extraClass = "") => {
     const row = document.createElement("div");
     row.className = `spec-row ${extraClass}`.trim();
-    row.append(text("dt", "spec-row__label", label));
-    row.append(text("dd", "spec-row__value", value));
+    row.append(createText("dt", "spec-row__label", label));
+    row.append(createText("dd", "spec-row__value", value));
     return row;
   };
 
   const sectionHead = (title, subtitle) => {
     const head = document.createElement("div");
     head.className = "resource-head";
-    head.append(text("p", "eyebrow", "Recursos"));
-    head.append(text("h2", "", title));
-    head.append(text("p", "", subtitle));
+    head.append(createText("p", "eyebrow", "Recursos"));
+    head.append(createText("h2", "", title));
+    head.append(createText("p", "", subtitle));
     return head;
   };
 
-  // Resolve resources for the current livery filter.
-  // Supports both the new per-livery structure ({ purpura: { colors, kamon, kanji } })
-  // and the legacy flat structure ({ colors, kamon, kanji }) for backwards compatibility.
-  const resolveResources = () => {
-    const raw = META.resources || {};
-    const firstLiveryKey = Object.keys(raw)[0];
-    const isPerLivery = firstLiveryKey && raw[firstLiveryKey] && (
-      Array.isArray(raw[firstLiveryKey].colors) ||
-      Array.isArray(raw[firstLiveryKey].kamon) ||
-      Array.isArray(raw[firstLiveryKey].kanji)
-    );
-
-    if (!isPerLivery) return raw;
-
-    if (fLivery !== "all") return raw[fLivery] || {};
-
-    // "all" mode: merge resources from all liveries
-    const merged = { intro: "", colors: [], kamon: [], kanji: [] };
-    (ORDER.liveries || Object.keys(raw)).forEach(key => {
-      const r = raw[key] || {};
-      if (!merged.intro && r.intro) merged.intro = r.intro;
-      merged.colors.push(...(r.colors || []));
-      merged.kamon.push(...(r.kamon || []));
-      merged.kanji.push(...(r.kanji || []));
-    });
-    return merged;
+  const finishBadge = item => {
+    if (!item.matte) return null;
+    const level = item.matteLevel || "none";
+    return createText("span", `finish-badge finish-badge--${level}`, item.matte);
   };
 
-  const renderResources = () => {
-    const root = $("resourcesRoot");
-    if (!root) return;
-    root.innerHTML = "";
+  const resolveResources = () => {
+    const resources = META.resources || {};
 
-    const RESOURCES = resolveResources();
-    const lm = fLivery !== "all" ? (LIVERIES_META[fLivery] || {}) : {};
-    const liveryLabel = fLivery !== "all" ? ` · ${lm.name || fLivery}` : "";
+    if (activeLivery !== "all") return resources[activeLivery] || {};
 
-    const intro = document.createElement("section");
-    intro.className = "resource-hero";
-    intro.innerHTML = `
-      <p class="hero__eyebrow eyebrow"><span></span>Suzuki Swift Sport ZC33S · Recursos de producción${liveryLabel}</p>
-      <h1>Especificaciones <span class="y">del diseño</span></h1>
-      <p>${RESOURCES.intro || "Especificación visual de colores, acabados y emblemas."}</p>
-    `;
-    root.append(intro);
+    return liveries.reduce((merged, key) => {
+      const current = resources[key] || {};
+      if (!merged.intro && current.intro) merged.intro = current.intro;
+      merged.colors.push(...(current.colors || []));
+      merged.kamon.push(...(current.kamon || []));
+      merged.kanji.push(...(current.kanji || []));
+      return merged;
+    }, { intro: "", colors: [], kamon: [], kanji: [] });
+  };
 
-    const colorsSection = document.createElement("section");
-    colorsSection.className = "resource-section";
-    colorsSection.append(sectionHead("Colores", "Códigos técnicos listos para rotulación y referencia visual."));
+  const renderColorResources = (root, resources) => {
+    const section = document.createElement("section");
+    section.className = "resource-section";
+    section.append(sectionHead("Colores", "Códigos técnicos listos para rotulación y referencia visual."));
 
-    const colorGrid = document.createElement("div");
-    colorGrid.className = "resource-grid resource-grid--colors";
+    const grid = document.createElement("div");
+    grid.className = "resource-grid resource-grid--colors";
 
-    (RESOURCES.colors || []).forEach(item => {
+    (resources.colors || []).forEach(item => {
       const card = document.createElement("article");
       card.className = "resource-card color-card reveal";
       card.style.setProperty("--swatch", item.hex || "#888888");
@@ -390,239 +389,276 @@
 
       const wheel = document.createElement("div");
       wheel.className = "color-wheel";
-      wheel.setAttribute("aria-label", `Ruleta HSV: ${item.hsv}`);
-      wheel.append(text("span", "color-wheel__core", ""));
+      wheel.setAttribute("aria-label", `Ruleta HSV: ${item.hsv || item.hex || "sin valor"}`);
+      wheel.append(createText("span", "color-wheel__core", ""));
       visual.append(wheel);
 
       const swatch = document.createElement("div");
       swatch.className = "swatch";
-      swatch.setAttribute("aria-label", `Muestra de color ${item.hex}`);
+      swatch.setAttribute("aria-label", `Muestra de color ${item.hex || "sin valor"}`);
       visual.append(swatch);
       card.append(visual);
 
       const body = document.createElement("div");
       body.className = "resource-card__body";
-      body.append(text("p", "resource-card__role", item.role || "Recurso"));
-      body.append(text("h3", "", item.name || "Recurso de color"));
+      body.append(createText("p", "resource-card__role", item.role || "Recurso"));
+      body.append(createText("h3", "", item.name || "Recurso de color"));
 
       const specs = document.createElement("dl");
       specs.className = "spec-grid";
       specs.append(specRow("HEX", item.hex || "—", "spec-row--hex"));
       specs.append(specRow("RGB", item.rgb || "—"));
+      specs.append(specRow("HSV", item.hsv || "—"));
       specs.append(specRow("CMYK", item.cmyk || "—"));
       specs.append(specRow("Pantone", item.pantone || "—"));
       body.append(specs);
 
-      const finishes = document.createElement("div");
-      finishes.className = "finish-list";
-      body.append(finishes);
+      const badge = finishBadge(item);
+      if (badge) {
+        const finishes = document.createElement("div");
+        finishes.className = "finish-list";
+        finishes.append(badge);
+        body.append(finishes);
+      }
 
       card.append(body);
-      colorGrid.append(card);
+      grid.append(card);
     });
 
-    colorsSection.append(colorGrid);
-    root.append(colorsSection);
+    section.append(grid);
+    root.append(section);
+  };
 
-    const renderImageResourceSection = ({ key, title, subtitle, cardClass, gridClass, fallbackName }) => {
-      const section = document.createElement("section");
-      section.className = "resource-section";
-      section.append(sectionHead(title, subtitle));
+  const renderImageResources = (root, resources, config) => {
+    const section = document.createElement("section");
+    section.className = "resource-section";
+    section.append(sectionHead(config.title, config.subtitle));
 
-      const grid = document.createElement("div");
-      grid.className = `resource-grid ${gridClass}`;
+    const grid = document.createElement("div");
+    grid.className = `resource-grid ${config.gridClass}`;
 
-      (RESOURCES[key] || []).forEach(item => {
-        const card = document.createElement("article");
-        card.className = `resource-card ${cardClass} reveal`;
+    (resources[config.key] || []).forEach(item => {
+      const card = document.createElement("article");
+      card.className = `resource-card ${config.cardClass} reveal`;
 
-        const frame = document.createElement("div");
-        frame.className = `${cardClass}__frame`;
-        const img = document.createElement("img");
-        img.loading = "lazy";
-        img.decoding = "async";
-        img.src = item.preview || item.uri;
-        img.alt = `${item.name || fallbackName} · ${item.placement || "ubicación"}`;
-        img.addEventListener("error", () => {
-          if (item.uri && img.src !== item.uri) img.src = item.uri;
-        }, { once: true });
-        frame.append(img);
-        card.append(frame);
+      const frame = document.createElement("div");
+      frame.className = `${config.cardClass}__frame`;
 
-        const body = document.createElement("div");
-        body.className = "resource-card__body";
-        body.append(text("p", "resource-card__role", item.placement || fallbackName));
-        body.append(text("h3", "", item.name || fallbackName));
-        body.append(text("p", "file-path", item.uri || item.filename || ""));
+      const image = document.createElement("img");
+      image.loading = "lazy";
+      image.decoding = "async";
+      image.src = item.preview || item.uri;
+      image.alt = `${item.name || config.fallbackName} · ${item.placement || "ubicación"}`;
+      image.addEventListener("error", () => {
+        if (item.uri && image.src !== item.uri) image.src = item.uri;
+      }, { once: true });
+      frame.append(image);
+      card.append(frame);
 
-        const open = document.createElement("a");
-        open.className = "resource-link";
-        open.href = item.uri || "#";
-        open.target = "_blank";
-        open.rel = "noopener";
-        open.textContent = "Abrir PNG original";
-        body.append(open);
-        card.append(body);
-        grid.append(card);
-      });
+      const body = document.createElement("div");
+      body.className = "resource-card__body";
+      body.append(createText("p", "resource-card__role", item.placement || config.fallbackName));
+      body.append(createText("h3", "", item.name || config.fallbackName));
+      body.append(createText("p", "file-path", item.uri || ""));
 
-      section.append(grid);
-      root.append(section);
-    };
+      const link = document.createElement("a");
+      link.className = "resource-link";
+      link.href = item.uri || "#";
+      link.target = "_blank";
+      link.rel = "noopener";
+      link.textContent = "Abrir PNG original";
+      body.append(link);
 
-    renderImageResourceSection({
+      card.append(body);
+      grid.append(card);
+    });
+
+    section.append(grid);
+    root.append(section);
+  };
+
+  const renderResources = () => {
+    const root = byId("resourcesRoot");
+    if (!root) return;
+
+    root.innerHTML = "";
+
+    const resources = resolveResources();
+    const liveryMeta = activeLivery !== "all" ? LIVERIES_META[activeLivery] || {} : {};
+    const liveryLabel = activeLivery !== "all" ? ` · ${liveryMeta.name || humanize(activeLivery)}` : "";
+
+    const intro = document.createElement("section");
+    intro.className = "resource-hero";
+
+    const eyebrow = createText("p", "hero__eyebrow eyebrow", "");
+    eyebrow.append(createText("span", "", ""));
+    eyebrow.append(document.createTextNode(`Suzuki Swift Sport ZC33S · Recursos de producción${liveryLabel}`));
+    intro.append(eyebrow);
+
+    const title = document.createElement("h1");
+    title.append(document.createTextNode("Especificaciones "));
+    title.append(createText("span", "y", "del diseño"));
+    intro.append(title);
+
+    intro.append(createText("p", "", resources.intro || "Especificación visual de colores, acabados y emblemas."));
+    root.append(intro);
+
+    renderColorResources(root, resources);
+    renderImageResources(root, resources, {
       key: "kamon",
       title: "Kamon",
-      subtitle: "Emblemas PNG incluidos en la carpeta local 'resources/kamon/'",
+      subtitle: "Emblemas PNG incluidos en la carpeta local 'resources/kamon/'.",
       cardClass: "kamon-card",
       gridClass: "resource-grid--kamon",
       fallbackName: "Kamon"
     });
-
-    renderImageResourceSection({
+    renderImageResources(root, resources, {
       key: "kanji",
       title: "Kanji",
-      subtitle: "Grafías PNG incluidas en la carpeta local 'resources/kanji/'",
+      subtitle: "Grafías PNG incluidas en la carpeta local 'resources/kanji/'.",
       cardClass: "kanji-card",
       gridClass: "resource-grid--kanji",
       fallbackName: "Kanji"
     });
 
-    if ("IntersectionObserver" in window && !prefersReducedMotion()) {
-      const io = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("in");
-            io.unobserve(entry.target);
-          }
-        });
-      }, { rootMargin: "0px 0px -8% 0px", threshold: .05 });
-      root.querySelectorAll(".reveal").forEach(el => io.observe(el));
-    } else {
-      root.querySelectorAll(".reveal").forEach(el => el.classList.add("in"));
-    }
+    revealElements(root);
   };
-
-  renderResources();
 
   const applyFilters = () => {
     let shown = 0;
-    cardEls.forEach(c => {
-      const ok = (fView === "all" || c.view === fView)
-        && (fLivery === "all" || c.livery === fLivery);
-      c.el.classList.toggle("is-hidden", !ok);
-      if (ok) shown++;
+
+    cards.forEach(card => {
+      const isVisible = (activeView === "all" || card.view === activeView)
+        && (activeLivery === "all" || card.livery === activeLivery);
+      card.el.classList.toggle("is-hidden", !isVisible);
+      if (isVisible) shown += 1;
     });
 
-    document.querySelectorAll(".vsec").forEach(sec => {
-      const vkey = sec.dataset.view;
-      const viewOk = fView === "all" || fView === vkey;
-      const visible = Array.from(sec.querySelectorAll(".card")).filter(c => !c.classList.contains("is-hidden")).length;
-      sec.classList.toggle("is-hidden", !viewOk || visible === 0);
-      const cnt = sec.querySelector(".cnt");
-      if (cnt) cnt.textContent = visible;
+    document.querySelectorAll(".vsec").forEach(section => {
+      const viewKey = section.dataset.view;
+      const viewMatches = activeView === "all" || activeView === viewKey;
+      const visibleCards = section.querySelectorAll(".card:not(.is-hidden)").length;
+      section.classList.toggle("is-hidden", !viewMatches || visibleCards === 0);
+
+      const count = section.querySelector(".cnt");
+      if (count) count.textContent = visibleCards;
     });
 
     setText("count", shown);
-    const empty = $("empty");
-    if (empty) empty.classList.toggle("is-on", shown === 0);
+    byId("empty")?.classList.toggle("is-on", shown === 0);
   };
 
-  const lb = $("lb");
-  const lbImg = $("lbImg");
-  let lastFocus = null;
-  let lbList = [];
-  let lbIdx = 0;
+  const visibleItems = () => cards
+    .filter(card => !card.el.classList.contains("is-hidden"))
+    .map(card => card.item);
 
-  const visibleItems = () => cardEls.filter(c => !c.el.classList.contains("is-hidden")).map(c => c.item);
+  const renderLightbox = () => {
+    const item = lightboxItems[lightboxIndex];
+    if (!item || !lightboxImg) return;
 
-  const renderLB = () => {
-    const item = lbList[lbIdx];
-    if (!item || !lbImg) return;
-    const { vm, sm } = itemLabel(item);
-    lbImg.src = item.uri;
-    lbImg.alt = `Suzuki Swift Sport ZC33S, vista ${vm.name.toLowerCase()}, toma ${sm.name.toLowerCase()}.`;
-    setText("lbGlyph", vm.glyph || "◆");
-    setText("lbName", sm.name);
-    setText("lbSub", vm.name);
-    setText("lbCur", lbIdx + 1);
-    setText("lbTot", lbList.length);
+    const { view, shot } = labelFor(item);
+    lightboxImg.src = item.uri;
+    lightboxImg.alt = `Suzuki Swift Sport ZC33S, vista ${view.name.toLowerCase()}, toma ${shot.name.toLowerCase()}.`;
+    setText("lbGlyph", view.glyph || "◆");
+    setText("lbName", shot.name);
+    setText("lbSub", view.name);
+    setText("lbCur", lightboxIndex + 1);
+    setText("lbTot", lightboxItems.length);
   };
 
-  const openLB = item => {
-    if (!lb) return;
-    lbList = visibleItems();
-    lbIdx = Math.max(0, lbList.findIndex(x => x === item));
+  function openLightbox(item) {
+    if (!lightbox) return;
+
+    lightboxItems = visibleItems();
+    lightboxIndex = Math.max(0, lightboxItems.findIndex(candidate => candidate === item));
     lastFocus = document.activeElement;
-    renderLB();
-    lb.classList.add("is-open");
-    document.body.style.overflow = "hidden";
-    const closeButton = $("lbClose");
-    if (closeButton) closeButton.focus();
-  };
-
-  const closeLB = () => {
-    if (!lb) return;
-    lb.classList.remove("is-open");
-    document.body.style.overflow = "";
-    if (lastFocus && lastFocus.focus) lastFocus.focus();
-  };
-
-  const step = d => {
-    if (!lbList.length) return;
-    lbIdx = (lbIdx + d + lbList.length) % lbList.length;
-    renderLB();
-  };
-
-  const lbClose = $("lbClose");
-  const lbPrev = $("lbPrev");
-  const lbNext = $("lbNext");
-  const sidebarToggleBtn = $("sidebarToggle");
-  if (sidebarToggleBtn) {
-    sidebarToggleBtn.addEventListener("click", () => {
-      const collapsed = $("top").classList.toggle("sidebar-collapsed");
-      sidebarToggleBtn.setAttribute("aria-expanded", collapsed ? "false" : "true");
-    });
+    renderLightbox();
+    lightbox.classList.add("is-open");
+    document.body.classList.add("lb-open");
+    byId("lbClose")?.focus();
   }
 
-  if (lbClose) lbClose.addEventListener("click", closeLB);
-  if (lbPrev) lbPrev.addEventListener("click", () => step(-1));
-  if (lbNext) lbNext.addEventListener("click", () => step(1));
-  if (lb) lb.addEventListener("click", e => { if (e.target === lb) closeLB(); });
-  document.addEventListener("keydown", e => {
-    if (!lb || !lb.classList.contains("is-open")) return;
-    if (e.key === "Escape") closeLB();
-    else if (e.key === "ArrowLeft") step(-1);
-    else if (e.key === "ArrowRight") step(1);
-  });
+  const closeLightbox = () => {
+    if (!lightbox) return;
 
-  if ("IntersectionObserver" in window && !prefersReducedMotion()) {
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("in");
-          io.unobserve(entry.target);
-        }
+    lightbox.classList.remove("is-open");
+    document.body.classList.remove("lb-open");
+    if (lastFocus?.focus) lastFocus.focus();
+  };
+
+  const stepLightbox = direction => {
+    if (!lightboxItems.length) return;
+    lightboxIndex = (lightboxIndex + direction + lightboxItems.length) % lightboxItems.length;
+    renderLightbox();
+  };
+
+  const setupTabs = () => {
+    document.querySelectorAll(".tab-button").forEach(button => {
+      button.addEventListener("click", () => setTab(button.dataset.tab || "gallery"));
+      button.addEventListener("keydown", event => {
+        if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+        event.preventDefault();
+
+        const next = button.dataset.tab === "gallery" ? "resources" : "gallery";
+        document.querySelector(`.tab-button[data-tab="${next}"]`)?.focus();
+        setTab(next);
       });
-    }, { rootMargin: "0px 0px -8% 0px", threshold: .05 });
-    document.querySelectorAll(".reveal").forEach(el => io.observe(el));
-  } else {
-    document.querySelectorAll(".reveal").forEach(el => el.classList.add("in"));
-  }
+    });
 
-  applyFilters();
-
-  if (location.hash === "#recursos" || location.hash === "#resources") {
-    setTab("resources");
-  } else {
-    setTab("gallery");
-  }
-
-  const setVh = () => {
-    const h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-    document.documentElement.style.setProperty('--vh', h + 'px');
+    document.querySelector(".brand")?.addEventListener("click", event => {
+      event.preventDefault();
+      setTab("gallery");
+    });
   };
-  setVh();
-  if (window.visualViewport) window.visualViewport.addEventListener('resize', setVh);
-  else window.addEventListener('resize', setVh);
+
+  const setupSidebar = () => {
+    const toggle = byId("sidebarToggle");
+    const page = byId("top");
+    if (!toggle || !page) return;
+
+    toggle.addEventListener("click", () => {
+      const collapsed = page.classList.toggle("sidebar-collapsed");
+      toggle.setAttribute("aria-expanded", collapsed ? "false" : "true");
+    });
+  };
+
+  const setupLightbox = () => {
+    byId("lbClose")?.addEventListener("click", closeLightbox);
+    byId("lbPrev")?.addEventListener("click", () => stepLightbox(-1));
+    byId("lbNext")?.addEventListener("click", () => stepLightbox(1));
+
+    lightbox?.addEventListener("click", event => {
+      if (event.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener("keydown", event => {
+      if (!lightbox?.classList.contains("is-open")) return;
+
+      if (event.key === "Escape") closeLightbox();
+      if (event.key === "ArrowLeft") stepLightbox(-1);
+      if (event.key === "ArrowRight") stepLightbox(1);
+    });
+  };
+
+  const setupViewportHeightVar = () => {
+    const setAppHeight = () => {
+      const height = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+      document.documentElement.style.setProperty("--app-vh", `${height}px`);
+    };
+
+    setAppHeight();
+    if (window.visualViewport) window.visualViewport.addEventListener("resize", setAppHeight);
+    else window.addEventListener("resize", setAppHeight);
+  };
+
+  renderFilterChips();
+  renderGallery();
+  renderResources();
+  applyFilters();
+  revealElements(document);
+  setupTabs();
+  setupSidebar();
+  setupLightbox();
+  setupViewportHeightVar();
+  setTab(location.hash === "#recursos" || location.hash === "#resources" ? "resources" : "gallery");
 })();
