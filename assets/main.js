@@ -126,8 +126,6 @@
 
   setText("topTotal", DATA.length);
   setText("heroTotal", DATA.length);
-  setText("statFiles", DATA.length);
-  setText("statViews", views.length);
   setText("footTotal", DATA.length);
 
   const itemLabel = item => {
