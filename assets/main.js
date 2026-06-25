@@ -378,7 +378,9 @@
       const card = document.createElement("article");
       card.className = "resource-card color-card reveal";
       const hsv = item.hsv || {};
-      const hsvStr = (hsv.hue != null) ? `${hsv.hue}°, ${hsv.saturation}%, ${hsv.value}%` : "—";
+      const hsvStr = (hsv.hue != null)
+        ? `${Number(hsv.hue).toFixed(2)}°, ${Number(hsv.saturation).toFixed(2)}%, ${Number(hsv.value).toFixed(2)}%`
+        : "—";
       card.style.setProperty("--swatch", item.hex || "#888888");
       card.style.setProperty("--wheel-hue", `${Number(hsv.hue || 0)}deg`);
       card.style.setProperty("--wheel-hue-pct", ((Number(hsv.hue || 0) / 360) * 100).toFixed(2));
@@ -503,7 +505,7 @@
     title.append(createText("span", "y", "del diseño"));
     intro.append(title);
 
-    intro.append(createText("p", "", resources.intro || "Especificación visual de colores, acabados y emblemas."));
+    intro.append(createText("p", "", "Colores y acabados para los vinilos principales del Suzuki Swift Sport ZC33S."));
     root.append(intro);
 
     renderColorResources(root, resources);

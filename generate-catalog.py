@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Regenera assets/catalog-data.js escaneando resources/<livery>/*.png.
+Genera assets/catalog-data.js desde cero escaneando resources/.
 
 Uso:  python3 generate-catalog.py
       python3 generate-catalog.py --dry-run   (muestra el resultado sin escribir)
@@ -8,160 +8,142 @@ Uso:  python3 generate-catalog.py
 
 import json
 import os
-import re
 import sys
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+SCRIPT_DIR   = os.path.dirname(os.path.abspath(__file__))
 CATALOG_JS   = os.path.join(SCRIPT_DIR, "assets", "catalog-data.js")
 RESOURCES    = os.path.join(SCRIPT_DIR, "resources")
 LIVERIES_DIR = os.path.join(SCRIPT_DIR, "resources", "liveries")
 
-# Subdirectorios de resources/ que son assets compartidos, no liveries
-SHARED_DIRS = {"kamon", "kanji"}
+CATALOG_HEADER = (
+    "// Catálogo externo para uso local con doble click (file://).\n"
+    "// No usa fetch(), así que no necesita servidor HTTP.\n"
+)
 
-# ── Helpers ──────────────────────────────────────────────────────────────────
+# ── Metadatos estáticos ───────────────────────────────────────────────────────
 
-def read_catalog_js(path):
-    """Devuelve (header, data_dict, iife_tail) del catalog-data.js."""
-    with open(path, encoding="utf-8") as f:
-        src = f.read()
+VIEWS_META = {
+    "frontal":   {"name": "Frontal",       "glyph": "正", "sub": "Vista frontal centrada"},
+    "delantero": {"name": "3/4 Delantero", "glyph": "前", "sub": "Ángulos delanteros"},
+    "lateral":   {"name": "Lateral",       "glyph": "側", "sub": "Perfiles completos"},
+    "trasero":   {"name": "3/4 Trasero",   "glyph": "後", "sub": "Ángulos traseros"},
+    "cola":      {"name": "Cola",          "glyph": "尾", "sub": "Trasera centrada"},
+    "cenital":   {"name": "Cenital",       "glyph": "上", "sub": "Vistas superiores"},
+    "detalle":   {"name": "Detalle",       "glyph": "細", "sub": "Detalles de vinilos y llantas"},
+}
+VIEW_ORDER = list(VIEWS_META)
 
-    # Separar cabecera (comentarios antes de window.CATALOG_DATA)
-    match_start = re.search(r'window\.CATALOG_DATA\s*=\s*', src)
-    if not match_start:
-        raise ValueError("No se encontró 'window.CATALOG_DATA = ' en el fichero.")
+SHOT_META = {
+    "frontal_centrado":                  {"name": "Frontal centrado"},
+    "tres_cuartos_delantero_izquierdo":  {"name": "3/4 Delantero izquierdo"},
+    "tres_cuartos_delantero_derecho":    {"name": "3/4 Delantero derecho"},
+    "perfil_completo_izquierdo":         {"name": "Perfil completo izquierdo"},
+    "perfil_completo_izquierdo_ladeado": {"name": "Perfil completo izquierdo ladeado"},
+    "perfil_completo_derecho":           {"name": "Perfil completo derecho"},
+    "perfil_completo_derecho_ladeado":   {"name": "Perfil completo derecho ladeado"},
+    "tres_cuartos_trasero_izquierdo":    {"name": "3/4 Trasero izquierdo"},
+    "tres_cuartos_trasero_derecho":      {"name": "3/4 Trasero derecho"},
+    "cola_centrada":                     {"name": "Cola centrada"},
+    "cenital_delantero":                 {"name": "Cenital delantero"},
+    "cenital_trasero":                   {"name": "Cenital trasero"},
+    "detalle_kanji_desenfocado":         {"name": "Detalle kanji desenfocado"},
+    "detalle_kanji_enfocado":            {"name": "Detalle kanji enfocado"},
+    "detalle_llanta_delantera":          {"name": "Detalle llanta delantera"},
+}
+SHOT_ORDER = list(SHOT_META)
 
-    header = src[:match_start.start()]
-    after_assign = src[match_start.end():]
+SHOT_VIEW = {
+    "frontal_centrado":                  "frontal",
+    "tres_cuartos_delantero_izquierdo":  "delantero",
+    "tres_cuartos_delantero_derecho":    "delantero",
+    "perfil_completo_izquierdo":         "lateral",
+    "perfil_completo_izquierdo_ladeado": "lateral",
+    "perfil_completo_derecho":           "lateral",
+    "perfil_completo_derecho_ladeado":   "lateral",
+    "tres_cuartos_trasero_izquierdo":    "trasero",
+    "tres_cuartos_trasero_derecho":      "trasero",
+    "cola_centrada":                     "cola",
+    "cenital_delantero":                 "cenital",
+    "cenital_trasero":                   "cenital",
+    "detalle_kanji_desenfocado":         "detalle",
+    "detalle_kanji_enfocado":            "detalle",
+    "detalle_llanta_delantera":          "detalle",
+}
 
-    # Extraer el objeto JSON usando un contador de llaves
-    depth = 0
-    json_end = 0
-    in_string = False
-    escape = False
-    for i, ch in enumerate(after_assign):
-        if escape:
-            escape = False
-            continue
-        if ch == '\\' and in_string:
-            escape = True
-            continue
-        if ch == '"' and not escape:
-            in_string = not in_string
-            continue
-        if in_string:
-            continue
-        if ch == '{':
-            depth += 1
-        elif ch == '}':
-            depth -= 1
-            if depth == 0:
-                json_end = i + 1
-                break
-
-    json_str  = after_assign[:json_end]
-    iife_tail = after_assign[json_end:].lstrip(';').lstrip('\n')
-
-    data = json.loads(json_str)
-    return header, data, iife_tail
-
-
-def write_catalog_js(path, header, data, iife_tail, dry_run=False):
-    json_str = json.dumps(data, ensure_ascii=False, indent=2)
-    output   = f"{header}window.CATALOG_DATA = {json_str};\n{iife_tail}"
-    if dry_run:
-        print("\n── DRY RUN ── catalog-data.js resultante:\n")
-        print(output)
-    else:
-        with open(path, "w", encoding="utf-8") as f:
-            f.write(output)
-
-
-def scan_livery_dirs(resources_root):
-    """Devuelve lista ordenada de (livery_key, livery_path)."""
-    if not os.path.isdir(resources_root):
-        raise FileNotFoundError(f"No existe el directorio: {resources_root}")
-    entries = sorted(
-        e for e in os.listdir(resources_root)
-        if os.path.isdir(os.path.join(resources_root, e)) and e not in SHARED_DIRS
-    )
-    return [(e, os.path.join(resources_root, e)) for e in entries]
-
-
-def scan_shots(livery_path):
-    """PNGs en la raíz del directorio de livery (excluye subdirectorios)."""
-    shots = []
-    for fname in sorted(os.listdir(livery_path)):
-        full = os.path.join(livery_path, fname)
-        if os.path.isfile(full) and fname.lower().endswith(".png"):
-            shots.append(os.path.splitext(fname)[0])
-    return shots
-
-
-def scan_image_assets(shared_root, asset_type, existing_meta):
-    """
-    Escanea resources/{asset_type}/*.png (nivel compartido, excluyendo previews/).
-    Reutiliza name/placement del meta existente si el filename coincide.
-    Retorna lista de dicts con URIs sin prefijo de livery.
-    """
-    root = os.path.join(shared_root, asset_type)
-    previews_dir = os.path.join(root, "previews")
-    if not os.path.isdir(root):
-        return []
-
-    # Mapa filename→{name,placement} del meta conocido (kamon/kanji en nivel compartido)
-    known = {}
-    for item in existing_meta.get("resources", {}).get(asset_type, []):
-        key = os.path.basename(item.get("uri", ""))
-        if key:
-            known[key] = {"name": item.get("name", ""), "placement": item.get("placement", "")}
-
-    result = []
-    for fname in sorted(os.listdir(root)):
-        full = os.path.join(root, fname)
-        if not os.path.isfile(full) or not fname.lower().endswith(".png"):
-            continue
-        stem = os.path.splitext(fname)[0]
-        meta_entry = known.get(fname, {})
-        name      = meta_entry.get("name") or f"TODO: nombre de {stem}"
-        placement = meta_entry.get("placement") or "TODO: ubicación"
-
-        uri           = f"resources/{asset_type}/{fname}"
-        preview_fname = f"{stem}_preview.png"
-        preview_full  = os.path.join(previews_dir, preview_fname)
-        preview       = f"resources/{asset_type}/previews/{preview_fname}" \
-                        if os.path.isfile(preview_full) else None
-
-        entry = {"name": name, "placement": placement, "uri": uri}
-        if preview:
-            entry["preview"] = preview
-        result.append(entry)
-
-    return result
-
+KAMON_META = {
+    "derecho.png":   {"name": "Aries Ferrus", "placement": "Lado derecho"},
+    "izquierdo.png": {"name": "Aries Ferrus", "placement": "Lado izquierdo"},
+    "tro.png":       {"name": "TRO",          "placement": "Maletero"},
+}
+KANJI_META = {
+    "kin.png": {"name": "Kin (Oro, Metal)", "placement": "Ambos lados"},
+}
 
 _BLACK_COLOR = {
     "hex":        "#101820",
     "rgb":        "16, 24, 32",
-    "hsv":        {"hue": 210, "saturation": 50, "value": 12.55},
+    "hsv":        {"hue": 210.0, "saturation": 50.0, "value": 12.55},
     "cmyk":       "50.00%, 25.00%, 0.00%, 87.45%",
     "pantone":    "Black 6 C",
     "matte":      "Acabado mate",
     "matteLevel": "none",
 }
 
+# ── Helpers ───────────────────────────────────────────────────────────────────
+
+def scan_livery_dirs(liveries_root):
+    """Devuelve lista ordenada de (livery_key, livery_path)."""
+    if not os.path.isdir(liveries_root):
+        raise FileNotFoundError(f"✗ No existe el directorio: {liveries_root}")
+    entries = sorted(e for e in os.listdir(liveries_root)
+                     if os.path.isdir(os.path.join(liveries_root, e)))
+    return [(e, os.path.join(liveries_root, e)) for e in entries]
+
+
+def validate_livery(livery_key, livery_path):
+    """Falla con mensaje claro si falta livery.json o algún PNG obligatorio."""
+    if not os.path.isfile(os.path.join(livery_path, "livery.json")):
+        raise FileNotFoundError(
+            f"✗ Falta resources/liveries/{livery_key}/livery.json")
+    missing = [s for s in SHOT_ORDER
+               if not os.path.isfile(os.path.join(livery_path, f"{s}.png"))]
+    if missing:
+        raise FileNotFoundError(
+            f"✗ Faltan imágenes en resources/liveries/{livery_key}/:\n" +
+            "\n".join(f"  - {s}.png" for s in missing))
+
 
 def read_livery_json(livery_path):
-    """Lee livery.json de la carpeta del livery. Devuelve dict o None si no existe."""
-    path = os.path.join(livery_path, "livery.json")
-    if not os.path.isfile(path):
-        return None
-    with open(path, encoding="utf-8") as f:
+    with open(os.path.join(livery_path, "livery.json"), encoding="utf-8") as f:
         return json.load(f)
 
 
+def scan_image_assets(asset_type, meta_map):
+    """Escanea resources/{asset_type}/*.png usando meta_map para name/placement."""
+    root = os.path.join(RESOURCES, asset_type)
+    previews_dir = os.path.join(root, "previews")
+    if not os.path.isdir(root):
+        return []
+    result = []
+    for fname in sorted(os.listdir(root)):
+        if not os.path.isfile(os.path.join(root, fname)) or not fname.lower().endswith(".png"):
+            continue
+        stem = os.path.splitext(fname)[0]
+        m = meta_map.get(fname, {"name": f"TODO: {stem}", "placement": "TODO"})
+        entry = {
+            "name":      m["name"],
+            "placement": m["placement"],
+            "uri":       f"resources/{asset_type}/{fname}",
+        }
+        preview_path = os.path.join(previews_dir, f"{stem}_preview.png")
+        if os.path.isfile(preview_path):
+            entry["preview"] = f"resources/{asset_type}/previews/{stem}_preview.png"
+        result.append(entry)
+    return result
+
+
 def colors_from_livery_json(lj):
-    """Construye meta.resources[key].colors a partir de livery.json."""
+    """Construye la lista de colores a partir de livery.json."""
     hex_   = lj.get("hex", "#888888")
     rgb_v  = lj.get("rgb", [])
     hsv_v  = lj.get("hsv", [0, 0, 0])
@@ -171,9 +153,13 @@ def colors_from_livery_json(lj):
     cmyk_str = ", ".join(f"{x:.2f}%" for x in cmyk_v) if cmyk_v else "—"
 
     stripe = {
-        "hex":        hex_,
-        "rgb":        rgb_str,
-        "hsv":        {"hue": hsv_v[0], "saturation": hsv_v[1], "value": hsv_v[2]} if len(hsv_v) == 3 else {},
+        "hex":  hex_,
+        "rgb":  rgb_str,
+        "hsv":  {
+            "hue":        round(float(hsv_v[0]), 2),
+            "saturation": round(float(hsv_v[1]), 2),
+            "value":      round(float(hsv_v[2]), 2),
+        } if len(hsv_v) == 3 else {},
         "cmyk":       cmyk_str,
         "pantone":    lj.get("pantone", "—"),
         "matte":      "Acabado satinado",
@@ -183,21 +169,20 @@ def colors_from_livery_json(lj):
     return [
         {"name": "Racing stripe central", "role": "Franja longitudinal principal", **stripe},
         {"name": "Racing stripe lateral", "role": "Franja lateral",               **stripe},
-        {"name": "Kanji", "role": "Grafía japonesa",                **_BLACK_COLOR},
-        {"name": "Kamon", "role": "Emblemas laterales y maletero",  **_BLACK_COLOR},
+        {"name": "Kanji", "role": "Grafía japonesa",               **_BLACK_COLOR},
+        {"name": "Kamon", "role": "Emblemas laterales y maletero", **_BLACK_COLOR},
     ]
 
 
-def build_shot_view_map(items):
-    """Extrae {shot: view} de los items existentes."""
-    return {item["shot"]: item["view"] for item in items if "shot" in item and "view" in item}
-
-
-def sort_key_for_shot(shot, shot_order):
-    try:
-        return shot_order.index(shot)
-    except ValueError:
-        return 10000
+def write_catalog_js(path, data, dry_run=False):
+    json_str = json.dumps(data, ensure_ascii=False, indent=2)
+    output   = f"{CATALOG_HEADER}window.CATALOG_DATA = {json_str};\n"
+    if dry_run:
+        print("\n── DRY RUN ── catalog-data.js resultante:\n")
+        print(output)
+    else:
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(output)
 
 
 # ── Main ─────────────────────────────────────────────────────────────────────
@@ -205,136 +190,71 @@ def sort_key_for_shot(shot, shot_order):
 def main():
     dry_run = "--dry-run" in sys.argv
 
-    header, data, iife_tail = read_catalog_js(CATALOG_JS)
-
-    meta       = data.get("meta", {})
-    order      = meta.get("order", {})
-    shot_order = order.get("shots", [])
-    livery_order_existing = order.get("liveries", [])
-
-    shot_view_map = build_shot_view_map(data.get("items", []))
-
     livery_dirs = scan_livery_dirs(LIVERIES_DIR)
     if not livery_dirs:
-        print("⚠  No se encontraron subdirectorios en resources/. Nada que hacer.")
+        print("⚠  No se encontraron liveries en resources/liveries/. Nada que hacer.")
         return
 
-    # Kamon y kanji son compartidos — se escanean una sola vez desde resources/
-    kamon_shared = scan_image_assets(RESOURCES, "kamon", meta)
-    kanji_shared = scan_image_assets(RESOURCES, "kanji", meta)
+    # Validación temprana — falla antes de escribir nada
+    for livery_key, livery_path in livery_dirs:
+        validate_livery(livery_key, livery_path)
 
-    new_items  = []
-    new_livery_order = []
-    warnings   = []
+    items         = []
+    liveries_meta = {}
+    resources     = {}
+    livery_order  = []
 
     for livery_key, livery_path in livery_dirs:
-        shots      = scan_shots(livery_path)
-        livery_json = read_livery_json(livery_path)
+        lj = read_livery_json(livery_path)
 
-        # Construir items de este livery
-        livery_items = []
-        unknown_shots = []
-        for shot in shots:
-            view = shot_view_map.get(shot)
-            if view is None:
-                view = "desconocido"
-                unknown_shots.append(shot)
-            fname = f"{shot}.png"
-            livery_items.append({
+        # Items
+        for shot in SHOT_ORDER:
+            items.append({
                 "livery": livery_key,
-                "view":   view,
+                "view":   SHOT_VIEW[shot],
                 "shot":   shot,
-                "uri":    f"resources/liveries/{livery_key}/{fname}",
+                "uri":    f"resources/liveries/{livery_key}/{shot}.png",
             })
 
-        # Ordenar por shot_order
-        livery_items.sort(key=lambda x: sort_key_for_shot(x["shot"], shot_order))
-        new_items.extend(livery_items)
-        new_livery_order.append(livery_key)
-
-        # ── meta.liveries ────────────────────────────────────────────────────
-        if "liveries" not in meta:
-            meta["liveries"] = {}
-        existing_lm = meta["liveries"].get(livery_key, {})
-
-        if livery_json:
-            # livery.json es fuente de verdad para lo que define;
-            # campos ausentes en el JSON caen back al valor existente en catalog-data.js
-            lj_name = livery_json.get("livery", existing_lm.get("name", livery_key))
-            meta["liveries"][livery_key] = {
-                "name":  lj_name,
-                "short": livery_json.get("short", existing_lm.get("short", lj_name)),
-                "glyph": livery_json.get("glyph", existing_lm.get("glyph", "◆")),
-                "hex":   livery_json.get("hex",   existing_lm.get("hex", "#888888")),
-            }
-        elif not existing_lm:
-            # Nuevo livery sin livery.json → placeholder TODO
-            meta["liveries"][livery_key] = {
-                "name":  f"TODO: nombre del livery '{livery_key}'",
-                "short": "TODO",
-                "glyph": "TODO",
-                "hex":   "#TODO",
-            }
-            warnings.append(
-                f"⚠  Livery nuevo '{livery_key}' sin livery.json: "
-                f"crea resources/{livery_key}/livery.json o rellena manualmente catalog-data.js"
-            )
-
-        # ── meta.resources ───────────────────────────────────────────────────
-        if "resources" not in meta:
-            meta["resources"] = {}
-        existing_res    = meta["resources"].get(livery_key, {})
-        existing_colors = existing_res.get("colors")
-
-        if existing_colors:
-            colors = existing_colors           # preservar colores ya definidos manualmente
-        elif livery_json:
-            colors = colors_from_livery_json(livery_json)
-        else:
-            colors = [{"name": "TODO", "role": "TODO", "hex": "#TODO"}]
-
-        meta["resources"][livery_key] = {
-            "intro":  existing_res.get("intro") or
-                      (livery_json.get("intro", "") if livery_json else "") or
-                      f"TODO: descripción del livery '{livery_key}'",
-            "colors": colors,
+        # meta.liveries
+        lj_name = lj.get("livery", livery_key)
+        liveries_meta[livery_key] = {
+            "name":  lj_name,
+            "glyph": lj.get("glyph", "◆"),
+            "hex":   lj.get("hex", "#888888"),
         }
 
-        # ── Log ──────────────────────────────────────────────────────────────
-        has_todo = any("TODO" in str(v) for v in meta["liveries"].get(livery_key, {}).values())
-        marker   = "⚠" if has_todo else "✓"
-        unknown_info = f" [⚠ shots sin view: {', '.join(unknown_shots)}]" if unknown_shots else ""
-        json_info    = "" if livery_json else " [sin livery.json]"
-        print(f"{marker} Livery: {livery_key} → {len(livery_items)} shots, "
-              f"{len(kamon_shared)} kamon, {len(kanji_shared)} kanji{json_info}{unknown_info}")
+        # meta.resources
+        resources[livery_key] = {
+            "colors": colors_from_livery_json(lj),
+        }
 
-    # Assets compartidos — nivel raíz de resources, no por livery
-    meta["resources"]["kamon"] = kamon_shared
-    meta["resources"]["kanji"] = kanji_shared
+        livery_order.append(livery_key)
+        print(f"✓ Livery: {livery_key} → {len(SHOT_ORDER)} shots")
 
-    # Actualizar order.liveries preservando orden existente + nuevos al final
-    seen = set()
-    merged_order = []
-    for k in livery_order_existing + new_livery_order:
-        if k in [lk for lk, _ in livery_dirs] and k not in seen:
-            merged_order.append(k)
-            seen.add(k)
-    order["liveries"] = merged_order
-    meta["order"]     = order
+    # Assets compartidos
+    resources["kamon"] = scan_image_assets("kamon", KAMON_META)
+    resources["kanji"] = scan_image_assets("kanji", KANJI_META)
 
-    # Actualizar datos
-    data["items"] = new_items
-    data["meta"]  = meta
+    data = {
+        "items": items,
+        "meta": {
+            "liveries": liveries_meta,
+            "views":    VIEWS_META,
+            "shots":    SHOT_META,
+            "order": {
+                "liveries": livery_order,
+                "views":    VIEW_ORDER,
+                "shots":    SHOT_ORDER,
+            },
+            "resources": resources,
+        },
+    }
 
-    # Warnings
-    for w in warnings:
-        print(w)
-
-    write_catalog_js(CATALOG_JS, header, data, iife_tail, dry_run=dry_run)
+    write_catalog_js(CATALOG_JS, data, dry_run=dry_run)
 
     if not dry_run:
-        print(f"✓ catalog-data.js actualizado ({len(new_items)} items, "
-              f"{len(merged_order)} liveries)")
+        print(f"✓ catalog-data.js generado ({len(items)} items, {len(livery_order)} liveries)")
 
 
 if __name__ == "__main__":

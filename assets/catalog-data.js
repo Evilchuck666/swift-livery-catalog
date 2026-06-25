@@ -97,7 +97,6 @@ window.CATALOG_DATA = {
     "liveries": {
       "purpura": {
         "name": "Púrpura",
-        "short": "Púrpura",
         "glyph": "紫",
         "hex": "#563D82"
       }
@@ -141,35 +140,50 @@ window.CATALOG_DATA = {
     },
     "shots": {
       "frontal_centrado": {
-        "name": "Frontal centrado"      },
+        "name": "Frontal centrado"
+      },
       "tres_cuartos_delantero_izquierdo": {
-        "name": "3/4 Delantero izquierdo"      },
+        "name": "3/4 Delantero izquierdo"
+      },
       "tres_cuartos_delantero_derecho": {
-        "name": "3/4 Delantero derecho"      },
+        "name": "3/4 Delantero derecho"
+      },
       "perfil_completo_izquierdo": {
-        "name": "Perfil completo izquierdo"      },
+        "name": "Perfil completo izquierdo"
+      },
       "perfil_completo_izquierdo_ladeado": {
-        "name": "Perfil completo izquierdo ladeado"      },
+        "name": "Perfil completo izquierdo ladeado"
+      },
       "perfil_completo_derecho": {
-        "name": "Perfil completo derecho"      },
+        "name": "Perfil completo derecho"
+      },
       "perfil_completo_derecho_ladeado": {
-        "name": "Perfil completo derecho ladeado"      },
+        "name": "Perfil completo derecho ladeado"
+      },
       "tres_cuartos_trasero_izquierdo": {
-        "name": "3/4 Trasero izquierdo"      },
+        "name": "3/4 Trasero izquierdo"
+      },
       "tres_cuartos_trasero_derecho": {
-        "name": "3/4 Trasero derecho"      },
+        "name": "3/4 Trasero derecho"
+      },
       "cola_centrada": {
-        "name": "Cola centrada"      },
+        "name": "Cola centrada"
+      },
       "cenital_delantero": {
-        "name": "Cenital delantero"      },
+        "name": "Cenital delantero"
+      },
       "cenital_trasero": {
-        "name": "Cenital trasero"      },
+        "name": "Cenital trasero"
+      },
       "detalle_kanji_desenfocado": {
-        "name": "Detalle kanji desenfocado"      },
+        "name": "Detalle kanji desenfocado"
+      },
       "detalle_kanji_enfocado": {
-        "name": "Detalle kanji enfocado"      },
+        "name": "Detalle kanji enfocado"
+      },
       "detalle_llanta_delantera": {
-        "name": "Detalle llanta delantera"      }
+        "name": "Detalle llanta delantera"
+      }
     },
     "order": {
       "liveries": [
@@ -204,14 +218,17 @@ window.CATALOG_DATA = {
     },
     "resources": {
       "purpura": {
-        "intro": "Colores y acabados para los vinilos principales del Suzuki Swift Sport ZC33S.",
         "colors": [
           {
             "name": "Racing stripe central",
             "role": "Franja longitudinal principal",
             "hex": "#563D82",
             "rgb": "86, 61, 130",
-            "hsv": { "hue": 261.74, "saturation": 53.08, "value": 50.98 },
+            "hsv": {
+              "hue": 261.74,
+              "saturation": 53.08,
+              "value": 50.98
+            },
             "cmyk": "33.85%, 53.08%, 0.00%, 49.02%",
             "pantone": "7679 C",
             "matte": "Acabado satinado",
@@ -222,7 +239,11 @@ window.CATALOG_DATA = {
             "role": "Franja lateral",
             "hex": "#563D82",
             "rgb": "86, 61, 130",
-            "hsv": { "hue": 261.74, "saturation": 53.08, "value": 50.98 },
+            "hsv": {
+              "hue": 261.74,
+              "saturation": 53.08,
+              "value": 50.98
+            },
             "cmyk": "33.85%, 53.08%, 0.00%, 49.02%",
             "pantone": "7679 C",
             "matte": "Acabado satinado",
@@ -233,7 +254,11 @@ window.CATALOG_DATA = {
             "role": "Grafía japonesa",
             "hex": "#101820",
             "rgb": "16, 24, 32",
-            "hsv": { "hue": 210, "saturation": 50, "value": 12.55 },
+            "hsv": {
+              "hue": 210.0,
+              "saturation": 50.0,
+              "value": 12.55
+            },
             "cmyk": "50.00%, 25.00%, 0.00%, 87.45%",
             "pantone": "Black 6 C",
             "matte": "Acabado mate",
@@ -244,7 +269,11 @@ window.CATALOG_DATA = {
             "role": "Emblemas laterales y maletero",
             "hex": "#101820",
             "rgb": "16, 24, 32",
-            "hsv": { "hue": 210, "saturation": 50, "value": 12.55 },
+            "hsv": {
+              "hue": 210.0,
+              "saturation": 50.0,
+              "value": 12.55
+            },
             "cmyk": "50.00%, 25.00%, 0.00%, 87.45%",
             "pantone": "Black 6 C",
             "matte": "Acabado mate",
