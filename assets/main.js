@@ -5,7 +5,7 @@
   const DATA = payload.items || [];
   const META = payload.meta || {};
   const ORDER = META.order || {};
-  const RESOURCES = META.resources || { colors: [], kamon: [], kanji: [] };
+  const LIVERIES_META = META.liveries || {};
   const $ = id => document.getElementById(id);
 
   const humanize = value => String(value || "")
@@ -29,6 +29,7 @@
   };
 
   const views = orderedKeys(DATA.map(item => item.view), ORDER.views || []);
+  const liveries = orderedKeys(DATA.map(item => item.livery).filter(Boolean), ORDER.liveries || []);
   const shots = ORDER.shots || [];
   const viewOrder = ORDER.views || [];
 
@@ -132,10 +133,12 @@
   const itemLabel = item => {
     const vm = metaFor("views", item.view, { name: humanize(item.view), short: humanize(item.view), glyph: "◆", sub: "Vista" });
     const sm = metaFor("shots", item.shot, { name: humanize(item.shot), dot: "#888888" });
-    return { vm, sm };
+    const lm = (LIVERIES_META[item.livery]) || { name: humanize(item.livery || ""), hex: "#888888", glyph: "◆" };
+    return { vm, sm, lm };
   };
 
   let fView = "all";
+  let fLivery = "all";
 
   const chip = (label, jp, pressed) => {
     const b = document.createElement("button");
@@ -154,6 +157,35 @@
     });
   };
 
+  // Livery chips
+  const liveryChips = $("liveryChips");
+  if (liveryChips) {
+    const allLiveries = chip("Todas", null, true);
+    allLiveries.dataset.key = "all";
+    allLiveries.addEventListener("click", () => {
+      fLivery = "all";
+      syncPressed(liveryChips, fLivery);
+      applyFilters();
+      renderResources();
+    });
+    liveryChips.append(allLiveries);
+
+    liveries.forEach(key => {
+      const lm = LIVERIES_META[key] || { name: humanize(key), glyph: "◆" };
+      const b = chip(lm.name, lm.glyph, false);
+      b.dataset.key = key;
+      if (lm.hex) b.style.setProperty("--livery-chip-color", lm.hex);
+      b.addEventListener("click", () => {
+        fLivery = key;
+        syncPressed(liveryChips, fLivery);
+        applyFilters();
+        renderResources();
+      });
+      liveryChips.append(b);
+    });
+  }
+
+  // View chips
   const viewChips = $("viewChips");
   if (viewChips) {
     const allViews = chip("Todas", null, true);
@@ -230,13 +262,14 @@
     grid.className = "grid";
 
     items.forEach(item => {
-      const { vm, sm } = itemLabel(item);
+      const { vm, sm, lm } = itemLabel(item);
       const card = document.createElement("button");
       card.className = "card reveal";
       card.type = "button";
       card.setAttribute("aria-label", `Ampliar ${vm.name} · ${sm.name}`);
       card.dataset.view = item.view;
       card.dataset.shot = item.shot;
+      card.dataset.livery = item.livery || "";
 
       const imgBox = document.createElement("div");
       imgBox.className = "card__img";
@@ -256,11 +289,18 @@
       cap.append(dot);
       cap.append(text("span", "card__name", sm.name));
       cap.append(text("span", "tag tag--view", vm.short || vm.name));
+
+      if (liveries.length > 1 && item.livery) {
+        const livTag = text("span", "tag tag--livery", lm.short || lm.name);
+        livTag.style.setProperty("--livery-tag-color", lm.hex || "#888888");
+        cap.append(livTag);
+      }
+
       card.append(cap);
 
       card.addEventListener("click", () => openLB(item));
       grid.append(card);
-      cardEls.push({ el: card, view: item.view, item });
+      cardEls.push({ el: card, view: item.view, livery: item.livery || "", item });
     });
 
     section.append(grid);
@@ -280,14 +320,56 @@
     return row;
   };
 
+  const sectionHead = (title, subtitle) => {
+    const head = document.createElement("div");
+    head.className = "resource-head";
+    head.append(text("p", "eyebrow", "Recursos"));
+    head.append(text("h2", "", title));
+    head.append(text("p", "", subtitle));
+    return head;
+  };
+
+  // Resolve resources for the current livery filter.
+  // Supports both the new per-livery structure ({ purpura: { colors, kamon, kanji } })
+  // and the legacy flat structure ({ colors, kamon, kanji }) for backwards compatibility.
+  const resolveResources = () => {
+    const raw = META.resources || {};
+    const firstLiveryKey = Object.keys(raw)[0];
+    const isPerLivery = firstLiveryKey && raw[firstLiveryKey] && (
+      Array.isArray(raw[firstLiveryKey].colors) ||
+      Array.isArray(raw[firstLiveryKey].kamon) ||
+      Array.isArray(raw[firstLiveryKey].kanji)
+    );
+
+    if (!isPerLivery) return raw;
+
+    if (fLivery !== "all") return raw[fLivery] || {};
+
+    // "all" mode: merge resources from all liveries
+    const merged = { intro: "", colors: [], kamon: [], kanji: [] };
+    (ORDER.liveries || Object.keys(raw)).forEach(key => {
+      const r = raw[key] || {};
+      if (!merged.intro && r.intro) merged.intro = r.intro;
+      merged.colors.push(...(r.colors || []));
+      merged.kamon.push(...(r.kamon || []));
+      merged.kanji.push(...(r.kanji || []));
+    });
+    return merged;
+  };
+
   const renderResources = () => {
     const root = $("resourcesRoot");
     if (!root) return;
+    root.innerHTML = "";
+
+    const RESOURCES = resolveResources();
+    const lm = fLivery !== "all" ? (LIVERIES_META[fLivery] || {}) : {};
+    const liveryLabel = fLivery !== "all" ? ` · ${lm.name || fLivery}` : "";
 
     const intro = document.createElement("section");
     intro.className = "resource-hero";
     intro.innerHTML = `
-      <p class="hero__eyebrow eyebrow"><span></span>Suzuki Swift Sport · Recursos de producción</p>
+      <p class="hero__eyebrow eyebrow"><span></span>Suzuki Swift Sport · Recursos de producción${liveryLabel}</p>
       <h1>Especificaciones <span class="y">del diseño</span></h1>
       <p>${RESOURCES.intro || "Especificación visual de colores, acabados y emblemas."}</p>
     `;
@@ -408,15 +490,20 @@
       gridClass: "resource-grid--kanji",
       fallbackName: "Kanji"
     });
-  };
 
-  const sectionHead = (title, subtitle) => {
-    const head = document.createElement("div");
-    head.className = "resource-head";
-    head.append(text("p", "eyebrow", "Recursos"));
-    head.append(text("h2", "", title));
-    head.append(text("p", "", subtitle));
-    return head;
+    if ("IntersectionObserver" in window && !prefersReducedMotion()) {
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in");
+            io.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: "0px 0px -8% 0px", threshold: .05 });
+      root.querySelectorAll(".reveal").forEach(el => io.observe(el));
+    } else {
+      root.querySelectorAll(".reveal").forEach(el => el.classList.add("in"));
+    }
   };
 
   renderResources();
@@ -424,7 +511,8 @@
   const applyFilters = () => {
     let shown = 0;
     cardEls.forEach(c => {
-      const ok = fView === "all" || c.view === fView;
+      const ok = (fView === "all" || c.view === fView)
+               && (fLivery === "all" || c.livery === fLivery);
       c.el.classList.toggle("is-hidden", !ok);
       if (ok) shown++;
     });

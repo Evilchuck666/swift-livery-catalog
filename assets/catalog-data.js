@@ -1,129 +1,144 @@
 // Catálogo externo para uso local con doble click (file://).
 // No usa fetch(), así que no necesita servidor HTTP.
 window.CATALOG_DATA = {
-  "generatedAt": "2026-06-19T21:47:09+00:00",
+  "generatedAt": "2026-06-25T00:00:00+00:00",
   "routePattern": "Local resources directory",
   "total": 15,
   "items": [
     {
+      "livery": "purpura",
       "view": "frontal",
       "shot": "frontal_centrado",
-      "uri": "resources/frontal_centrado.png",
+      "uri": "resources/purpura/frontal_centrado.png",
       "filename": "frontal_centrado.png",
-      "route": "resources/frontal_centrado.png",
-      "source": "resources/frontal_centrado.png"
+      "route": "resources/purpura/frontal_centrado.png",
+      "source": "resources/purpura/frontal_centrado.png"
     },
     {
+      "livery": "purpura",
       "view": "delantero",
       "shot": "tres_cuartos_delantero_izquierdo",
-      "uri": "resources/tres_cuartos_delantero_izquierdo.png",
+      "uri": "resources/purpura/tres_cuartos_delantero_izquierdo.png",
       "filename": "tres_cuartos_delantero_izquierdo.png",
-      "route": "resources/tres_cuartos_delantero_izquierdo.png",
-      "source": "resources/tres_cuartos_delantero_izquierdo.png"
+      "route": "resources/purpura/tres_cuartos_delantero_izquierdo.png",
+      "source": "resources/purpura/tres_cuartos_delantero_izquierdo.png"
     },
     {
+      "livery": "purpura",
       "view": "delantero",
       "shot": "tres_cuartos_delantero_derecho",
-      "uri": "resources/tres_cuartos_delantero_derecho.png",
+      "uri": "resources/purpura/tres_cuartos_delantero_derecho.png",
       "filename": "tres_cuartos_delantero_derecho.png",
-      "route": "resources/tres_cuartos_delantero_derecho.png",
-      "source": "resources/tres_cuartos_delantero_derecho.png"
+      "route": "resources/purpura/tres_cuartos_delantero_derecho.png",
+      "source": "resources/purpura/tres_cuartos_delantero_derecho.png"
     },
     {
+      "livery": "purpura",
       "view": "lateral",
       "shot": "perfil_completo_izquierdo",
-      "uri": "resources/perfil_completo_izquierdo.png",
+      "uri": "resources/purpura/perfil_completo_izquierdo.png",
       "filename": "perfil_completo_izquierdo.png",
-      "route": "resources/perfil_completo_izquierdo.png",
-      "source": "resources/perfil_completo_izquierdo.png"
+      "route": "resources/purpura/perfil_completo_izquierdo.png",
+      "source": "resources/purpura/perfil_completo_izquierdo.png"
     },
     {
+      "livery": "purpura",
       "view": "lateral",
       "shot": "perfil_completo_derecho",
-      "uri": "resources/perfil_completo_derecho.png",
+      "uri": "resources/purpura/perfil_completo_derecho.png",
       "filename": "perfil_completo_derecho.png",
-      "route": "resources/perfil_completo_derecho.png",
-      "source": "resources/perfil_completo_derecho.png"
+      "route": "resources/purpura/perfil_completo_derecho.png",
+      "source": "resources/purpura/perfil_completo_derecho.png"
     },
     {
+      "livery": "purpura",
       "view": "lateral",
       "shot": "perfil_completo_izquierdo_ladeado",
-      "uri": "resources/perfil_completo_izquierdo_ladeado.png",
+      "uri": "resources/purpura/perfil_completo_izquierdo_ladeado.png",
       "filename": "perfil_completo_izquierdo_ladeado.png",
-      "route": "resources/perfil_completo_izquierdo_ladeado.png",
-      "source": "resources/perfil_completo_izquierdo_ladeado.png"
+      "route": "resources/purpura/perfil_completo_izquierdo_ladeado.png",
+      "source": "resources/purpura/perfil_completo_izquierdo_ladeado.png"
     },
     {
+      "livery": "purpura",
       "view": "lateral",
       "shot": "perfil_completo_derecho_ladeado",
-      "uri": "resources/perfil_completo_derecho_ladeado.png",
+      "uri": "resources/purpura/perfil_completo_derecho_ladeado.png",
       "filename": "perfil_completo_derecho_ladeado.png",
-      "route": "resources/perfil_completo_derecho_ladeado.png",
-      "source": "resources/perfil_completo_derecho_ladeado.png"
+      "route": "resources/purpura/perfil_completo_derecho_ladeado.png",
+      "source": "resources/purpura/perfil_completo_derecho_ladeado.png"
     },
     {
+      "livery": "purpura",
       "view": "trasero",
       "shot": "tres_cuartos_trasero_izquierdo",
-      "uri": "resources/tres_cuartos_trasero_izquierdo.png",
+      "uri": "resources/purpura/tres_cuartos_trasero_izquierdo.png",
       "filename": "tres_cuartos_trasero_izquierdo.png",
-      "route": "resources/tres_cuartos_trasero_izquierdo.png",
-      "source": "resources/tres_cuartos_trasero_izquierdo.png"
+      "route": "resources/purpura/tres_cuartos_trasero_izquierdo.png",
+      "source": "resources/purpura/tres_cuartos_trasero_izquierdo.png"
     },
     {
+      "livery": "purpura",
       "view": "trasero",
       "shot": "tres_cuartos_trasero_derecho",
-      "uri": "resources/tres_cuartos_trasero_derecho.png",
+      "uri": "resources/purpura/tres_cuartos_trasero_derecho.png",
       "filename": "tres_cuartos_trasero_derecho.png",
-      "route": "resources/tres_cuartos_trasero_derecho.png",
-      "source": "resources/tres_cuartos_trasero_derecho.png"
+      "route": "resources/purpura/tres_cuartos_trasero_derecho.png",
+      "source": "resources/purpura/tres_cuartos_trasero_derecho.png"
     },
     {
+      "livery": "purpura",
       "view": "cola",
       "shot": "cola_centrada",
-      "uri": "resources/cola_centrada.png",
+      "uri": "resources/purpura/cola_centrada.png",
       "filename": "cola_centrada.png",
-      "route": "resources/cola_centrada.png",
-      "source": "resources/cola_centrada.png"
+      "route": "resources/purpura/cola_centrada.png",
+      "source": "resources/purpura/cola_centrada.png"
     },
     {
+      "livery": "purpura",
       "view": "cenital",
       "shot": "cenital_delantero",
-      "uri": "resources/cenital_delantero.png",
+      "uri": "resources/purpura/cenital_delantero.png",
       "filename": "cenital_delantero.png",
-      "route": "resources/cenital_delantero.png",
-      "source": "resources/cenital_delantero.png"
+      "route": "resources/purpura/cenital_delantero.png",
+      "source": "resources/purpura/cenital_delantero.png"
     },
     {
+      "livery": "purpura",
       "view": "cenital",
       "shot": "cenital_trasero",
-      "uri": "resources/cenital_trasero.png",
+      "uri": "resources/purpura/cenital_trasero.png",
       "filename": "cenital_trasero.png",
-      "route": "resources/cenital_trasero.png",
-      "source": "resources/cenital_trasero.png"
+      "route": "resources/purpura/cenital_trasero.png",
+      "source": "resources/purpura/cenital_trasero.png"
     },
     {
+      "livery": "purpura",
       "view": "detalle",
       "shot": "detalle_kanji_desenfocado",
-      "uri": "resources/detalle_kanji_desenfocado.png",
+      "uri": "resources/purpura/detalle_kanji_desenfocado.png",
       "filename": "detalle_kanji_desenfocado.png",
-      "route": "resources/detalle_kanji_desenfocado.png",
-      "source": "resources/detalle_kanji_desenfocado.png"
+      "route": "resources/purpura/detalle_kanji_desenfocado.png",
+      "source": "resources/purpura/detalle_kanji_desenfocado.png"
     },
     {
+      "livery": "purpura",
       "view": "detalle",
       "shot": "detalle_kanji_enfocado",
-      "uri": "resources/detalle_kanji_enfocado.png",
+      "uri": "resources/purpura/detalle_kanji_enfocado.png",
       "filename": "detalle_kanji_enfocado.png",
-      "route": "resources/detalle_kanji_enfocado.png",
-      "source": "resources/detalle_kanji_enfocado.png"
+      "route": "resources/purpura/detalle_kanji_enfocado.png",
+      "source": "resources/purpura/detalle_kanji_enfocado.png"
     },
     {
+      "livery": "purpura",
       "view": "detalle",
       "shot": "detalle_llanta_delantera",
-      "uri": "resources/detalle_llanta_delantera.png",
+      "uri": "resources/purpura/detalle_llanta_delantera.png",
       "filename": "detalle_llanta_delantera.png",
-      "route": "resources/detalle_llanta_delantera.png",
-      "source": "resources/detalle_llanta_delantera.png"
+      "route": "resources/purpura/detalle_llanta_delantera.png",
+      "source": "resources/purpura/detalle_llanta_delantera.png"
     }
   ],
   "meta": {
@@ -135,6 +150,15 @@ window.CATALOG_DATA = {
     "heroBadge": "金",
     "footerJP": "金 轟 スウィフトレモン",
     "routePattern": "Local resources directory",
+    "liveries": {
+      "purpura": {
+        "name": "Púrpura",
+        "short": "Púrpura",
+        "glyph": "紫",
+        "hex": "#563D82",
+        "label": "Racing stripe púrpura"
+      }
+    },
     "views": {
       "frontal": {
         "name": "Frontal",
@@ -242,6 +266,9 @@ window.CATALOG_DATA = {
       }
     },
     "order": {
+      "liveries": [
+        "purpura"
+      ],
       "views": [
         "frontal",
         "delantero",
@@ -271,101 +298,103 @@ window.CATALOG_DATA = {
       ]
     },
     "resources": {
-      "intro": "Especificación de colores y acabados para los vinilos principales del Suzuki Swift Sport ZC33S.",
-      "colors": [
-        {
-          "name": "Racing stripe central",
-          "short": "Racing stripe completo",
-          "role": "Franja longitudinal principal",
-          "hex": "#563D82",
-          "rgb": "86, 61, 130",
-          "hsv": "261.74°, 53.08%, 50.98%",
-          "hsvHue": 261.74,
-          "hsvSaturation": 53.08,
-          "hsvValue": 50.98,
-          "cmyk": "33.85%, 53.08%, 0.00%, 49.02%",
-          "pantone": "7679 C",
-          "matte": "Acabado satinado",
-          "matteLevel": "medium"
-        },
-        {
-          "name": "Racing stripe lateral",
-          "short": "Racing stripe lateral",
-          "role": "Franja lateral",
-          "hex": "#563D82",
-          "rgb": "86, 61, 130",
-          "hsv": "261.74°, 53.08%, 50.98%",
-          "hsvHue": 261.74,
-          "hsvSaturation": 53.08,
-          "hsvValue": 50.98,
-          "cmyk": "33.85%, 53.08%, 0.00%, 49.02%",
-          "pantone": "7679 C",
-          "matte": "Acabado satinado",
-          "matteLevel": "medium"
-        },
-        {
-          "name": "Kanji",
-          "short": "Kanji",
-          "role": "Grafía japonesa",
-          "hex": "#101820",
-          "rgb": "16, 24, 32",
-          "hsv": "210°, 50%, 12.55%",
-          "hsvHue": 210,
-          "hsvSaturation": 50,
-          "hsvValue": 12.55,
-          "cmyk": "50.00%, 25.00%, 0.00%, 87.45%",
-          "pantone": "Black 6 C",
-          "matte": "Acabado mate",
-          "matteLevel": "none"
-        },
-        {
-          "name": "Kamon",
-          "short": "Kamon",
-          "role": "Emblemas laterales y maletero",
-          "hex": "#101820",
-          "rgb": "16, 24, 32",
-          "hsv": "210°, 50%, 12.55%",
-          "hsvHue": 210,
-          "hsvSaturation": 50,
-          "hsvValue": 12.55,
-          "cmyk": "50.00%, 25.00%, 0.00%, 87.45%",
-          "pantone": "Black 6 C",
-          "matte": "Acabado mate",
-          "matteLevel": "none"
-        }
-      ],
-      "kamon": [
-        {
-          "name": "Aries Ferrus",
-          "placement": "Lado izquierdo",
-          "uri": "resources/kamon/izquierdo.png",
-          "preview": "resources/kamon/previews/izquierdo_preview.png",
-          "filename": "izquierdo.png"
-        },
-        {
-          "name": "Aries Ferrus",
-          "placement": "Lado derecho",
-          "uri": "resources/kamon/derecho.png",
-          "preview": "resources/kamon/previews/derecho_preview.png",
-          "filename": "derecho.png"
-        },
-        {
-          "name": "TRO",
-          "placement": "Maletero",
-          "uri": "resources/kamon/tro.png",
-          "preview": "resources/kamon/previews/tro_preview.png",
-          "filename": "tro.png"
-        }
-      ],
-      "kanji": [
-        {
-          "name": "Kin (Oro, Metal)",
-          "placement": "Ambos lados",
-          "uri": "resources/kanji/kin.png",
-          "preview": "resources/kanji/previews/kin_preview.png",
-          "filename": "kin.png"
-        }
-      ]
+      "purpura": {
+        "intro": "Especificación de colores y acabados para los vinilos principales del Suzuki Swift Sport ZC33S.",
+        "colors": [
+          {
+            "name": "Racing stripe central",
+            "short": "Racing stripe completo",
+            "role": "Franja longitudinal principal",
+            "hex": "#563D82",
+            "rgb": "86, 61, 130",
+            "hsv": "261.74°, 53.08%, 50.98%",
+            "hsvHue": 261.74,
+            "hsvSaturation": 53.08,
+            "hsvValue": 50.98,
+            "cmyk": "33.85%, 53.08%, 0.00%, 49.02%",
+            "pantone": "7679 C",
+            "matte": "Acabado satinado",
+            "matteLevel": "medium"
+          },
+          {
+            "name": "Racing stripe lateral",
+            "short": "Racing stripe lateral",
+            "role": "Franja lateral",
+            "hex": "#563D82",
+            "rgb": "86, 61, 130",
+            "hsv": "261.74°, 53.08%, 50.98%",
+            "hsvHue": 261.74,
+            "hsvSaturation": 53.08,
+            "hsvValue": 50.98,
+            "cmyk": "33.85%, 53.08%, 0.00%, 49.02%",
+            "pantone": "7679 C",
+            "matte": "Acabado satinado",
+            "matteLevel": "medium"
+          },
+          {
+            "name": "Kanji",
+            "short": "Kanji",
+            "role": "Grafía japonesa",
+            "hex": "#101820",
+            "rgb": "16, 24, 32",
+            "hsv": "210°, 50%, 12.55%",
+            "hsvHue": 210,
+            "hsvSaturation": 50,
+            "hsvValue": 12.55,
+            "cmyk": "50.00%, 25.00%, 0.00%, 87.45%",
+            "pantone": "Black 6 C",
+            "matte": "Acabado mate",
+            "matteLevel": "none"
+          },
+          {
+            "name": "Kamon",
+            "short": "Kamon",
+            "role": "Emblemas laterales y maletero",
+            "hex": "#101820",
+            "rgb": "16, 24, 32",
+            "hsv": "210°, 50%, 12.55%",
+            "hsvHue": 210,
+            "hsvSaturation": 50,
+            "hsvValue": 12.55,
+            "cmyk": "50.00%, 25.00%, 0.00%, 87.45%",
+            "pantone": "Black 6 C",
+            "matte": "Acabado mate",
+            "matteLevel": "none"
+          }
+        ],
+        "kamon": [
+          {
+            "name": "Aries Ferrus",
+            "placement": "Lado izquierdo",
+            "uri": "resources/purpura/kamon/izquierdo.png",
+            "preview": "resources/purpura/kamon/previews/izquierdo_preview.png",
+            "filename": "izquierdo.png"
+          },
+          {
+            "name": "Aries Ferrus",
+            "placement": "Lado derecho",
+            "uri": "resources/purpura/kamon/derecho.png",
+            "preview": "resources/purpura/kamon/previews/derecho_preview.png",
+            "filename": "derecho.png"
+          },
+          {
+            "name": "TRO",
+            "placement": "Maletero",
+            "uri": "resources/purpura/kamon/tro.png",
+            "preview": "resources/purpura/kamon/previews/tro_preview.png",
+            "filename": "tro.png"
+          }
+        ],
+        "kanji": [
+          {
+            "name": "Kin (Oro, Metal)",
+            "placement": "Ambos lados",
+            "uri": "resources/purpura/kanji/kin.png",
+            "preview": "resources/purpura/kanji/previews/kin_preview.png",
+            "filename": "kin.png"
+          }
+        ]
+      }
     }
   }
 };
