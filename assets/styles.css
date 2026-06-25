@@ -35,7 +35,10 @@ html {
 body {
   min-height: 100%;
   margin: 0;
-  background: var(--ink);
+  background:
+    radial-gradient(80% 70% at 90% -10%, rgba(177, 100, 224, .12), transparent 48%),
+    radial-gradient(70% 60% at 8% 0%, rgba(244, 221, 0, .09), transparent 46%),
+    var(--ink);
   color: var(--paper-dim);
   font-family: var(--ff-body);
   font-size: clamp(15px, 1vw + 12px, 17px);
@@ -681,13 +684,6 @@ button {
   opacity: 1;
   transform: none;
   transition: opacity .55s var(--ease), transform .55s var(--ease);
-}
-
-.resources-area {
-  background:
-    radial-gradient(80% 70% at 90% -10%, rgba(177, 100, 224, .12), transparent 48%),
-    radial-gradient(70% 60% at 8% 0%, rgba(244, 221, 0, .09), transparent 46%),
-    var(--ink);
 }
 
 .resources {
