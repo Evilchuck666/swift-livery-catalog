@@ -509,7 +509,7 @@
     let shown = 0;
     cardEls.forEach(c => {
       const ok = (fView === "all" || c.view === fView)
-               && (fLivery === "all" || c.livery === fLivery);
+        && (fLivery === "all" || c.livery === fLivery);
       c.el.classList.toggle("is-hidden", !ok);
       if (ok) shown++;
     });
