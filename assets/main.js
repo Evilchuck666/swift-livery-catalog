@@ -131,7 +131,6 @@
   }
 
   setText("topTotal", DATA.length);
-  setText("footTotal", DATA.length);
 
   const itemLabel = item => {
     const vm = metaFor("views", item.view, { name: humanize(item.view), short: humanize(item.view), glyph: "◆", sub: "Vista" });
