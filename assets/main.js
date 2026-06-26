@@ -338,9 +338,6 @@
         dlLink.rel = "noopener";
         dlLink.title = "Descargar PNG";
         dlLink.textContent = "⬇";
-        dlLink.addEventListener("click", () => {
-          window.open(item.uri, "_blank", "noopener");
-        });
         wrap.append(dlLink);
 
         grid.append(wrap);
@@ -521,9 +518,6 @@
       link.rel = "noopener";
       link.title = "Descargar PNG";
       link.textContent = "⬇";
-      link.addEventListener("click", () => {
-        window.open(item.uri, "_blank", "noopener");
-      });
       titleRow.append(link);
       body.append(titleRow);
 
@@ -689,10 +683,6 @@
     byId("lbClose")?.addEventListener("click", closeLightbox);
     byId("lbPrev")?.addEventListener("click", () => stepLightbox(-1));
     byId("lbNext")?.addEventListener("click", () => stepLightbox(1));
-    byId("lbDownload")?.addEventListener("click", () => {
-      const item = lightboxItems[lightboxIndex];
-      if (item?.uri) window.open(item.uri, "_blank", "noopener");
-    });
 
     lightbox?.addEventListener("click", event => {
       if (event.target === lightbox) closeLightbox();
