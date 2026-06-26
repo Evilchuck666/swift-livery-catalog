@@ -685,6 +685,11 @@
     const page = byId("top");
     if (!toggle || !page) return;
 
+    if (window.innerWidth < 981) {
+      page.classList.add("sidebar-collapsed");
+      toggle.setAttribute("aria-expanded", "false");
+    }
+
     toggle.addEventListener("click", () => {
       const collapsed = page.classList.toggle("sidebar-collapsed");
       toggle.setAttribute("aria-expanded", collapsed ? "false" : "true");
