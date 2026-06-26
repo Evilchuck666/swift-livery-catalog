@@ -86,6 +86,17 @@ _BLACK_COLOR = {
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
+IMAGE_EXTS = (".png", ".jpg", ".jpeg")
+
+
+def find_image(directory, stem):
+    """Devuelve el nombre de archivo (stem+ext) encontrado, o None."""
+    for ext in IMAGE_EXTS:
+        if os.path.isfile(os.path.join(directory, f"{stem}{ext}")):
+            return f"{stem}{ext}"
+    return None
+
+
 def scan_livery_dirs(liveries_root):
     """Devuelve lista ordenada de (livery_key, livery_path)."""
     if not os.path.isdir(liveries_root):
@@ -100,8 +111,7 @@ def validate_livery(livery_key, livery_path):
     if not os.path.isfile(os.path.join(livery_path, "livery.json")):
         raise FileNotFoundError(
             f"✗ Falta resources/liveries/{livery_key}/livery.json")
-    missing = [s for s in SHOT_ORDER
-               if not os.path.isfile(os.path.join(livery_path, f"{s}.png"))]
+    missing = [s for s in SHOT_ORDER if not find_image(livery_path, s)]
     if missing:
         raise FileNotFoundError(
             f"✗ Faltan imágenes en resources/liveries/{livery_key}/:\n" +
@@ -121,7 +131,7 @@ def scan_image_assets(asset_type, meta_map):
         return []
     result = []
     for fname in sorted(os.listdir(root)):
-        if not os.path.isfile(os.path.join(root, fname)) or not fname.lower().endswith(".png"):
+        if not os.path.isfile(os.path.join(root, fname)) or not fname.lower().endswith(IMAGE_EXTS):
             continue
         stem = os.path.splitext(fname)[0]
         m = meta_map.get(fname, {"name": f"TODO: {stem}", "placement": "TODO"})
@@ -204,11 +214,12 @@ def main():
 
         # Items
         for shot in SHOT_ORDER:
+            fname = find_image(livery_path, shot)
             items.append({
                 "livery": livery_key,
                 "view":   SHOT_VIEW[shot],
                 "shot":   shot,
-                "uri":    f"resources/liveries/{livery_key}/{shot}.png",
+                "uri":    f"resources/liveries/{livery_key}/{fname}",
             })
 
         # meta.liveries
