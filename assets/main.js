@@ -622,6 +622,11 @@
     setText("lbSub", view.name);
     setText("lbCur", lightboxIndex + 1);
     setText("lbTot", lightboxItems.length);
+    const lbDownload = byId("lbDownload");
+    if (lbDownload && item.uri) {
+      lbDownload.href = item.uri;
+      lbDownload.download = item.uri.split("/").pop();
+    }
   };
 
   function openLightbox(item) {
@@ -684,6 +689,10 @@
     byId("lbClose")?.addEventListener("click", closeLightbox);
     byId("lbPrev")?.addEventListener("click", () => stepLightbox(-1));
     byId("lbNext")?.addEventListener("click", () => stepLightbox(1));
+    byId("lbDownload")?.addEventListener("click", () => {
+      const item = lightboxItems[lightboxIndex];
+      if (item?.uri) window.open(item.uri, "_blank", "noopener");
+    });
 
     lightbox?.addEventListener("click", event => {
       if (event.target === lightbox) closeLightbox();
