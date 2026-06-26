@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const payload = window.CATALOG_DATA || JSON.parse(document.getElementById("catalog-data")?.textContent || "{}");
+  const payload = window.CATALOG_DATA || {};
   const DATA = payload.items || [];
   const META = payload.meta || {};
   const ORDER = META.order || {};
@@ -25,6 +25,17 @@
   const setText = (id, value) => {
     const el = byId(id);
     if (el) el.textContent = value;
+  };
+
+  const createDownloadLink = (uri, extraClass = "") => {
+    const link = document.createElement("a");
+    link.className = extraClass ? `resource-link ${extraClass}` : "resource-link";
+    link.href = uri || "#";
+    link.download = (uri || "").split("/").pop();
+    link.rel = "noopener";
+    link.title = "Descargar PNG";
+    link.textContent = "⬇";
+    return link;
   };
 
   const metaFor = (group, key, fallback = {}) => ({
@@ -79,7 +90,6 @@
   const views = orderedKeys(DATA.map(item => item.view), ORDER.views || []);
   const liveries = orderedKeys(DATA.map(item => item.livery), ORDER.liveries || []);
   const shots = ORDER.shots || [];
-  const viewOrder = ORDER.views || [];
 
   let activeView = "all";
   let activeLivery = "all";
@@ -235,8 +245,7 @@
       const items = DATA
         .filter(item => item.view === viewKey)
         .sort((a, b) =>
-          orderIndex(viewOrder, a.view) - orderIndex(viewOrder, b.view)
-          || orderIndex(shots, a.shot) - orderIndex(shots, b.shot)
+          orderIndex(shots, a.shot) - orderIndex(shots, b.shot)
           || a.uri.localeCompare(b.uri)
         );
 
@@ -331,14 +340,7 @@
         wrap.className = "card-wrap";
         wrap.append(card);
 
-        const dlLink = document.createElement("a");
-        dlLink.className = "resource-link card-download";
-        dlLink.href = item.uri || "#";
-        dlLink.download = (item.uri || "").split("/").pop();
-        dlLink.rel = "noopener";
-        dlLink.title = "Descargar PNG";
-        dlLink.textContent = "⬇";
-        wrap.append(dlLink);
+        wrap.append(createDownloadLink(item.uri, "card-download"));
 
         grid.append(wrap);
         cards.push({ el: card, view: item.view, livery: item.livery || "", item });
@@ -511,14 +513,7 @@
       titleRow.className = "resource-card__title-row";
       titleRow.append(createText("h3", "", item.name || config.fallbackName));
 
-      const link = document.createElement("a");
-      link.className = "resource-link";
-      link.href = item.uri || "#";
-      link.download = (item.uri || "").split("/").pop();
-      link.rel = "noopener";
-      link.title = "Descargar PNG";
-      link.textContent = "⬇";
-      titleRow.append(link);
+      titleRow.append(createDownloadLink(item.uri));
       body.append(titleRow);
 
       body.append(createText("p", "file-path", item.uri || ""));
