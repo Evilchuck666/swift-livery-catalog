@@ -326,7 +326,24 @@
 
         card.append(caption);
         card.addEventListener("click", () => openLightbox(item));
-        grid.append(card);
+
+        const wrap = document.createElement("div");
+        wrap.className = "card-wrap";
+        wrap.append(card);
+
+        const dlLink = document.createElement("a");
+        dlLink.className = "resource-link card-download";
+        dlLink.href = item.uri || "#";
+        dlLink.download = (item.uri || "").split("/").pop();
+        dlLink.rel = "noopener";
+        dlLink.title = "Descargar PNG";
+        dlLink.textContent = "⬇";
+        dlLink.addEventListener("click", () => {
+          window.open(item.uri, "_blank", "noopener");
+        });
+        wrap.append(dlLink);
+
+        grid.append(wrap);
         cards.push({ el: card, view: item.view, livery: item.livery || "", item });
       });
 
