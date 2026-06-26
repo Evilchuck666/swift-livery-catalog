@@ -720,6 +720,8 @@
     else window.addEventListener("resize", setAppHeight);
   };
 
+  history.scrollRestoration = "manual";
+  window.scrollTo(0, 0);
   renderFilterChips();
   renderGallery();
   renderResources();
