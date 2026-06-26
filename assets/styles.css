@@ -1049,6 +1049,9 @@ button {
     display: flex;
     margin-left: auto;
   }
+  .site-dl[hidden] {
+    display: none;
+  }
 }
 
 body:not(.is-local) .section-subtitle,
