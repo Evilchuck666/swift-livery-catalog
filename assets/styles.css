@@ -756,10 +756,6 @@ button {
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
 }
 
-.resource-grid--kanji {
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 24%), 24%));
-  justify-content: start;
-}
 
 .resource-card {
   overflow: hidden;
@@ -1171,6 +1167,11 @@ button {
   .lb__btn {
     width: 48px;
     height: 48px;
+  }
+
+  .resource-grid--kanji {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 24%), 24%));
+    justify-content: start;
   }
 }
 
