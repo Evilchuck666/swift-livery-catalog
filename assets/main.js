@@ -364,7 +364,7 @@
     head.className = "resource-head";
     head.append(createText("p", "eyebrow", "Recursos"));
     head.append(createText("h2", "", title));
-    head.append(createText("p", "", subtitle));
+    head.append(createText("p", "section-subtitle", subtitle));
     return head;
   };
 
@@ -809,6 +809,7 @@
     else window.addEventListener("resize", setAppHeight);
   };
 
+  if (location.protocol === "file:") document.body.classList.add("is-local");
   history.scrollRestoration = "manual";
   window.scrollTo(0, 0);
   renderFilterChips();

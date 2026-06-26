@@ -1051,6 +1051,11 @@ button {
   }
 }
 
+body:not(.is-local) .section-subtitle,
+body:not(.is-local) .file-path {
+  display: none;
+}
+
 .lb {
   position: fixed;
   inset: 0;
