@@ -1003,6 +1003,12 @@ button {
   color: var(--ink);
 }
 
+@media (hover: none) and (pointer: coarse) {
+  .resource-link {
+    display: none;
+  }
+}
+
 .lb {
   position: fixed;
   inset: 0;
