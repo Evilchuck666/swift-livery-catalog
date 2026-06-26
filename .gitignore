@@ -3,4 +3,5 @@ Thumbs.db
 *.code-workspace
 resources/
 assets/catalog-data.js
+assets/jszip.min.js
 /.idea/

@@ -221,6 +221,29 @@ button {
   background: var(--paper);
 }
 
+.site-dl {
+  flex-shrink: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  font-size: 1rem;
+  transition: background .15s, border-color .15s, opacity .15s;
+}
+
+.site-dl:hover {
+  border-color: var(--line-strong);
+  background: rgba(255, 255, 255, .06);
+}
+
+.site-dl[disabled] {
+  opacity: .35;
+  pointer-events: none;
+}
+
 .page,
 .page__content,
 .scroll-area {
@@ -1018,6 +1041,13 @@ button {
 @media (hover: none) and (pointer: coarse) {
   .resource-link {
     display: none;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .site-dl {
+    display: flex;
+    margin-left: auto;
   }
 }
 

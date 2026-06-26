@@ -724,6 +724,80 @@
     });
   };
 
+  const setupDownloadSite = () => {
+    const btn = byId("siteDownload");
+    if (!btn) return;
+
+    if (location.protocol === "file:") {
+      btn.hidden = true;
+      return;
+    }
+
+    let jszipLoaded = false;
+
+    btn.addEventListener("click", async () => {
+      btn.disabled = true;
+      const originalLabel = btn.getAttribute("aria-label");
+      btn.setAttribute("aria-label", "Preparando...");
+
+      try {
+        if (!jszipLoaded) {
+          await new Promise((resolve, reject) => {
+            const s = document.createElement("script");
+            s.src = "assets/jszip.min.js";
+            s.onload = () => { jszipLoaded = true; resolve(); };
+            s.onerror = reject;
+            document.head.append(s);
+          });
+        }
+
+        const zip = new JSZip();
+
+        const staticFiles = [
+          "index.html",
+          "assets/styles.css",
+          "assets/main.js",
+          "assets/catalog-data.js",
+          "assets/jszip.min.js",
+          "assets/favicon.svg",
+          "assets/favicon-32.png",
+        ];
+
+        const imageUris = new Set();
+        DATA.forEach(item => { if (item.uri) imageUris.add(item.uri); });
+        const res = META.resources || {};
+        const addFromArray = arr => (arr || []).forEach(item => { if (item?.uri) imageUris.add(item.uri); });
+        addFromArray(res.kamon);
+        addFromArray(res.kanji);
+        liveries.forEach(key => {
+          const r = res[key] || {};
+          addFromArray(r.kamon);
+          addFromArray(r.kanji);
+          addFromArray(r.colors);
+        });
+
+        for (const path of [...staticFiles, ...imageUris]) {
+          const resp = await fetch(path);
+          if (!resp.ok) continue;
+          zip.file(path, await resp.blob());
+        }
+
+        const blob = await zip.generateAsync({ type: "blob", compression: "DEFLATE", compressionOptions: { level: 6 } });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "catalogo-swift.zip";
+        a.click();
+        URL.revokeObjectURL(url);
+      } catch (err) {
+        console.error("Error generando zip:", err);
+      } finally {
+        btn.disabled = false;
+        btn.setAttribute("aria-label", originalLabel);
+      }
+    });
+  };
+
   const setupViewportHeightVar = () => {
     const setAppHeight = () => {
       const height = window.visualViewport ? window.visualViewport.height : window.innerHeight;
@@ -747,5 +821,6 @@
   setupLightbox();
   setupViewportHeightVar();
   setupScrollTop();
+  setupDownloadSite();
   setTab(location.hash === "#recursos" || location.hash === "#resources" ? "resources" : "gallery");
 })();
