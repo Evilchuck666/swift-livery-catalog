@@ -714,6 +714,21 @@
     });
   };
 
+  const setupScrollTop = () => {
+    const btn = byId("scrollTop");
+    if (!btn) return;
+
+    const toggle = () => {
+      btn.hidden = false;
+      btn.classList.toggle("is-visible", window.scrollY >= 1000);
+    };
+
+    window.addEventListener("scroll", toggle, { passive: true });
+    btn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? "auto" : "smooth" });
+    });
+  };
+
   const setupViewportHeightVar = () => {
     const setAppHeight = () => {
       const height = window.visualViewport ? window.visualViewport.height : window.innerHeight;
@@ -736,5 +751,6 @@
   setupSidebar();
   setupLightbox();
   setupViewportHeightVar();
+  setupScrollTop();
   setTab(location.hash === "#recursos" || location.hash === "#resources" ? "resources" : "gallery");
 })();

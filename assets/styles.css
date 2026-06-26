@@ -1320,6 +1320,41 @@ button {
   }
 }
 
+.scroll-top {
+  position: fixed;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 1.1rem);
+  right: 1.1rem;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: rgba(20, 18, 12, .92);
+  color: var(--paper);
+  font-size: 1.1rem;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  transform: translateY(.5rem);
+  transition: opacity .2s, transform .2s;
+  pointer-events: none;
+}
+
+.scroll-top.is-visible {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+@media (min-width: 981px) {
+  .scroll-top {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
