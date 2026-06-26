@@ -556,6 +556,7 @@
     root.append(intro);
 
     renderColorResources(root, resources);
+    
     renderImageResources(root, resources, {
       key: "kamon",
       title: "Kamon",
@@ -564,6 +565,7 @@
       gridClass: "resource-grid--kamon",
       fallbackName: "Kamon"
     });
+
     renderImageResources(root, resources, {
       key: "kanji",
       title: "Kanji",
@@ -572,6 +574,16 @@
       gridClass: "resource-grid--kanji",
       fallbackName: "Kanji"
     });
+
+    const kanjiGrid = root.querySelector(".resource-grid--kanji");
+    if (kanjiGrid) {
+      for (let i = 0; i < 2; i++) {
+        const ghost = document.createElement("div");
+        ghost.className = "resource-card resource-card--ghost";
+        ghost.setAttribute("aria-hidden", "true");
+        kanjiGrid.append(ghost);
+      }
+    }
 
     revealElements(root);
   };

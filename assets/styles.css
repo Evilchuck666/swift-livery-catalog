@@ -756,6 +756,16 @@ button {
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
 }
 
+.resource-card--ghost {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@media (max-width: 560px) {
+  .resource-card--ghost {
+    display: none;
+  }
+}
 
 .resource-card {
   overflow: hidden;
@@ -1170,8 +1180,9 @@ button {
   }
 
   .resource-grid--kanji {
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 24%), 24%));
-    justify-content: start;
+    grid-template-rows: auto;
+    grid-auto-rows: 0;
+    overflow: hidden;
   }
 }
 
