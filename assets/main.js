@@ -498,9 +498,12 @@
       const link = document.createElement("a");
       link.className = "resource-link";
       link.href = item.uri || "#";
-      link.target = "_blank";
+      link.download = (item.uri || "").split("/").pop();
       link.rel = "noopener";
       link.textContent = "Abrir PNG original";
+      link.addEventListener("click", () => {
+        window.open(item.uri, "_blank", "noopener");
+      });
       body.append(link);
 
       card.append(body);
