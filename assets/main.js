@@ -492,19 +492,25 @@
       const body = document.createElement("div");
       body.className = "resource-card__body";
       body.append(createText("p", "resource-card__role", item.placement || config.fallbackName));
-      body.append(createText("h3", "", item.name || config.fallbackName));
-      body.append(createText("p", "file-path", item.uri || ""));
+
+      const titleRow = document.createElement("div");
+      titleRow.className = "resource-card__title-row";
+      titleRow.append(createText("h3", "", item.name || config.fallbackName));
 
       const link = document.createElement("a");
       link.className = "resource-link";
       link.href = item.uri || "#";
       link.download = (item.uri || "").split("/").pop();
       link.rel = "noopener";
-      link.textContent = "Abrir PNG original";
+      link.title = "Descargar PNG";
+      link.textContent = "⬇";
       link.addEventListener("click", () => {
         window.open(item.uri, "_blank", "noopener");
       });
-      body.append(link);
+      titleRow.append(link);
+      body.append(titleRow);
+
+      body.append(createText("p", "file-path", item.uri || ""));
 
       card.append(body);
       grid.append(card);
