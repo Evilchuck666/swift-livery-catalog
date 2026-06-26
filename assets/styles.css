@@ -499,7 +499,8 @@ button {
 }
 
 .vsec.is-hidden,
-.card.is-hidden {
+.card.is-hidden,
+.card-wrap:has(> .card.is-hidden) {
   display: none;
 }
 
