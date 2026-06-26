@@ -753,7 +753,12 @@ button {
 
 .resource-grid--kamon,
 .resource-grid--kanji {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
+}
+
+.resource-grid--kanji {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 24%), 24%));
+  justify-content: start;
 }
 
 .resource-card {
