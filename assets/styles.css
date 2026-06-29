@@ -760,7 +760,8 @@ button {
 }
 
 .resource-grid--kamon,
-.resource-grid--kanji {
+.resource-grid--kanji,
+.resource-grid--font {
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
 }
 
