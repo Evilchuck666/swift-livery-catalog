@@ -1011,7 +1011,7 @@ button {
 
 .font-card__preview {
   font-family: 'Yuji Syuku', serif;
-  font-size: clamp(3rem, 8vw, 5rem);
+  font-size: clamp(5rem, 14vw, 9rem);
   font-weight: 400;
   color: #101820;
   line-height: 1;
