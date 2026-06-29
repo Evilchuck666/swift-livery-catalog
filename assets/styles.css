@@ -978,7 +978,8 @@ button {
 }
 
 .kamon-card__frame,
-.kanji-card__frame {
+.kanji-card__frame,
+.font-card__frame {
   display: grid;
   place-items: center;
   min-height: 250px;
@@ -1005,16 +1006,6 @@ button {
 .kanji-card__frame img {
   width: min(100%, 230px);
   max-height: 230px;
-}
-
-.font-card__frame {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 16 / 9;
-  background: var(--ink-2);
-  border-radius: 9px 9px 0 0;
-  overflow: hidden;
 }
 
 .font-card__preview {
