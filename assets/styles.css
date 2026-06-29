@@ -1013,7 +1013,7 @@ button {
   font-family: 'Yuji Syuku', serif;
   font-size: clamp(3rem, 8vw, 5rem);
   font-weight: 400;
-  color: var(--paper);
+  color: #101820;
   line-height: 1;
   user-select: none;
 }
