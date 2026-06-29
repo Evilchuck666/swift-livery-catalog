@@ -755,12 +755,22 @@
 
         const staticFiles = [
           "index.html",
+          "assets/fonts.css",
           "assets/styles.css",
           "assets/main.js",
           "assets/catalog-data.js",
           "assets/jszip.min.js",
           "assets/favicon.svg",
           "assets/favicon-32.png",
+          "resources/fonts/1Ptgg87LROyAm0K0.ttf",
+          "resources/fonts/-F6jfjtqLzI2JPCgQBnw7HFyzSD-AsregP8VFCMj75s.ttf",
+          "resources/fonts/-F6jfjtqLzI2JPCgQBnw7HFyzSD-AsregP8VFLgk75s.ttf",
+          "resources/fonts/-F6jfjtqLzI2JPCgQBnw7HFyzSD-AsregP8VFPYk75s.ttf",
+          "resources/fonts/k3k6o8UDI-1M0wlSV9XAw6lQkqWY8Q82sJaRE-NWIDdgffTT0zRp8A.ttf",
+          "resources/fonts/k3k6o8UDI-1M0wlSV9XAw6lQkqWY8Q82sJaRE-NWIDdgffTT6jRp8A.ttf",
+          "resources/fonts/k3k6o8UDI-1M0wlSV9XAw6lQkqWY8Q82sJaRE-NWIDdgffTTBjNp8A.ttf",
+          "resources/fonts/k3k6o8UDI-1M0wlSV9XAw6lQkqWY8Q82sJaRE-NWIDdgffTTNDNp8A.ttf",
+          "resources/fonts/k3k6o8UDI-1M0wlSV9XAw6lQkqWY8Q82sJaRE-NWIDdgffTTtDRp8A.ttf",
         ];
 
         const imageUris = new Set();
