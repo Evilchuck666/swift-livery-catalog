@@ -71,7 +71,8 @@ KAMON_META = {
     "tro.png":       {"name": "TRO",          "placement": "Maletero"},
 }
 KANJI_META = {
-    "kin.png": {"name": "Kin (Oro, Metal)", "placement": "Ambos lados"},
+    "san.png":   {"name": "San (Tres)", "placement": "Ambos lados"},
+    "gatsu.png": {"name": "Gatsu (Luna, Mes)", "placement": "Ambos lados"},
 }
 
 _BLACK_COLOR = {

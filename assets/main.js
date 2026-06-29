@@ -572,7 +572,7 @@
 
     const kanjiGrid = root.querySelector(".resource-grid--kanji");
     if (kanjiGrid) {
-      for (let i = 0; i < 2; i++) {
+      for (let i = 0; i < 1; i++) {
         const ghost = document.createElement("div");
         ghost.className = "resource-card resource-card--ghost";
         ghost.setAttribute("aria-hidden", "true");
