@@ -526,6 +526,51 @@
     root.append(section);
   };
 
+  const FONT_URI = "resources/fonts/YujiSyuku-Regular.ttf";
+
+  const renderFontResources = (root) => {
+    const section = document.createElement("section");
+    section.className = "resource-section";
+    section.append(sectionHead("Tipografía", "Fuente usada para generar los kanji San y Gatsu."));
+
+    const grid = document.createElement("div");
+    grid.className = "resource-grid resource-grid--font";
+
+    const card = document.createElement("article");
+    card.className = "resource-card font-card reveal";
+
+    const frame = document.createElement("div");
+    frame.className = "font-card__frame";
+    frame.append(createText("span", "font-card__preview", "三月"));
+    card.append(frame);
+
+    const body = document.createElement("div");
+    body.className = "resource-card__body";
+    body.append(createText("p", "resource-card__role", "Kanji San · Gatsu"));
+
+    const titleRow = document.createElement("div");
+    titleRow.className = "resource-card__title-row";
+    titleRow.append(createText("h3", "", "Yuji Syuku"));
+    const dl = createDownloadLink(FONT_URI);
+    dl.title = "Descargar TTF";
+    titleRow.append(dl);
+    body.append(titleRow);
+    body.append(createText("p", "file-path", FONT_URI));
+
+    card.append(body);
+    grid.append(card);
+
+    for (let i = 0; i < 2; i++) {
+      const ghost = document.createElement("div");
+      ghost.className = "resource-card resource-card--ghost";
+      ghost.setAttribute("aria-hidden", "true");
+      grid.append(ghost);
+    }
+
+    section.append(grid);
+    root.append(section);
+  };
+
   const renderResources = () => {
     const root = byId("resourcesRoot");
     if (!root) return;
@@ -579,6 +624,8 @@
         kanjiGrid.append(ghost);
       }
     }
+
+    renderFontResources(root);
 
     revealElements(root);
   };
@@ -771,6 +818,7 @@
           "resources/fonts/k3k6o8UDI-1M0wlSV9XAw6lQkqWY8Q82sJaRE-NWIDdgffTTBjNp8A.ttf",
           "resources/fonts/k3k6o8UDI-1M0wlSV9XAw6lQkqWY8Q82sJaRE-NWIDdgffTTNDNp8A.ttf",
           "resources/fonts/k3k6o8UDI-1M0wlSV9XAw6lQkqWY8Q82sJaRE-NWIDdgffTTtDRp8A.ttf",
+          "resources/fonts/YujiSyuku-Regular.ttf",
         ];
 
         const imageUris = new Set();

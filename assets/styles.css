@@ -1007,6 +1007,25 @@ button {
   max-height: 230px;
 }
 
+.font-card__frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 9;
+  background: var(--ink-2);
+  border-radius: 9px 9px 0 0;
+  overflow: hidden;
+}
+
+.font-card__preview {
+  font-family: 'Yuji Syuku', serif;
+  font-size: clamp(3rem, 8vw, 5rem);
+  font-weight: 400;
+  color: var(--paper);
+  line-height: 1;
+  user-select: none;
+}
+
 .file-path {
   margin: .25rem 0 .8rem;
   padding: .5rem .6rem;
@@ -1202,7 +1221,8 @@ body:not(.is-local) .file-path {
     height: 48px;
   }
 
-  .resource-grid--kanji {
+  .resource-grid--kanji,
+  .resource-grid--font {
     grid-template-rows: auto;
     grid-auto-rows: 0;
     overflow: hidden;

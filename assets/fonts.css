@@ -1,4 +1,11 @@
 @font-face {
+  font-family: 'Yuji Syuku';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../resources/fonts/YujiSyuku-Regular.ttf') format('truetype');
+}
+@font-face {
   font-family: 'Anton';
   font-style: normal;
   font-weight: 400;
