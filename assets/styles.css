@@ -221,6 +221,11 @@ button {
   background: var(--paper);
 }
 
+.sidebar-toggle.is-res-hidden {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .site-dl {
   flex-shrink: 0;
   display: none;

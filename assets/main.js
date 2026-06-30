@@ -154,7 +154,7 @@
 
     byId("top")?.classList.toggle("is-resources", isResources);
     const sidebarToggle = byId("sidebarToggle");
-    if (sidebarToggle) sidebarToggle.hidden = isResources;
+    if (sidebarToggle) sidebarToggle.classList.toggle("is-res-hidden", isResources);
 
     currentPanel()?.querySelectorAll(".reveal").forEach(el => el.classList.add("in"));
     scrollToPanelTop();
