@@ -538,7 +538,7 @@
     if (!(resources.models_3d || []).length) return;
     const section = document.createElement("section");
     section.className = "resource-section";
-    section.append(sectionHead("Modelos 3D", "Archivos GLB para importar en Blender, motores de juego o visores web."));
+    section.append(sectionHead("Modelos 3D", "Archivos Blender para importar y editar el coche y el entorno."));
 
     const grid = document.createElement("div");
     grid.className = "resource-grid resource-grid--3d";
@@ -568,7 +568,7 @@
       titleRow.className = "resource-card__title-row";
       titleRow.append(createText("h3", "", item.name || "Modelo 3D"));
       const dl = createDownloadLink(item.uri);
-      dl.title = "Descargar GLB";
+      dl.title = "Descargar Blend";
       titleRow.append(dl);
       body.append(titleRow);
       body.append(createText("p", "file-path", item.uri || ""));

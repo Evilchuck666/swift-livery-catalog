@@ -134,7 +134,7 @@ def read_livery_json(livery_path):
 
 
 def scan_3d_assets(asset_type, meta_map):
-    """Escanea resources/{asset_type}/*.glb usando meta_map para name/role."""
+    """Escanea resources/{asset_type}/*.blend usando meta_map para name/role."""
     root = os.path.join(RESOURCES, asset_type)
     previews_dir = os.path.join(root, "previews")
     if not os.path.isdir(root):
