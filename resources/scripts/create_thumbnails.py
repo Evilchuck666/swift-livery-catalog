@@ -1,3 +1,4 @@
+import math
 import os
 import bpy
 
@@ -5,6 +6,16 @@ import bpy
 THUMB_RES_X   = 1100
 THUMB_RES_Y   = 1100
 THUMB_SAMPLES = 64
+
+# ── Camera overrides (edit these to adjust thumbnail framing) ────────────────
+# location: (X, Y, Z) metres  |  rotation_deg: (X, Y, Z) Euler degrees
+# Omit a stem to use the scene's default camera unchanged.
+CAM_OVERRIDES = {
+    "Studio": {
+        "location":     (17.5, 52.5, 5.0),
+        "rotation_deg": (90.0, 0.0, 160.625),
+    },
+}
 # ═════════════════════════════════════════════════════════════════════════════
 
 SCRIPT_DIR    = os.path.dirname(os.path.abspath(__file__))
@@ -48,6 +59,14 @@ except Exception:
     pass
 
 scene.cycles.device = 'GPU'
+
+# ── Camera override ───────────────────────────────────────────────────────────
+override = CAM_OVERRIDES.get(stem)
+if override and scene.camera:
+    cam = scene.camera
+    cam.location = override["location"]
+    cam.rotation_euler = [math.radians(d) for d in override["rotation_deg"]]
+    bpy.context.view_layer.update()
 
 # ── Render ───────────────────────────────────────────────────────────────────
 output_path = os.path.join(OUTPUT_DIR, f"{stem}_preview.png")
