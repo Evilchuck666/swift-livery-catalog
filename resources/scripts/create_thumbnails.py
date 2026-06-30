@@ -12,12 +12,14 @@ THUMB_SAMPLES = 64
 # Omit a stem to use the scene's default camera unchanged.
 CAM_OVERRIDES = {
     "Escena": {
-        "location":     (17.5, 52.5, 5.0),
-        "rotation_deg": (90.0, 0.0, 160.625),
+        "location":       (17.5, 52.5, 5.0),
+        "rotation_deg":   (90.0, 0.0, 160.625),
+        "world_bg_color": (0.5, 0.5, 0.5, 1.0),   # fondo gris (editable)
     },
     "Studio": {
-        "location":     (17.5, 52.5, 5.0),
-        "rotation_deg": (90.0, 0.0, 160.625),
+        "location":       (17.5, 52.5, 5.0),
+        "rotation_deg":   (90.0, 0.0, 160.625),
+        "world_bg_color": (0.5, 0.5, 0.5, 1.0),   # fondo gris (editable)
     },
     "Suzuki": {
         "location":         (-3.125, -5.0, 2.0),   # izquierda, frente del coche, elevado
@@ -25,6 +27,7 @@ CAM_OVERRIDES = {
         "add_sun":          True,                  # crear sol (escena sin luces)
         "sun_energy":       3.0,                   # W/m²
         "sun_rotation_deg": (45.0, 0.0, 225.0),   # sol desde arriba-izquierda
+        # sin world_bg_color → usa el world de la escena (gris natural)
     },
 }
 # ═════════════════════════════════════════════════════════════════════════════
@@ -89,6 +92,21 @@ if override:
         bpy.context.collection.objects.link(sun_obj)
         sun_rot                = override.get("sun_rotation_deg", (45.0, 0.0, 225.0))
         sun_obj.rotation_euler = [math.radians(d) for d in sun_rot]
+    if "world_bg_color" in override:
+        color = override["world_bg_color"]
+        world = scene.world
+        if world is None:
+            world = bpy.data.worlds.new("ThumbnailWorld")
+            scene.world = world
+        world.use_nodes = True
+        bg = world.node_tree.nodes.get("Background")
+        if not bg:
+            world.node_tree.nodes.clear()
+            bg  = world.node_tree.nodes.new("ShaderNodeBackground")
+            out = world.node_tree.nodes.new("ShaderNodeOutputWorld")
+            world.node_tree.links.new(bg.outputs["Background"], out.inputs["Surface"])
+        bg.inputs["Color"].default_value    = color
+        bg.inputs["Strength"].default_value = 0.0
     bpy.context.view_layer.update()
 
 # ── Render ───────────────────────────────────────────────────────────────────
