@@ -89,6 +89,26 @@
     </figure>
   </div>
 
+  <dialog id="dlDialog" class="dl-dialog" aria-labelledby="dlDialogTitle">
+    <form method="dialog" class="dl-dialog__form">
+      <h2 class="dl-dialog__title" id="dlDialogTitle">Descargar catálogo</h2>
+      <p class="dl-dialog__body">Incluye todas las imágenes, fuentes y archivos del sitio.</p>
+
+      <label class="dl-dialog__check-label">
+        <input type="checkbox" id="dlBlendCheck" />
+        Incluir archivos .blend <span class="dl-dialog__size">(~80 MB extra)</span>
+      </label>
+      <p class="dl-dialog__warn" id="dlBlendWarn" hidden>
+        Puede tardar varios minutos y usar hasta 300 MB de RAM.
+      </p>
+
+      <div class="dl-dialog__actions">
+        <button class="dl-dialog__btn dl-dialog__btn--cancel" value="cancel" type="submit">Cancelar</button>
+        <button class="dl-dialog__btn dl-dialog__btn--confirm" value="confirm" type="submit">Descargar</button>
+      </div>
+    </form>
+  </dialog>
+
   <button class="scroll-top" id="scrollTop" type="button" aria-label="Volver arriba" hidden>↑</button>
 
   <script src="assets/catalog-data.js"></script>

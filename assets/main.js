@@ -792,7 +792,30 @@
 
     let jszipLoaded = false;
 
+    const dlDialog = byId("dlDialog");
+    const dlCheck  = byId("dlBlendCheck");
+    const dlWarn   = byId("dlBlendWarn");
+
+    dlCheck?.addEventListener("change", function () {
+      if (dlWarn) dlWarn.hidden = !this.checked;
+    });
+
     btn.addEventListener("click", async () => {
+      // Reset and show confirmation dialog
+      if (dlCheck) dlCheck.checked = false;
+      if (dlWarn) dlWarn.hidden = true;
+      if (dlDialog) dlDialog.returnValue = "";
+
+      const confirmed = await new Promise(resolve => {
+        if (!dlDialog) { resolve(true); return; }
+        dlDialog.showModal();
+        dlDialog.addEventListener("close", () => resolve(dlDialog.returnValue === "confirm"), { once: true });
+      });
+
+      if (!confirmed) return;
+
+      const includeBlend = dlCheck?.checked ?? false;
+
       btn.disabled = true;
       const originalLabel = btn.getAttribute("aria-label");
       btn.setAttribute("aria-label", "Preparando...");
@@ -843,6 +866,14 @@
           addFromArray(r.kanji);
           addFromArray(r.colors);
         });
+
+        // Preview PNGs always included (~2.5 MB)
+        (res.models_3d || []).forEach(item => { if (item?.preview) imageUris.add(item.preview); });
+
+        // .blend files only if user opted in (~80 MB)
+        if (includeBlend) {
+          (res.models_3d || []).forEach(item => { if (item?.uri) imageUris.add(item.uri); });
+        }
 
         for (const path of [...staticFiles, ...imageUris]) {
           const resp = await fetch(path);

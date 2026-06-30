@@ -1268,6 +1268,119 @@ body:not(.is-local) .file-path {
   }
 }
 
+/* ── Download confirmation dialog ─────────────────────────────────────────── */
+
+.dl-dialog {
+  padding: 0;
+  width: min(90vw, 420px);
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  background: var(--ink-2);
+  color: var(--paper);
+  box-shadow: 0 30px 80px -20px rgba(0, 0, 0, .8);
+}
+
+.dl-dialog::backdrop {
+  background: rgba(8, 7, 4, .85);
+  backdrop-filter: blur(6px);
+}
+
+.dl-dialog__form {
+  display: flex;
+  flex-direction: column;
+  gap: .85rem;
+  padding: 1.6rem 1.8rem;
+}
+
+.dl-dialog__title {
+  margin: 0;
+  color: var(--paper);
+  font-family: var(--ff-display);
+  font-size: 1.4rem;
+  font-weight: 400;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.dl-dialog__body {
+  margin: 0;
+  color: var(--muted);
+  font-size: .88rem;
+}
+
+.dl-dialog__check-label {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .7rem .9rem;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--ink-3);
+  font-size: .88rem;
+  cursor: pointer;
+}
+
+.dl-dialog__check-label:hover {
+  border-color: var(--line-strong);
+}
+
+.dl-dialog__size {
+  color: var(--muted);
+  font-size: .78rem;
+}
+
+.dl-dialog__warn {
+  margin: 0;
+  color: var(--gold-lite);
+  font-size: .8rem;
+}
+
+.dl-dialog__warn[hidden] {
+  display: none;
+}
+
+.dl-dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: .6rem;
+  margin-top: .4rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.dl-dialog__btn {
+  padding: .45rem 1.1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+}
+
+.dl-dialog__btn--cancel {
+  background: transparent;
+  color: var(--muted);
+}
+
+.dl-dialog__btn--cancel:hover {
+  background: rgba(245, 241, 230, .07);
+  color: var(--paper);
+}
+
+.dl-dialog__btn--confirm {
+  background: var(--yellow);
+  border-color: var(--yellow);
+  color: var(--ink);
+}
+
+.dl-dialog__btn--confirm:hover {
+  background: var(--gold-lite);
+  border-color: var(--gold-lite);
+}
+
 @media (min-width: 721px) {
   .brand__txt {
     display: inline;
