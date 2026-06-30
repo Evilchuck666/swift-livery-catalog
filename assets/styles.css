@@ -190,7 +190,6 @@ button {
 
 .sidebar-toggle {
   flex-shrink: 0;
-  margin-left: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -249,9 +248,17 @@ button {
   pointer-events: none;
 }
 
+.topbar-end {
+  margin-left: auto;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
 .gh-link {
   flex-shrink: 0;
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
   width: 36px;
@@ -1125,13 +1132,9 @@ button {
 @media (hover: hover) and (pointer: fine) {
   .site-dl {
     display: flex;
-    margin-left: auto;
   }
   .site-dl[hidden] {
     display: none;
-  }
-  .gh-link {
-    display: flex;
   }
 }
 
