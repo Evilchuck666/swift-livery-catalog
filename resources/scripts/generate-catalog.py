@@ -10,7 +10,7 @@ import json
 import os
 import sys
 
-SCRIPT_DIR   = os.path.dirname(os.path.abspath(__file__))
+SCRIPT_DIR   = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 CATALOG_JS   = os.path.join(SCRIPT_DIR, "assets", "catalog-data.js")
 RESOURCES    = os.path.join(SCRIPT_DIR, "resources")
 LIVERIES_DIR = os.path.join(SCRIPT_DIR, "resources", "liveries")

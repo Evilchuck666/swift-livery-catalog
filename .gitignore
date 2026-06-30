@@ -1,7 +1,9 @@
 .DS_Store
 Thumbs.db
 *.code-workspace
-resources/
+resources/*
+!resources/scripts/
+!resources/scripts/**
 assets/catalog-data.js
 assets/jszip.min.js
 /.idea/
