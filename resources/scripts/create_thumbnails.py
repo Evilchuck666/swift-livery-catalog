@@ -11,6 +11,10 @@ THUMB_SAMPLES = 64
 # location: (X, Y, Z) metres  |  rotation_deg: (X, Y, Z) Euler degrees
 # Omit a stem to use the scene's default camera unchanged.
 CAM_OVERRIDES = {
+    "Escena": {
+        "location":     (17.5, 52.5, 5.0),
+        "rotation_deg": (90.0, 0.0, 160.625),
+    },
     "Studio": {
         "location":     (17.5, 52.5, 5.0),
         "rotation_deg": (90.0, 0.0, 160.625),
