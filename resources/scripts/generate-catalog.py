@@ -78,9 +78,9 @@ KANJI_META = {
 }
 
 MODELS_3D_META = {
-    "Suzuki.glb": {"name": "Suzuki Swift Sport ZC33S", "role": "Modelo del vehículo"},
-    "Escena.glb": {"name": "Escena completa",           "role": "Vehículo con escenario"},
-    "Studio.glb": {"name": "Estudio de iluminación",    "role": "Entorno de render"},
+    "Suzuki.blend": {"name": "Suzuki Swift Sport ZC33S", "role": "Modelo del vehículo"},
+    "Escena.blend": {"name": "Escena completa",          "role": "Vehículo con escenario"},
+    "Studio.blend": {"name": "Estudio de iluminación",   "role": "Entorno de render"},
 }
 
 _BLACK_COLOR = {
@@ -96,7 +96,7 @@ _BLACK_COLOR = {
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
 IMAGE_EXTS = (".png", ".jpg", ".jpeg")
-MODEL_EXTS = (".glb", ".gltf")
+MODEL_EXTS = (".blend",)
 
 
 def find_image(directory, stem):
