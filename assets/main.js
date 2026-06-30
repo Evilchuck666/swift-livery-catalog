@@ -92,7 +92,6 @@
   const shots = ORDER.shots || [];
 
   let activeView = "all";
-  let activeLivery = "all";
   let lastFocus = null;
   let lightboxItems = [];
   let lightboxIndex = 0;
@@ -153,11 +152,9 @@
       resourcesPanel.hidden = !isResources;
     }
 
-    const sidebarTitle = document.querySelector(".controls__heading-label");
-    if (sidebarTitle) sidebarTitle.textContent = isResources ? "Livery" : "Filtros";
-
-    const liveryLabel = byId("liveryChips")?.closest(".fgroup")?.querySelector(".fgroup__label");
-    if (liveryLabel) liveryLabel.textContent = isResources ? "Especificación" : "Paleta";
+    byId("top")?.classList.toggle("is-resources", isResources);
+    const sidebarToggle = byId("sidebarToggle");
+    if (sidebarToggle) sidebarToggle.hidden = isResources;
 
     currentPanel()?.querySelectorAll(".reveal").forEach(el => el.classList.add("in"));
     scrollToPanelTop();
@@ -182,37 +179,7 @@
   };
 
   const renderFilterChips = () => {
-    const liveryChips = byId("liveryChips");
     const viewChips = byId("viewChips");
-
-    if (liveryChips) {
-      const allLiveries = createChip("Todas", "全", true);
-      allLiveries.dataset.key = "all";
-      allLiveries.addEventListener("click", () => {
-        activeLivery = "all";
-        syncPressed(liveryChips, activeLivery);
-        applyFilters();
-        renderResources();
-      });
-      liveryChips.append(allLiveries);
-
-      liveries.forEach(key => {
-        const meta = LIVERIES_META[key] || { name: humanize(key), glyph: "◆" };
-        const button = createChip(meta.name, meta.glyph, false);
-        button.dataset.key = key;
-        if (meta.hex) {
-          button.style.setProperty("--livery-chip-color", meta.hex);
-          button.style.setProperty("--livery-chip-text", isDarkColor(meta.hex) ? "#fff" : "#000");
-        }
-        button.addEventListener("click", () => {
-          activeLivery = key;
-          syncPressed(liveryChips, activeLivery);
-          applyFilters();
-          renderResources();
-        });
-        liveryChips.append(button);
-      });
-    }
 
     if (viewChips) {
       const allViews = createChip("Todas", "全", true);
@@ -378,11 +345,6 @@
     const resources = META.resources || {};
     const sharedKamon = resources.kamon || [];
     const sharedKanji = resources.kanji || [];
-
-    if (activeLivery !== "all") {
-      const livery = resources[activeLivery] || {};
-      return { ...livery, kamon: sharedKamon, kanji: sharedKanji };
-    }
 
     const merged = liveries.reduce((acc, key) => {
       const current = resources[key] || {};
@@ -634,8 +596,7 @@
     let shown = 0;
 
     cards.forEach(card => {
-      const isVisible = (activeView === "all" || card.view === activeView)
-        && (activeLivery === "all" || card.livery === activeLivery);
+      const isVisible = activeView === "all" || card.view === activeView;
       card.el.classList.toggle("is-hidden", !isVisible);
       if (isVisible) shown += 1;
     });

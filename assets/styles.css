@@ -419,6 +419,14 @@ button {
   display: none;
 }
 
+.page.is-resources {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.page.is-resources .controls {
+  display: none;
+}
+
 .gallery-intro {
   padding-block: clamp(1.1rem, 3vw, 2.2rem) 0;
 }
