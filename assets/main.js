@@ -857,7 +857,10 @@
         const imageUris = new Set();
         DATA.forEach(item => { if (item.uri) imageUris.add(item.uri); });
         const res = META.resources || {};
-        const addFromArray = arr => (arr || []).forEach(item => { if (item?.uri) imageUris.add(item.uri); });
+        const addFromArray = arr => (arr || []).forEach(item => {
+          if (item?.uri)     imageUris.add(item.uri);
+          if (item?.preview) imageUris.add(item.preview);
+        });
         addFromArray(res.kamon);
         addFromArray(res.kanji);
         liveries.forEach(key => {
@@ -867,12 +870,12 @@
           addFromArray(r.colors);
         });
 
-        // Preview PNGs always included (~2.5 MB)
-        (res.models_3d || []).forEach(item => { if (item?.preview) imageUris.add(item.preview); });
-
-        // .blend files only if user opted in (~80 MB)
+        // Directorio 3d completo (previews + .blend) solo si el usuario lo pidió
         if (includeBlend) {
-          (res.models_3d || []).forEach(item => { if (item?.uri) imageUris.add(item.uri); });
+          (res.models_3d || []).forEach(item => {
+            if (item?.preview) imageUris.add(item.preview);
+            if (item?.uri)     imageUris.add(item.uri);
+          });
         }
 
         for (const path of [...staticFiles, ...imageUris]) {
