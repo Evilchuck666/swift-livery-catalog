@@ -14,12 +14,12 @@ CAM_OVERRIDES = {
     "Escena": {
         "location":       (17.5, 52.5, 5.0),
         "rotation_deg":   (90.0, 0.0, 160.625),
-        "world_bg_color": (0.5, 0.5, 0.5, 1.0),   # fondo gris (editable)
+        "world_bg_color": (0.05, 0.05, 0.05, 1.0),   # fondo gris (editable)
     },
     "Studio": {
         "location":       (17.5, 52.5, 5.0),
         "rotation_deg":   (90.0, 0.0, 160.625),
-        "world_bg_color": (0.5, 0.5, 0.5, 1.0),   # fondo gris (editable)
+        "world_bg_color": (0.05, 0.05, 0.05, 1.0),   # fondo gris (editable)
     },
     "Suzuki": {
         "location":         (-3.125, -5.0, 2.0),   # izquierda, frente del coche, elevado
@@ -99,14 +99,13 @@ if override:
             world = bpy.data.worlds.new("ThumbnailWorld")
             scene.world = world
         world.use_nodes = True
-        bg = world.node_tree.nodes.get("Background")
-        if not bg:
-            world.node_tree.nodes.clear()
-            bg  = world.node_tree.nodes.new("ShaderNodeBackground")
-            out = world.node_tree.nodes.new("ShaderNodeOutputWorld")
-            world.node_tree.links.new(bg.outputs["Background"], out.inputs["Surface"])
+        nt = world.node_tree
+        nt.nodes.clear()
+        bg  = nt.nodes.new("ShaderNodeBackground")
+        out = nt.nodes.new("ShaderNodeOutputWorld")
+        nt.links.new(bg.outputs["Background"], out.inputs["Surface"])
         bg.inputs["Color"].default_value    = color
-        bg.inputs["Strength"].default_value = 0.0
+        bg.inputs["Strength"].default_value = 1.0
     bpy.context.view_layer.update()
 
 # ── Render ───────────────────────────────────────────────────────────────────
