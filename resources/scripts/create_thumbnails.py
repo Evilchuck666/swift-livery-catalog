@@ -19,6 +19,13 @@ CAM_OVERRIDES = {
         "location":     (17.5, 52.5, 5.0),
         "rotation_deg": (90.0, 0.0, 160.625),
     },
+    "Suzuki": {
+        "location":         (-3.125, -5.0, 2.0),   # izquierda, frente del coche, elevado
+        "rotation_deg":     (72.0, 0.0, 325.0),   # casi horizontal, 35° girado en Z
+        "add_sun":          True,                  # crear sol (escena sin luces)
+        "sun_energy":       3.0,                   # W/m²
+        "sun_rotation_deg": (45.0, 0.0, 225.0),   # sol desde arriba-izquierda
+    },
 }
 # ═════════════════════════════════════════════════════════════════════════════
 
@@ -66,10 +73,22 @@ scene.cycles.device = 'GPU'
 
 # ── Camera override ───────────────────────────────────────────────────────────
 override = CAM_OVERRIDES.get(stem)
-if override and scene.camera:
+if override:
+    if not scene.camera:
+        cam_data = bpy.data.cameras.new(name="ThumbnailCam")
+        cam_obj  = bpy.data.objects.new("ThumbnailCam", cam_data)
+        bpy.context.collection.objects.link(cam_obj)
+        scene.camera = cam_obj
     cam = scene.camera
-    cam.location = override["location"]
+    cam.location       = override["location"]
     cam.rotation_euler = [math.radians(d) for d in override["rotation_deg"]]
+    if override.get("add_sun") and not any(o.type == 'LIGHT' for o in bpy.data.objects):
+        sun_data        = bpy.data.lights.new(name="ThumbnailSun", type='SUN')
+        sun_data.energy = override.get("sun_energy", 3.0)
+        sun_obj         = bpy.data.objects.new("ThumbnailSun", sun_data)
+        bpy.context.collection.objects.link(sun_obj)
+        sun_rot                = override.get("sun_rotation_deg", (45.0, 0.0, 225.0))
+        sun_obj.rotation_euler = [math.radians(d) for d in sun_rot]
     bpy.context.view_layer.update()
 
 # ── Render ───────────────────────────────────────────────────────────────────
