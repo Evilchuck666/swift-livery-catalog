@@ -774,7 +774,8 @@ button {
 
 .resource-grid--kamon,
 .resource-grid--kanji,
-.resource-grid--font {
+.resource-grid--font,
+.resource-grid--3d {
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
 }
 
@@ -1028,6 +1029,39 @@ button {
   font-weight: 400;
   color: #101820;
   line-height: 1;
+  user-select: none;
+}
+
+.model-3d-card__frame {
+  display: grid;
+  place-items: center;
+  min-height: 250px;
+  padding: 1.2rem;
+  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(45deg, rgba(245, 241, 230, .04) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(245, 241, 230, .04) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(245, 241, 230, .04) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(245, 241, 230, .04) 75%),
+    rgba(255, 255, 255, .06);
+  background-position: 0 0, 0 12px, 12px -12px, -12px 0;
+  background-size: 24px 24px;
+}
+
+.model-3d-card__frame img {
+  width: min(100%, 250px);
+  max-height: 250px;
+  object-fit: contain;
+  filter: drop-shadow(0 16px 18px rgba(0, 0, 0, .35));
+}
+
+.model-3d-card__placeholder {
+  font-family: var(--ff-display);
+  font-size: clamp(3rem, 8vw, 5rem);
+  font-weight: 400;
+  color: rgba(245, 241, 230, .12);
+  letter-spacing: .1em;
+  text-transform: uppercase;
   user-select: none;
 }
 

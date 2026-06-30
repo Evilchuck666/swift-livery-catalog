@@ -77,6 +77,12 @@ KANJI_META = {
     "gatsu.png": {"name": "Gatsu (Luna, Mes)", "placement": "Ambos lados"},
 }
 
+MODELS_3D_META = {
+    "Suzuki.glb": {"name": "Suzuki Swift Sport ZC33S", "role": "Modelo del vehículo"},
+    "Escena.glb": {"name": "Escena completa",           "role": "Vehículo con escenario"},
+    "Studio.glb": {"name": "Estudio de iluminación",    "role": "Entorno de render"},
+}
+
 _BLACK_COLOR = {
     "hex":        "#101820",
     "rgb":        "16, 24, 32",
@@ -90,6 +96,7 @@ _BLACK_COLOR = {
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
 IMAGE_EXTS = (".png", ".jpg", ".jpeg")
+MODEL_EXTS = (".glb", ".gltf")
 
 
 def find_image(directory, stem):
@@ -124,6 +131,31 @@ def validate_livery(livery_key, livery_path):
 def read_livery_json(livery_path):
     with open(os.path.join(livery_path, "livery.json"), encoding="utf-8") as f:
         return json.load(f)
+
+
+def scan_3d_assets(asset_type, meta_map):
+    """Escanea resources/{asset_type}/*.glb usando meta_map para name/role."""
+    root = os.path.join(RESOURCES, asset_type)
+    previews_dir = os.path.join(root, "previews")
+    if not os.path.isdir(root):
+        return []
+    result = []
+    for fname in sorted(os.listdir(root)):
+        fpath = os.path.join(root, fname)
+        if not os.path.isfile(fpath) or not fname.lower().endswith(MODEL_EXTS):
+            continue
+        stem = os.path.splitext(fname)[0]
+        m = meta_map.get(fname, {"name": stem, "role": "Modelo 3D"})
+        entry = {
+            "name": m["name"],
+            "role": m["role"],
+            "uri":  f"resources/{asset_type}/{fname}",
+        }
+        preview_path = os.path.join(previews_dir, f"{stem}_preview.png")
+        if os.path.isfile(preview_path):
+            entry["preview"] = f"resources/{asset_type}/previews/{stem}_preview.png"
+        result.append(entry)
+    return result
 
 
 def scan_image_assets(asset_type, meta_map):
@@ -244,6 +276,7 @@ def main():
     # Assets compartidos
     resources["kamon"] = scan_image_assets("kamon", KAMON_META)
     resources["kanji"] = scan_image_assets("kanji", KANJI_META)
+    resources["models_3d"] = scan_3d_assets("3d", MODELS_3D_META)
 
     data = {
         "items": items,

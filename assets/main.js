@@ -345,13 +345,14 @@
     const resources = META.resources || {};
     const sharedKamon = resources.kamon || [];
     const sharedKanji = resources.kanji || [];
+    const sharedModels3D = resources.models_3d || [];
 
     const merged = liveries.reduce((acc, key) => {
       const current = resources[key] || {};
       if (!acc.intro && current.intro) acc.intro = current.intro;
       acc.colors.push(...(current.colors || []));
       return acc;
-    }, { intro: "", colors: [], kamon: sharedKamon, kanji: sharedKanji });
+    }, { intro: "", colors: [], kamon: sharedKamon, kanji: sharedKanji, models_3d: sharedModels3D });
 
     const counts = new Map();
     merged.colors.forEach(c => {
@@ -533,6 +534,53 @@
     root.append(section);
   };
 
+  const render3DModelResources = (root, resources) => {
+    if (!(resources.models_3d || []).length) return;
+    const section = document.createElement("section");
+    section.className = "resource-section";
+    section.append(sectionHead("Modelos 3D", "Archivos GLB para importar en Blender, motores de juego o visores web."));
+
+    const grid = document.createElement("div");
+    grid.className = "resource-grid resource-grid--3d";
+
+    (resources.models_3d || []).forEach(item => {
+      const card = document.createElement("article");
+      card.className = "resource-card model-3d-card reveal";
+
+      const frame = document.createElement("div");
+      frame.className = "model-3d-card__frame";
+      if (item.preview) {
+        const img = document.createElement("img");
+        img.src = item.preview;
+        img.alt = item.name || "Modelo 3D";
+        img.loading = "lazy";
+        frame.append(img);
+      } else {
+        frame.append(createText("span", "model-3d-card__placeholder", "3D"));
+      }
+      card.append(frame);
+
+      const body = document.createElement("div");
+      body.className = "resource-card__body";
+      body.append(createText("p", "resource-card__role", item.role || "Modelo 3D"));
+
+      const titleRow = document.createElement("div");
+      titleRow.className = "resource-card__title-row";
+      titleRow.append(createText("h3", "", item.name || "Modelo 3D"));
+      const dl = createDownloadLink(item.uri);
+      dl.title = "Descargar GLB";
+      titleRow.append(dl);
+      body.append(titleRow);
+      body.append(createText("p", "file-path", item.uri || ""));
+      card.append(body);
+
+      grid.append(card);
+    });
+
+    section.append(grid);
+    root.append(section);
+  };
+
   const renderResources = () => {
     const root = byId("resourcesRoot");
     if (!root) return;
@@ -588,6 +636,7 @@
     }
 
     renderFontResources(root);
+    render3DModelResources(root, resources);
 
     revealElements(root);
   };
