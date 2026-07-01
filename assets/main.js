@@ -725,6 +725,8 @@
         e.preventDefault();
         const lbDlDialog = byId("lbDlDialog");
         if (item.webp && lbDlDialog) {
+          const thumb = byId("lbDlThumb");
+          if (thumb) thumb.src = item.preview || item.webp || "";
           lbDlDialog.showModal();
           lbDlDialog.addEventListener("close", () => {
             const v = lbDlDialog.returnValue;

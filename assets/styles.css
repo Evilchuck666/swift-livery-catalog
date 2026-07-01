@@ -1399,6 +1399,16 @@ body:not(.is-local) .file-path {
   border-color: var(--gold-lite);
 }
 
+.dl-dialog__thumb {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--ink-3);
+}
+
 @media (max-width: 720px) {
   .topbar {
     flex-wrap: wrap;
