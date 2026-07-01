@@ -137,7 +137,7 @@ def read_livery_json(livery_path):
 def scan_3d_assets(asset_type, meta_map):
     """Escanea resources/{asset_type}/*.blend usando meta_map para name/role."""
     root = os.path.join(RESOURCES, asset_type)
-    previews_dir = os.path.join(root, "previews")
+    thumbs_dir = os.path.join(root, "thumbnails")
     if not os.path.isdir(root):
         return []
     result = []
@@ -152,9 +152,9 @@ def scan_3d_assets(asset_type, meta_map):
             "role": m["role"],
             "uri":  f"resources/{asset_type}/{fname}",
         }
-        preview_path = os.path.join(previews_dir, f"{stem}_preview.png")
+        preview_path = os.path.join(thumbs_dir, f"{stem}_preview.webp")
         if os.path.isfile(preview_path):
-            entry["preview"] = f"resources/{asset_type}/previews/{stem}_preview.png"
+            entry["preview"] = f"resources/{asset_type}/thumbnails/{stem}_preview.webp"
         result.append(entry)
     return result
 
