@@ -1019,8 +1019,7 @@ button {
 }
 
 .kamon-card__frame,
-.kanji-card__frame,
-.font-card__frame {
+.kanji-card__frame {
   display: grid;
   place-items: center;
   min-height: 250px;
@@ -1034,6 +1033,15 @@ button {
     rgba(255, 255, 255, .06);
   background-position: 0 0, 0 12px, 12px -12px, -12px 0;
   background-size: 24px 24px;
+}
+
+.font-card__frame {
+  display: grid;
+  place-items: center;
+  min-height: 250px;
+  padding: 1.2rem;
+  border-bottom: 1px solid var(--line);
+  background: #fff;
 }
 
 .kamon-card__frame img,
