@@ -116,6 +116,17 @@
     </form>
   </dialog>
 
+  <dialog id="lbDlDialog" class="dl-dialog" aria-labelledby="lbDlTitle">
+    <form method="dialog" class="dl-dialog__form">
+      <h2 class="dl-dialog__title" id="lbDlTitle">Descargar imagen</h2>
+      <div class="dl-dialog__actions">
+        <button class="dl-dialog__btn dl-dialog__btn--cancel"  value="cancel" type="submit">Cancelar</button>
+        <button class="dl-dialog__btn"                         value="webp"   type="submit">WebP · 1600×900</button>
+        <button class="dl-dialog__btn dl-dialog__btn--confirm" value="png"    type="submit">PNG · 8K</button>
+      </div>
+    </form>
+  </dialog>
+
   <button class="scroll-top" id="scrollTop" type="button" aria-label="Volver arriba" hidden>↑</button>
 
   <script src="assets/catalog-data.js"></script>

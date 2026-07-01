@@ -9,6 +9,15 @@
 
   const byId = id => document.getElementById(id);
 
+  const triggerDownload = url => {
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = url.split("/").pop();
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  };
+
   const humanize = value => String(value || "")
     .replace(/[_-]+/g, " ")
     .replace(/\s+/g, " ")
@@ -681,9 +690,23 @@
     setText("lbCur", lightboxIndex + 1);
     setText("lbTot", lightboxItems.length);
     const lbDownload = byId("lbDownload");
-    if (lbDownload && item.uri) {
-      lbDownload.href = item.uri;
-      lbDownload.download = item.uri.split("/").pop();
+    if (lbDownload) {
+      const fresh = lbDownload.cloneNode(true);
+      lbDownload.replaceWith(fresh);
+      fresh.addEventListener("click", e => {
+        e.preventDefault();
+        const lbDlDialog = byId("lbDlDialog");
+        if (item.webp && lbDlDialog) {
+          lbDlDialog.showModal();
+          lbDlDialog.addEventListener("close", () => {
+            const v = lbDlDialog.returnValue;
+            if (v === "webp") triggerDownload(item.webp);
+            if (v === "png")  triggerDownload(item.uri);
+          }, { once: true });
+        } else {
+          triggerDownload(item.uri);
+        }
+      });
     }
   };
 
