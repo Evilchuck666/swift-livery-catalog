@@ -141,6 +141,16 @@
 
   <button class="scroll-top" id="scrollTop" type="button" aria-label="Volver arriba" hidden>↑</button>
 
+  <div id="dlOverlay" class="dl-overlay" hidden aria-live="polite" aria-label="Descargando catálogo">
+    <div class="dl-overlay__box">
+      <p class="dl-overlay__title">Descargando catálogo…</p>
+      <div class="dl-overlay__track">
+        <div class="dl-overlay__fill" id="dlOverlayFill"></div>
+      </div>
+      <p class="dl-overlay__label" id="dlOverlayLabel">Iniciando…</p>
+    </div>
+  </div>
+
   <script src="assets/catalog-data.js"></script>
   <script src="assets/main.js"></script>
 </body>

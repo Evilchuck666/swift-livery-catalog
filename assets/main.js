@@ -837,7 +837,15 @@
     const dlWarn     = byId("dlBlendWarn");
     const dlPngCheck = byId("dlPngCheck");
     const dlPngWarn  = byId("dlPngWarn");
-    const dlBothWarn = byId("dlBothWarn");
+    const dlBothWarn   = byId("dlBothWarn");
+    const overlay      = byId("dlOverlay");
+    const overlayFill  = byId("dlOverlayFill");
+    const overlayLabel = byId("dlOverlayLabel");
+
+    const showProgress = (pct, label) => {
+      if (overlayFill)  overlayFill.style.width  = `${Math.round(pct)}%`;
+      if (overlayLabel) overlayLabel.textContent = label;
+    };
 
     const updateWarnings = () => {
       const both = !!(dlCheck?.checked && dlPngCheck?.checked);
@@ -871,6 +879,8 @@
       btn.disabled = true;
       const originalLabel = btn.getAttribute("aria-label");
       btn.setAttribute("aria-label", "Preparando...");
+      if (overlay) overlay.hidden = false;
+      showProgress(0, "Iniciando…");
 
       try {
         if (!jszipLoaded) {
@@ -936,13 +946,19 @@
           });
         }
 
-        for (const path of [...staticFiles, ...imageUris]) {
-          const resp = await fetch(path);
+        const allFiles = [...staticFiles, ...imageUris];
+        for (let i = 0; i < allFiles.length; i++) {
+          const resp = await fetch(allFiles[i]);
           if (!resp.ok) continue;
-          zip.file(path, await resp.blob());
+          zip.file(allFiles[i], await resp.blob());
+          showProgress((i + 1) / allFiles.length * 70, `Archivo ${i + 1} de ${allFiles.length}`);
         }
 
-        const blob = await zip.generateAsync({ type: "blob", compression: "DEFLATE", compressionOptions: { level: 6 } });
+        showProgress(70, "Comprimiendo…");
+        const blob = await zip.generateAsync(
+          { type: "blob", compression: "DEFLATE", compressionOptions: { level: 6 } },
+          meta => showProgress(70 + meta.percent * 0.3, `Comprimiendo… ${Math.round(meta.percent)}%`)
+        );
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
@@ -952,6 +968,7 @@
       } catch (err) {
         console.error("Error generando zip:", err);
       } finally {
+        if (overlay) overlay.hidden = true;
         btn.disabled = false;
         btn.setAttribute("aria-label", originalLabel);
       }
