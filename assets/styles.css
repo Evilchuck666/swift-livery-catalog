@@ -446,6 +446,10 @@ button {
   font-variant-numeric: tabular-nums;
 }
 
+#count-label {
+  display: block;
+}
+
 .page.sidebar-collapsed .controls {
   display: none;
 }

@@ -700,6 +700,7 @@
     });
 
     setText("count", shown);
+    setText("count-label", shown === 1 ? "imagen" : "imágenes");
     byId("empty")?.classList.toggle("is-on", shown === 0);
   };
 
