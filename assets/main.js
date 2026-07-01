@@ -910,10 +910,10 @@
           if (includePng && item.uri) imageUris.add(item.uri);
         });
         const res = META.resources || {};
-        // Kamon/Kanji: thumbnail siempre; PNG original solo si el usuario lo pidió
+        // Kamon/Kanji: PNG siempre (no tienen WebP de alta resolución); thumbnail siempre
         const addFromArray = arr => (arr || []).forEach(item => {
-          if (item?.preview)           imageUris.add(item.preview);
-          if (includePng && item?.uri) imageUris.add(item.uri);
+          if (item?.uri)     imageUris.add(item.uri);
+          if (item?.preview) imageUris.add(item.preview);
         });
         addFromArray(res.kamon);
         addFromArray(res.kanji);
