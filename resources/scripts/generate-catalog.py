@@ -250,15 +250,23 @@ def main():
         lj = read_livery_json(livery_path)
 
         # Items
-        png_dir = os.path.join(livery_path, "PNG")
+        png_dir   = os.path.join(livery_path, "PNG")
+        webp_dir  = os.path.join(livery_path, "WebP")
+        thumb_dir = os.path.join(livery_path, "thumbnails")
         for shot in SHOT_ORDER:
             fname = find_image(png_dir, shot)
-            items.append({
+            stem  = os.path.splitext(fname)[0]
+            item  = {
                 "livery": livery_key,
                 "view":   SHOT_VIEW[shot],
                 "shot":   shot,
                 "uri":    f"resources/liveries/{livery_key}/PNG/{fname}",
-            })
+            }
+            if os.path.isfile(os.path.join(webp_dir, f"{stem}.webp")):
+                item["webp"]    = f"resources/liveries/{livery_key}/WebP/{stem}.webp"
+            if os.path.isfile(os.path.join(thumb_dir, f"{stem}_preview.webp")):
+                item["preview"] = f"resources/liveries/{livery_key}/thumbnails/{stem}_preview.webp"
+            items.append(item)
 
         # meta.liveries
         lj_name = lj.get("livery", livery_key)

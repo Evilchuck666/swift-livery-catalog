@@ -284,7 +284,7 @@
         const image = document.createElement("img");
         image.loading = "lazy";
         image.decoding = "async";
-        image.src = item.uri;
+        image.src = item.preview || item.uri;
         image.alt = `Suzuki Swift Sport ZC33S, vista ${view.name.toLowerCase()}, toma ${shot.name.toLowerCase()}.`;
         imageWrap.append(image);
         card.append(imageWrap);
@@ -673,7 +673,7 @@
     if (!item || !lightboxImg) return;
 
     const { view, shot } = labelFor(item);
-    lightboxImg.src = item.uri;
+    lightboxImg.src = item.webp || item.uri;
     lightboxImg.alt = `Suzuki Swift Sport ZC33S, vista ${view.name.toLowerCase()}, toma ${shot.name.toLowerCase()}.`;
     setText("lbGlyph", view.glyph || "◆");
     setText("lbName", shot.name);
