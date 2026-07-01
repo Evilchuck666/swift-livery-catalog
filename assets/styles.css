@@ -1633,6 +1633,10 @@ body:not(.is-local) .file-path {
   padding-bottom: .6rem;
   border-bottom: 1px solid var(--line-strong);
 }
+.about-accent {
+  color: var(--yellow);
+}
+
 .about-section__body {
   line-height: 1.7;
   margin: 0;
