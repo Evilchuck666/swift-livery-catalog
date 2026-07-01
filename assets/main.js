@@ -833,17 +833,24 @@
     let jszipLoaded = false;
 
     const dlDialog = byId("dlDialog");
-    const dlCheck  = byId("dlBlendCheck");
-    const dlWarn   = byId("dlBlendWarn");
+    const dlCheck    = byId("dlBlendCheck");
+    const dlWarn     = byId("dlBlendWarn");
+    const dlPngCheck = byId("dlPngCheck");
+    const dlPngWarn  = byId("dlPngWarn");
 
     dlCheck?.addEventListener("change", function () {
       if (dlWarn) dlWarn.hidden = !this.checked;
     });
+    dlPngCheck?.addEventListener("change", function () {
+      if (dlPngWarn) dlPngWarn.hidden = !this.checked;
+    });
 
     btn.addEventListener("click", async () => {
       // Reset and show confirmation dialog
-      if (dlCheck) dlCheck.checked = false;
-      if (dlWarn) dlWarn.hidden = true;
+      if (dlCheck)    dlCheck.checked    = false;
+      if (dlWarn)     dlWarn.hidden      = true;
+      if (dlPngCheck) dlPngCheck.checked = false;
+      if (dlPngWarn)  dlPngWarn.hidden   = true;
       if (dlDialog) dlDialog.returnValue = "";
 
       const confirmed = await new Promise(resolve => {
@@ -854,7 +861,8 @@
 
       if (!confirmed) return;
 
-      const includeBlend = dlCheck?.checked ?? false;
+      const includeBlend = dlCheck?.checked    ?? false;
+      const includePng   = dlPngCheck?.checked ?? false;
 
       btn.disabled = true;
       const originalLabel = btn.getAttribute("aria-label");
@@ -895,11 +903,17 @@
         ];
 
         const imageUris = new Set();
-        DATA.forEach(item => { if (item.uri) imageUris.add(item.uri); });
+        // Livery items: WebP + thumbnail siempre; PNG 8K solo si el usuario lo pidió
+        DATA.forEach(item => {
+          if (item.webp)              imageUris.add(item.webp);
+          if (item.preview)           imageUris.add(item.preview);
+          if (includePng && item.uri) imageUris.add(item.uri);
+        });
         const res = META.resources || {};
+        // Kamon/Kanji: thumbnail siempre; PNG original solo si el usuario lo pidió
         const addFromArray = arr => (arr || []).forEach(item => {
-          if (item?.uri)     imageUris.add(item.uri);
-          if (item?.preview) imageUris.add(item.preview);
+          if (item?.preview)           imageUris.add(item.preview);
+          if (includePng && item?.uri) imageUris.add(item.uri);
         });
         addFromArray(res.kamon);
         addFromArray(res.kanji);
