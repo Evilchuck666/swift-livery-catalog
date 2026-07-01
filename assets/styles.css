@@ -13,7 +13,7 @@
   --gold: #c99a2e;
   --gold-lite: #e6bd5b;
   --topbar-h: 50px;
-  --sidebar-w: 225px;
+  --sidebar-w: 250px;
   --shadow: 0 18px 40px -18px rgba(0, 0, 0, .7);
   --ui-gap: clamp(.6rem, 1.5vw, .9rem);
   --ease: cubic-bezier(.2, .7, .2, 1);
@@ -1687,10 +1687,6 @@ body:not(.is-local) .file-path {
 @media (min-width: 981px) {
   .about-links {
     grid-template-columns: repeat(3, auto);
-  }
-
-  #count-label {
-    display: block;
   }
 }
 
