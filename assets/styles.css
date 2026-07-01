@@ -1128,7 +1128,7 @@ button {
     display: none;
   }
   .dl-mobile-hint { display: block; }
-  .lb__cap .dl-mobile-hint { display: inline; }
+  .lb__cap .dl-mobile-hint { flex-basis: 100%; }
   .site-dl { display: flex; }
   .site-dl[hidden] { display: none; }
 }
