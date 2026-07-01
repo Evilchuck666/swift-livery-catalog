@@ -130,8 +130,11 @@
   };
 
   const currentPanel = () => {
-    const resourcesPanel = byId("resourcesPanel");
-    return resourcesPanel && !resourcesPanel.hidden ? resourcesPanel : byId("galleryPanel");
+    for (const id of ["resourcesPanel", "aboutPanel"]) {
+      const el = byId(id);
+      if (el && !el.hidden) return el;
+    }
+    return byId("galleryPanel");
   };
 
   const scrollToPanelTop = () => {
@@ -141,7 +144,9 @@
   };
 
   const setTab = tab => {
+    const isGallery   = tab === "gallery";
     const isResources = tab === "resources";
+    const isAbout     = tab === "about";
 
     document.querySelectorAll(".tab-button").forEach(button => {
       const isActive = button.dataset.tab === tab;
@@ -151,8 +156,8 @@
     });
 
     document.querySelectorAll(".gallery-only").forEach(el => {
-      el.classList.toggle("is-hidden-tab", isResources);
-      el.hidden = isResources;
+      el.classList.toggle("is-hidden-tab", !isGallery);
+      el.hidden = !isGallery;
     });
 
     const resourcesPanel = byId("resourcesPanel");
@@ -161,9 +166,15 @@
       resourcesPanel.hidden = !isResources;
     }
 
-    byId("top")?.classList.toggle("is-resources", isResources);
+    const aboutPanel = byId("aboutPanel");
+    if (aboutPanel) {
+      aboutPanel.classList.toggle("is-hidden-tab", !isAbout);
+      aboutPanel.hidden = !isAbout;
+    }
+
+    byId("top")?.classList.toggle("is-resources", !isGallery);
     const sidebarToggle = byId("sidebarToggle");
-    if (sidebarToggle) sidebarToggle.classList.toggle("is-res-hidden", isResources);
+    if (sidebarToggle) sidebarToggle.classList.toggle("is-res-hidden", !isGallery);
 
     currentPanel()?.querySelectorAll(".reveal").forEach(el => el.classList.add("in"));
     scrollToPanelTop();
@@ -754,13 +765,16 @@
   };
 
   const setupTabs = () => {
+    const TABS = ["gallery", "resources", "about"];
     document.querySelectorAll(".tab-button").forEach(button => {
       button.addEventListener("click", () => setTab(button.dataset.tab || "gallery"));
       button.addEventListener("keydown", event => {
         if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
         event.preventDefault();
 
-        const next = button.dataset.tab === "gallery" ? "resources" : "gallery";
+        const idx   = TABS.indexOf(button.dataset.tab);
+        const delta = event.key === "ArrowRight" ? 1 : -1;
+        const next  = TABS[(idx + delta + TABS.length) % TABS.length];
         document.querySelector(`.tab-button[data-tab="${next}"]`)?.focus();
         setTab(next);
       });

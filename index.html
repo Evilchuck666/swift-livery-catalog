@@ -22,6 +22,7 @@
     <nav class="topnav" aria-label="Secciones del catálogo" role="tablist">
       <button class="tab-button is-active" id="tabGallery" type="button" role="tab" data-tab="gallery" aria-controls="galleryPanel" aria-selected="true">Galería</button>
       <button class="tab-button" id="tabResources" type="button" role="tab" data-tab="resources" aria-controls="resourcesPanel" aria-selected="false" tabindex="-1">Recursos</button>
+      <button class="tab-button" id="tabAbout" type="button" role="tab" data-tab="about" aria-controls="aboutPanel" aria-selected="false" tabindex="-1">Acerca de</button>
     </nav>
 
     <div class="topbar-end">
@@ -73,6 +74,32 @@
 
       <div class="resources-area scroll-area is-hidden-tab" id="resourcesPanel" role="tabpanel" tabindex="0" aria-labelledby="tabResources" hidden>
         <div class="wrap resources" id="resourcesRoot"></div>
+      </div>
+
+      <div class="resources-area scroll-area is-hidden-tab" id="aboutPanel" role="tabpanel" tabindex="0" aria-labelledby="tabAbout" hidden>
+        <div class="wrap resources" id="aboutRoot">
+
+          <section class="resource-hero" id="aboutHero">
+            <p class="hero__eyebrow eyebrow"><span></span>Suzuki Swift Sport ZC33S · Estudio de rotulación</p>
+            <h1>Acerca <span class="y">del proyecto</span></h1>
+            <p><!-- TODO: descripción del proyecto --></p>
+          </section>
+
+          <section class="about-section">
+            <h2 class="about-section__title">Sobre mí</h2>
+            <p class="about-section__body"><!-- TODO: bio personal --></p>
+          </section>
+
+          <section class="about-section">
+            <h2 class="about-section__title">Contacto y redes</h2>
+            <ul class="about-links">
+              <li><a class="about-links__link" href="https://github.com/Evilchuck666" target="_blank" rel="noopener">GitHub</a></li>
+              <li><a class="about-links__link" href="https://www.instagram.com/suifuto_remon" target="_blank" rel="noopener">Instagram</a></li>
+              <li><a class="about-links__link" href="https://x.com/SuifutoRemon" target="_blank" rel="noopener">X / Twitter</a></li>
+            </ul>
+          </section>
+
+        </div>
       </div>
     </div>
   </main>

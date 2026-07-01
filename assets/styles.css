@@ -1563,6 +1563,41 @@ body:not(.is-local) .file-path {
   }
 }
 
+/* ── About panel ────────────────────────────────────────────────────────────── */
+.about-section {
+  margin-top: 2.5rem;
+  max-width: 680px;
+}
+.about-section__title {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--paper-dim);
+  margin: 0 0 .75rem;
+}
+.about-section__body {
+  line-height: 1.7;
+  margin: 0;
+}
+.about-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+}
+.about-links__link {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  color: var(--yellow);
+  text-decoration: none;
+  font-weight: 500;
+}
+.about-links__link:hover { text-decoration: underline; }
+
 /* ── Download overlay ──────────────────────────────────────────────────────── */
 .dl-overlay {
   position: fixed;
