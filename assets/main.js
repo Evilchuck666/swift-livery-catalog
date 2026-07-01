@@ -928,6 +928,8 @@
           "resources/fonts/k3k6o8UDI-1M0wlSV9XAw6lQkqWY8Q82sJaRE-NWIDdgffTTNDNp8A.ttf",
           "resources/fonts/k3k6o8UDI-1M0wlSV9XAw6lQkqWY8Q82sJaRE-NWIDdgffTTtDRp8A.ttf",
           "resources/fonts/YujiSyuku-Regular.ttf",
+          "resources/about/project.md",
+          "resources/about/me.md",
         ];
 
         const imageUris = new Set();
@@ -1001,6 +1003,66 @@
     else window.addEventListener("resize", setAppHeight);
   };
 
+  const mdToHtml = md => {
+    const esc    = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+    const inline = s => esc(s)
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g,     '<em>$1</em>')
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, t, h) =>
+        `<a href="${h}" target="_blank" rel="noopener">${t}</a>`);
+
+    const blocks = [];
+    let buf = [];
+    const flush = () => {
+      const t = buf.join(' ').trim();
+      if (t) blocks.push({ type: 'p', text: t });
+      buf = [];
+    };
+    for (const line of md.split('\n')) {
+      const hm = line.match(/^(#{1,3}) (.+)/);
+      const lm = line.match(/^[-*+] (.+)/);
+      if (hm)                { flush(); blocks.push({ type: 'h' + hm[1].length, text: hm[2] }); }
+      else if (lm)           { flush(); blocks.push({ type: 'li', text: lm[1] }); }
+      else if (!line.trim())   flush();
+      else                     buf.push(line.trim());
+    }
+    flush();
+
+    const html = [];
+    let i = 0;
+    while (i < blocks.length) {
+      if (blocks[i].type === 'li') {
+        const items = [];
+        while (i < blocks.length && blocks[i].type === 'li') items.push(blocks[i++]);
+        html.push(`<ul>${items.map(b => `<li>${inline(b.text)}</li>`).join('')}</ul>`);
+      } else {
+        const b = blocks[i++];
+        html.push(`<${b.type}>${inline(b.text)}</${b.type}>`);
+      }
+    }
+    return html.join('');
+  };
+
+  const loadAboutContent = async () => {
+    const fetchMd = async path => {
+      try {
+        const r = await fetch(path);
+        return r.ok ? r.text() : '';
+      } catch { return ''; }
+    };
+
+    const [projectMd, meMd] = await Promise.all([
+      fetchMd('resources/about/project.md'),
+      fetchMd('resources/about/me.md'),
+    ]);
+
+    const projectEl = byId('aboutProjectBody');
+    if (projectEl && projectMd.trim()) projectEl.innerHTML = mdToHtml(projectMd);
+
+    const meEl = byId('aboutMeBody');
+    if (meEl && meMd.trim()) meEl.innerHTML = mdToHtml(meMd);
+  };
+
   if (location.protocol === "file:") document.body.classList.add("is-local");
   history.scrollRestoration = "manual";
   window.scrollTo(0, 0);
@@ -1015,5 +1077,6 @@
   setupViewportHeightVar();
   setupScrollTop();
   setupDownloadSite();
+  loadAboutContent();
   setTab(location.hash === "#recursos" || location.hash === "#resources" ? "resources" : "gallery");
 })();

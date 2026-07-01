@@ -1605,6 +1605,18 @@ body:not(.is-local) .file-path {
   line-height: 1.7;
   margin: 0;
 }
+.about-section__body p          { margin: 0 0 .7rem; line-height: 1.7; }
+.about-section__body p:last-child { margin-bottom: 0; }
+.about-section__body h2,
+.about-section__body h3         { font-size: .88rem; font-weight: 700;
+                                   letter-spacing: .09em; text-transform: uppercase;
+                                   color: var(--paper); margin: 1.1rem 0 .4rem; }
+.about-section__body h2:first-child,
+.about-section__body h3:first-child { margin-top: 0; }
+.about-section__body ul         { margin: 0 0 .7rem; padding-left: 1.3rem; }
+.about-section__body li         { margin: .2rem 0; line-height: 1.6; }
+.about-section__body a          { color: var(--yellow); }
+.about-section__body a:hover    { text-decoration: underline; }
 .about-links {
   list-style: none;
   padding: 0;
