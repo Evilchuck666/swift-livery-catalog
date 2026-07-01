@@ -837,13 +837,16 @@
     const dlWarn     = byId("dlBlendWarn");
     const dlPngCheck = byId("dlPngCheck");
     const dlPngWarn  = byId("dlPngWarn");
+    const dlBothWarn = byId("dlBothWarn");
 
-    dlCheck?.addEventListener("change", function () {
-      if (dlWarn) dlWarn.hidden = !this.checked;
-    });
-    dlPngCheck?.addEventListener("change", function () {
-      if (dlPngWarn) dlPngWarn.hidden = !this.checked;
-    });
+    const updateWarnings = () => {
+      const both = !!(dlCheck?.checked && dlPngCheck?.checked);
+      if (dlPngWarn)  dlPngWarn.hidden  = both || !dlPngCheck?.checked;
+      if (dlWarn)     dlWarn.hidden     = both || !dlCheck?.checked;
+      if (dlBothWarn) dlBothWarn.hidden = !both;
+    };
+    dlCheck?.addEventListener("change", updateWarnings);
+    dlPngCheck?.addEventListener("change", updateWarnings);
 
     btn.addEventListener("click", async () => {
       // Reset and show confirmation dialog
@@ -851,6 +854,7 @@
       if (dlWarn)     dlWarn.hidden      = true;
       if (dlPngCheck) dlPngCheck.checked = false;
       if (dlPngWarn)  dlPngWarn.hidden   = true;
+      if (dlBothWarn) dlBothWarn.hidden  = true;
       if (dlDialog) dlDialog.returnValue = "";
 
       const confirmed = await new Promise(resolve => {
