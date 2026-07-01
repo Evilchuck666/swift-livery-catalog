@@ -1399,6 +1399,30 @@ body:not(.is-local) .file-path {
   border-color: var(--gold-lite);
 }
 
+@media (max-width: 720px) {
+  .topbar {
+    flex-wrap: wrap;
+    height: auto;
+    padding-block: .45rem;
+    gap: .5rem;
+  }
+
+  .brand {
+    flex: 1;
+  }
+
+  .brand__txt {
+    display: inline;
+  }
+
+  .topnav {
+    order: 3;
+    flex: 0 0 100%;
+    margin-left: 0;
+    border-radius: 10px;
+  }
+}
+
 @media (min-width: 721px) {
   .brand__txt {
     display: inline;
