@@ -163,7 +163,7 @@ def scan_image_assets(asset_type, meta_map):
     """Escanea resources/{asset_type}/PNG/*.png usando meta_map para name/placement."""
     root = os.path.join(RESOURCES, asset_type)
     png_dir = os.path.join(root, "PNG")
-    previews_dir = os.path.join(root, "previews")
+    thumbs_dir = os.path.join(root, "thumbnails")
     if not os.path.isdir(png_dir):
         return []
     result = []
@@ -177,9 +177,9 @@ def scan_image_assets(asset_type, meta_map):
             "placement": m["placement"],
             "uri":       f"resources/{asset_type}/PNG/{fname}",
         }
-        preview_path = os.path.join(previews_dir, f"{stem}_preview.png")
+        preview_path = os.path.join(thumbs_dir, f"{stem}_preview.webp")
         if os.path.isfile(preview_path):
-            entry["preview"] = f"resources/{asset_type}/previews/{stem}_preview.png"
+            entry["preview"] = f"resources/{asset_type}/thumbnails/{stem}_preview.webp"
         result.append(entry)
     return result
 
