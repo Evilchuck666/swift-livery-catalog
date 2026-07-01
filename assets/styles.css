@@ -937,6 +937,10 @@ button {
   text-transform: uppercase;
 }
 
+.color-card h3 {
+  margin-bottom: .9rem;
+}
+
 .spec-grid {
   display: grid;
   gap: .45rem;
