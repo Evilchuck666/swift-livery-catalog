@@ -1676,6 +1676,14 @@ body:not(.is-local) .file-path {
   .about-links {
     grid-template-columns: repeat(3, auto);
   }
+
+  #count-label {
+    display: inline;
+  }
+
+  .result b {
+    font-weight: 600;
+  }
 }
 
 @media (min-width: 981px) {
