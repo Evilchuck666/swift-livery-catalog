@@ -4,6 +4,8 @@ Thumbs.db
 resources/*
 !resources/scripts/
 !resources/scripts/**
+!resources/about/
+!resources/about/**
 assets/catalog-data.js
 assets/jszip.min.js
 /.idea/
