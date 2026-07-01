@@ -44,7 +44,7 @@ def main():
         return
 
     for png in pngs:
-        out = THUMBS_DIR / f"{png.stem}.webp"
+        out = THUMBS_DIR / f"{png.stem}_preview.webp"
         if out.exists() and not force:
             print(f"  – {png.name} (ya existe, omitido)")
             continue
