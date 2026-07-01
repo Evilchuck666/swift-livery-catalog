@@ -1657,9 +1657,10 @@ body:not(.is-local) .file-path {
   list-style: none;
   padding: 0;
   margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: .4rem;
+  display: grid;
+  grid-template-columns: auto;
+  justify-content: start;
+  gap: .4rem 5rem;
 }
 .about-links__link {
   display: inline-flex;
@@ -1670,6 +1671,18 @@ body:not(.is-local) .file-path {
   font-weight: 500;
 }
 .about-links__link:hover { text-decoration: underline; }
+
+@media (orientation: landscape) and (max-width: 980px) {
+  .about-links {
+    grid-template-columns: repeat(3, auto);
+  }
+}
+
+@media (min-width: 981px) {
+  .about-links {
+    grid-template-columns: repeat(3, auto);
+  }
+}
 
 /* ── Download overlay ──────────────────────────────────────────────────────── */
 .dl-overlay {
