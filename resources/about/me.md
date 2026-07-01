@@ -1,0 +1,7 @@
+Soy Carlos Martínez, desarrollador backend y propietario del Suzuki Swift Sport ZC33S que aparece en esta web. Trabajo principalmente con PHP, SQL Server y tecnologías web, pero fuera del código tengo una obsesión bastante clara: entender, ajustar y mejorar todo lo que tenga mecánica, diseño o margen para dejarlo más fino.
+
+Mi Swift es mi proyecto personal. Lo llamo Suifuto Remon, una mezcla entre su origen japonés, su color amarillo y ese punto ligero y nervioso que tiene el ZC33S. No lo veo solo como un coche para moverme de un sitio a otro; para mí es una forma de expresar carácter, gusto por la conducción y ganas de construir algo propio poco a poco.
+
+Esta web nace de juntar varias partes de mí: la programación, la automoción, el interés por la estética japonesa, los renders 3D y la necesidad de ordenar bien una idea antes de ejecutarla. También hay referencias personales en el diseño, como el carnero de Aries Ferrus y los motivos gráficos que conectan con mi forma de vivir este proyecto.
+
+No busco hacer un coche perfecto ni aparentar que todo sale a la primera. Busco aprender, probar, corregir y acabar con una livery que tenga sentido en mi coche real, no solo en una imagen bonita. Si esta página sirve para enseñar mejor el proceso y, de paso, inspirar a alguien a tomarse en serio sus propios proyectos, ya habrá cumplido su función.
