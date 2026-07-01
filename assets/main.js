@@ -333,6 +333,8 @@
             e.preventDefault();
             const dlg = byId("lbDlDialog");
             if (dlg) {
+              const thumb = byId("lbDlThumb");
+              if (thumb) thumb.src = item.preview || item.webp || "";
               dlg.showModal();
               dlg.addEventListener("close", () => {
                 const v = dlg.returnValue;
