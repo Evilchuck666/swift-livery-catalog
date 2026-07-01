@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Genera imágenes WebP 1600x900 para los PNG de cada livery en resources/liveries/.
+Genera imágenes WebP 1600x900 y miniaturas 640x360 para los PNG de cada livery.
 
 Uso:  python3 make-livery-webp.py           # solo procesa los que faltan
       python3 make-livery-webp.py --force   # regenera todos
@@ -19,6 +19,8 @@ LIVERIES_DIR = SCRIPT_DIR / "resources" / "liveries"
 TARGET_SIZE  = (1600, 900)
 WEBP_QUALITY = 90
 WEBP_METHOD  = 6
+THUMB_SIZE    = (640, 360)
+THUMB_QUALITY = 85
 
 
 def main():
@@ -37,22 +39,34 @@ def main():
         png_dir = livery_dir / "PNG"
         if not png_dir.is_dir():
             continue
-        webp_dir = livery_dir / "WebP"
+        webp_dir  = livery_dir / "WebP"
+        thumb_dir = livery_dir / "thumbnails"
         webp_dir.mkdir(exist_ok=True)
+        thumb_dir.mkdir(exist_ok=True)
 
-        pngs = sorted(png_dir.glob("*.png"))
-        for png in pngs:
-            out = webp_dir / f"{png.stem}.webp"
-            if out.exists() and not force:
+        for png in sorted(png_dir.glob("*.png")):
+            out_webp  = webp_dir  / f"{png.stem}.webp"
+            out_thumb = thumb_dir / f"{png.stem}_preview.webp"
+            skip_webp  = out_webp.exists()  and not force
+            skip_thumb = out_thumb.exists() and not force
+
+            if skip_webp and skip_thumb:
                 print(f"  – {livery_dir.name}/{png.name} (ya existe, omitido)")
                 continue
+
             with Image.open(png) as img:
-                resized = img.convert("RGB").resize(TARGET_SIZE, Image.LANCZOS)
-                resized.save(out, "WEBP", quality=WEBP_QUALITY, method=WEBP_METHOD)
+                rgb = img.convert("RGB")
+                if not skip_webp:
+                    rgb.resize(TARGET_SIZE, Image.LANCZOS).save(
+                        out_webp, "WEBP", quality=WEBP_QUALITY, method=WEBP_METHOD)
+                if not skip_thumb:
+                    rgb.resize(THUMB_SIZE, Image.LANCZOS).save(
+                        out_thumb, "WEBP", quality=THUMB_QUALITY, method=WEBP_METHOD)
+
             print(f"  ✓ {livery_dir.name}/{png.name}")
             total += 1
 
-    print(f"\n✓ {total} imágenes generadas en resources/liveries/*/WebP/")
+    print(f"\n✓ {total} imágenes procesadas en resources/liveries/*/")
 
 
 if __name__ == "__main__":
