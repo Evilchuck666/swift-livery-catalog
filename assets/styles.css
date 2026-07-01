@@ -1025,14 +1025,7 @@ button {
   min-height: 250px;
   padding: 1.2rem;
   border-bottom: 1px solid var(--line);
-  background:
-    linear-gradient(45deg, rgba(245, 241, 230, .04) 25%, transparent 25%),
-    linear-gradient(-45deg, rgba(245, 241, 230, .04) 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, rgba(245, 241, 230, .04) 75%),
-    linear-gradient(-45deg, transparent 75%, rgba(245, 241, 230, .04) 75%),
-    rgba(255, 255, 255, .06);
-  background-position: 0 0, 0 12px, 12px -12px, -12px 0;
-  background-size: 24px 24px;
+  background: #fff;
 }
 
 .font-card__frame {
@@ -1049,7 +1042,6 @@ button {
   width: min(100%, 250px);
   max-height: 250px;
   object-fit: contain;
-  filter: drop-shadow(0 16px 18px rgba(0, 0, 0, .35));
 }
 
 .kanji-card__frame img {
