@@ -1116,7 +1116,8 @@ button {
 }
 
 @media (hover: none) and (pointer: coarse) {
-  .resource-link {
+  .resource-link,
+  .gh-link {
     display: none;
   }
 }
