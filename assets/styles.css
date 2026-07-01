@@ -1615,12 +1615,15 @@ body:not(.is-local) .file-path {
   max-width: 680px;
 }
 .about-section__title {
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: .08em;
+  font-family: var(--ff-display);
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: .03em;
   text-transform: uppercase;
-  color: var(--paper-dim);
-  margin: 0 0 .75rem;
+  color: var(--paper);
+  margin: 0 0 1rem;
+  padding-bottom: .6rem;
+  border-bottom: 1px solid var(--line-strong);
 }
 .about-section__body {
   line-height: 1.7;
