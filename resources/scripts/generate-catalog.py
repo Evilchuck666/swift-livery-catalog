@@ -9,6 +9,12 @@ Uso:  python3 generate-catalog.py
 import json
 import os
 import sys
+from pathlib import Path
+
+try:
+    from PIL import Image, ImageOps
+except ImportError:
+    raise SystemExit("✗ Pillow no instalado. Ejecuta: pip install Pillow")
 
 SCRIPT_DIR   = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 CATALOG_JS   = os.path.join(SCRIPT_DIR, "assets", "catalog-data.js")
@@ -93,6 +99,9 @@ _BLACK_COLOR = {
     "matteLevel": "none",
 }
 
+JPG_QUALITY_FULL  = 95
+JPG_QUALITY_THUMB = 90
+
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
 IMAGE_EXTS = (".png", ".jpg", ".jpeg")
@@ -105,6 +114,49 @@ def find_image(directory, stem):
         if os.path.isfile(os.path.join(directory, f"{stem}{ext}")):
             return f"{stem}{ext}"
     return None
+
+
+def _to_rgb(img):
+    if img.mode == "P":
+        img = img.convert("RGBA")
+    if img.mode in ("RGBA", "LA"):
+        bg = Image.new("RGB", img.size, (255, 255, 255))
+        bg.paste(img.convert("RGB"), mask=img.split()[-1])
+        return bg
+    return img.convert("RGB")
+
+
+def _convert_png(png_path: Path):
+    with Image.open(png_path) as img:
+        rgb = _to_rgb(img)
+        rgb.save(png_path.with_suffix(".jpg"), "JPEG", quality=JPG_QUALITY_FULL)
+        w, h = img.size
+        target = (640, 360) if w > h else (360, 360)
+        thumb = ImageOps.fit(rgb, target, method=Image.LANCZOS)
+        previews_dir = png_path.parent / "previews"
+        previews_dir.mkdir(exist_ok=True)
+        thumb.save(previews_dir / f"{png_path.stem}_preview.jpg", "JPEG", quality=JPG_QUALITY_THUMB)
+
+
+def convert_images():
+    root = Path(RESOURCES)
+
+    for asset in ["kamon", "kanji", "3d"]:
+        asset_dir = root / asset
+        if not asset_dir.is_dir():
+            continue
+        for png in sorted(asset_dir.glob("*.png")):
+            _convert_png(png)
+            print(f"  ✓ {png.relative_to(root.parent)}")
+
+    liveries_root = Path(LIVERIES_DIR)
+    if liveries_root.is_dir():
+        for livery_dir in sorted(liveries_root.iterdir()):
+            if not livery_dir.is_dir():
+                continue
+            for png in sorted(livery_dir.glob("*.png")):
+                _convert_png(png)
+                print(f"  ✓ {png.relative_to(root.parent)}")
 
 
 def scan_livery_dirs(liveries_root):
@@ -292,6 +344,9 @@ def main():
             "resources": resources,
         },
     }
+
+    print("── Convirtiendo imágenes ──")
+    convert_images()
 
     write_catalog_js(CATALOG_JS, data, dry_run=dry_run)
 
