@@ -962,7 +962,8 @@
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = "catalogo-swift.zip";
+        const suffix = [includePng && "8k", includeBlend && "blend"].filter(Boolean).join("-");
+        a.download = suffix ? `catalogo-swift-${suffix}.zip` : "catalogo-swift.zip";
         a.click();
         URL.revokeObjectURL(url);
       } catch (err) {
