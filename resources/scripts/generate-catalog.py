@@ -9,12 +9,6 @@ Uso:  python3 generate-catalog.py
 import json
 import os
 import sys
-from pathlib import Path
-
-try:
-    from PIL import Image, ImageOps
-except ImportError:
-    raise SystemExit("✗ Pillow no instalado. Ejecuta: pip install Pillow")
 
 SCRIPT_DIR   = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 CATALOG_JS   = os.path.join(SCRIPT_DIR, "assets", "catalog-data.js")
@@ -99,9 +93,6 @@ _BLACK_COLOR = {
     "matteLevel": "none",
 }
 
-JPG_QUALITY_FULL  = 95
-JPG_QUALITY_THUMB = 90
-
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
 IMAGE_EXTS = (".png", ".jpg", ".jpeg")
@@ -114,49 +105,6 @@ def find_image(directory, stem):
         if os.path.isfile(os.path.join(directory, f"{stem}{ext}")):
             return f"{stem}{ext}"
     return None
-
-
-def _to_rgb(img):
-    if img.mode == "P":
-        img = img.convert("RGBA")
-    if img.mode in ("RGBA", "LA"):
-        bg = Image.new("RGB", img.size, (255, 255, 255))
-        bg.paste(img.convert("RGB"), mask=img.split()[-1])
-        return bg
-    return img.convert("RGB")
-
-
-def _convert_png(png_path: Path):
-    with Image.open(png_path) as img:
-        rgb = _to_rgb(img)
-        rgb.save(png_path.with_suffix(".jpg"), "JPEG", quality=JPG_QUALITY_FULL)
-        w, h = img.size
-        target = (640, 360) if w > h else (360, 360)
-        thumb = ImageOps.fit(rgb, target, method=Image.LANCZOS)
-        previews_dir = png_path.parent / "previews"
-        previews_dir.mkdir(exist_ok=True)
-        thumb.save(previews_dir / f"{png_path.stem}_preview.jpg", "JPEG", quality=JPG_QUALITY_THUMB)
-
-
-def convert_images():
-    root = Path(RESOURCES)
-
-    for asset in ["kamon", "kanji", "3d"]:
-        asset_dir = root / asset
-        if not asset_dir.is_dir():
-            continue
-        for png in sorted(asset_dir.glob("*.png")):
-            _convert_png(png)
-            print(f"  ✓ {png.relative_to(root.parent)}")
-
-    liveries_root = Path(LIVERIES_DIR)
-    if liveries_root.is_dir():
-        for livery_dir in sorted(liveries_root.iterdir()):
-            if not livery_dir.is_dir():
-                continue
-            for png in sorted(livery_dir.glob("*.png")):
-                _convert_png(png)
-                print(f"  ✓ {png.relative_to(root.parent)}")
 
 
 def scan_livery_dirs(liveries_root):
@@ -173,10 +121,11 @@ def validate_livery(livery_key, livery_path):
     if not os.path.isfile(os.path.join(livery_path, "livery.json")):
         raise FileNotFoundError(
             f"✗ Falta resources/liveries/{livery_key}/livery.json")
-    missing = [s for s in SHOT_ORDER if not find_image(livery_path, s)]
+    png_dir = os.path.join(livery_path, "PNG")
+    missing = [s for s in SHOT_ORDER if not find_image(png_dir, s)]
     if missing:
         raise FileNotFoundError(
-            f"✗ Faltan imágenes en resources/liveries/{livery_key}/:\n" +
+            f"✗ Faltan imágenes en resources/liveries/{livery_key}/PNG/:\n" +
             "\n".join(f"  - {s}.png" for s in missing))
 
 
@@ -211,21 +160,22 @@ def scan_3d_assets(asset_type, meta_map):
 
 
 def scan_image_assets(asset_type, meta_map):
-    """Escanea resources/{asset_type}/*.png usando meta_map para name/placement."""
+    """Escanea resources/{asset_type}/PNG/*.png usando meta_map para name/placement."""
     root = os.path.join(RESOURCES, asset_type)
+    png_dir = os.path.join(root, "PNG")
     previews_dir = os.path.join(root, "previews")
-    if not os.path.isdir(root):
+    if not os.path.isdir(png_dir):
         return []
     result = []
-    for fname in sorted(os.listdir(root)):
-        if not os.path.isfile(os.path.join(root, fname)) or not fname.lower().endswith(IMAGE_EXTS):
+    for fname in sorted(os.listdir(png_dir)):
+        if not os.path.isfile(os.path.join(png_dir, fname)) or not fname.lower().endswith(IMAGE_EXTS):
             continue
         stem = os.path.splitext(fname)[0]
         m = meta_map.get(fname, {"name": f"TODO: {stem}", "placement": "TODO"})
         entry = {
             "name":      m["name"],
             "placement": m["placement"],
-            "uri":       f"resources/{asset_type}/{fname}",
+            "uri":       f"resources/{asset_type}/PNG/{fname}",
         }
         preview_path = os.path.join(previews_dir, f"{stem}_preview.png")
         if os.path.isfile(preview_path):
@@ -300,13 +250,14 @@ def main():
         lj = read_livery_json(livery_path)
 
         # Items
+        png_dir = os.path.join(livery_path, "PNG")
         for shot in SHOT_ORDER:
-            fname = find_image(livery_path, shot)
+            fname = find_image(png_dir, shot)
             items.append({
                 "livery": livery_key,
                 "view":   SHOT_VIEW[shot],
                 "shot":   shot,
-                "uri":    f"resources/liveries/{livery_key}/{fname}",
+                "uri":    f"resources/liveries/{livery_key}/PNG/{fname}",
             })
 
         # meta.liveries
@@ -344,9 +295,6 @@ def main():
             "resources": resources,
         },
     }
-
-    print("── Convirtiendo imágenes ──")
-    convert_images()
 
     write_catalog_js(CATALOG_JS, data, dry_run=dry_run)
 
