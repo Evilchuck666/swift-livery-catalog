@@ -1115,11 +1115,22 @@ button {
   color: var(--ink);
 }
 
+.dl-mobile-hint {
+  display: none;
+  font-size: .78rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
 @media (hover: none) and (pointer: coarse) {
   .resource-link,
   .gh-link {
     display: none;
   }
+  .dl-mobile-hint { display: block; }
+  .lb__cap .dl-mobile-hint { display: inline; }
+  .site-dl { display: flex; }
+  .site-dl[hidden] { display: none; }
 }
 
 @media (hover: hover) and (pointer: fine) {

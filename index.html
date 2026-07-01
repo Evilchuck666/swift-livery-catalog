@@ -175,6 +175,7 @@
         </span>
         <span class="lb__idx"><b id="lbCur">1</b> / <span id="lbTot">0</span></span>
         <a id="lbDownload" class="resource-link" rel="noopener" title="Descargar PNG">⬇</a>
+        <span class="dl-mobile-hint">Descarga disponible en PC</span>
       </figcaption>
     </figure>
   </div>
@@ -234,6 +235,16 @@
       <p class="dl-overlay__label" id="dlOverlayLabel">Iniciando…</p>
     </div>
   </div>
+
+  <dialog id="mobileDlDialog" class="dl-dialog" aria-labelledby="mobileDlTitle">
+    <form method="dialog" class="dl-dialog__form">
+      <h2 class="dl-dialog__title" id="mobileDlTitle">Descarga no disponible</h2>
+      <p class="dl-dialog__body">Para descargar una copia del catálogo, accede desde un ordenador.</p>
+      <div class="dl-dialog__actions">
+        <button class="dl-dialog__btn dl-dialog__btn--confirm" value="ok" type="submit">Entendido</button>
+      </div>
+    </form>
+  </dialog>
 
   <script src="assets/catalog-data.js"></script>
   <script src="assets/main.js"></script>

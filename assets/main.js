@@ -873,6 +873,10 @@
     dlPngCheck?.addEventListener("change", updateWarnings);
 
     btn.addEventListener("click", async () => {
+      if (window.matchMedia("(hover: none) and (pointer: coarse)").matches) {
+        byId("mobileDlDialog")?.showModal();
+        return;
+      }
       // Reset and show confirmation dialog
       if (dlCheck)    dlCheck.checked    = false;
       if (dlWarn)     dlWarn.hidden      = true;
