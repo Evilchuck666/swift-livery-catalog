@@ -449,7 +449,7 @@ button {
 }
 
 #count-label {
-  display: block;
+  display: inline;
 }
 
 .page.sidebar-collapsed .controls {
@@ -1679,10 +1679,6 @@ body:not(.is-local) .file-path {
     grid-template-columns: repeat(3, auto);
   }
 
-  #count-label {
-    display: inline;
-  }
-
   .result b {
     font-weight: 600;
   }
@@ -1691,6 +1687,10 @@ body:not(.is-local) .file-path {
 @media (min-width: 981px) {
   .about-links {
     grid-template-columns: repeat(3, auto);
+  }
+
+  #count-label {
+    display: block;
   }
 }
 
