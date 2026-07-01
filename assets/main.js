@@ -316,7 +316,24 @@
         wrap.className = "card-wrap";
         wrap.append(card);
 
-        wrap.append(createDownloadLink(item.uri, "card-download"));
+        const dlLink = createDownloadLink(item.uri, "card-download");
+        if (item.webp) {
+          dlLink.addEventListener("click", e => {
+            e.preventDefault();
+            const dlg = byId("lbDlDialog");
+            if (dlg) {
+              dlg.showModal();
+              dlg.addEventListener("close", () => {
+                const v = dlg.returnValue;
+                if (v === "webp") triggerDownload(item.webp);
+                if (v === "png")  triggerDownload(item.uri);
+              }, { once: true });
+            } else {
+              triggerDownload(item.uri);
+            }
+          });
+        }
+        wrap.append(dlLink);
 
         grid.append(wrap);
         cards.push({ el: card, view: item.view, livery: item.livery || "", item });
