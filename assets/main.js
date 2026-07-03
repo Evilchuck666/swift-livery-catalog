@@ -829,15 +829,17 @@
     const btn = byId("scrollTop");
     if (!btn) return;
 
+    const offset = () => Math.max(window.scrollY || 0, currentPanel()?.scrollTop || 0);
     const toggle = () => {
       btn.hidden = false;
-      btn.classList.toggle("is-visible", window.scrollY >= 1000);
+      btn.classList.toggle("is-visible", offset() >= 1000);
     };
 
     window.addEventListener("scroll", toggle, { passive: true });
-    btn.addEventListener("click", () => {
-      window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? "auto" : "smooth" });
-    });
+    ["galleryPanel", "resourcesPanel", "aboutPanel"].forEach(id =>
+      byId(id)?.addEventListener("scroll", toggle, { passive: true })
+    );
+    btn.addEventListener("click", scrollToPanelTop);
   };
 
   const setupDownloadSite = () => {

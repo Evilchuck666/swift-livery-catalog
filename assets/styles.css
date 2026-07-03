@@ -1613,12 +1613,6 @@ body:not(.is-local) .file-path {
   pointer-events: auto;
 }
 
-@media (min-width: 981px) {
-  .scroll-top {
-    display: none;
-  }
-}
-
 /* ── About panel ────────────────────────────────────────────────────────────── */
 .about-section {
   margin-top: 2.5rem;
