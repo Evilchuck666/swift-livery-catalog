@@ -108,15 +108,16 @@ MODELS_3D_META = {
     "Escena.blend": {"name": "Escena completa",          "role": "Vehículo con escenario"},
     "Studio.blend": {"name": "Estudio de iluminación",   "role": "Entorno de render"},
 }
+# El orden de este dict define el orden en que se muestran los stickers en Recursos.
 STICKERS_META = {
-    "Arale.svg":          {"name": "Arale",          "placement": "Ventana trasera derecha inferior"},
-    "Goku.svg":           {"name": "Goku",           "placement": "Ventana trasera derecha superior"},
+    "Suzuki Warning.svg": {"name": "Suzuki Warning", "placement": "Parabrisas del lado del conductor inferior"},
+    "Suifuto Remon.svg":  {"name": "Suifuto Remon",  "placement": "Ambos lados ventanas traseras (lateral)"},
+    "TOUGE.svg":          {"name": "Tōge",           "placement": "Ventana trasera izquierda superior"},
     "JAPAN CAR.svg":      {"name": "Japan Car",      "placement": "Ventana trasera izquierda central"},
     "K14C.svg":           {"name": "K14C",           "placement": "Ventana trasera izquierda inferior"},
-    "Suifuto Remon.svg":  {"name": "Suifuto Remon",  "placement": "Ambos lados ventanas traseras (lateral)"},
-    "Suzuki Warning.svg": {"name": "Suzuki Warning", "placement": "Parabrisas del lado del conductor inferior"},
+    "Goku.svg":           {"name": "Goku",           "placement": "Ventana trasera derecha superior"},
     "Tori-Bot.svg":       {"name": "Tori-Bot",       "placement": "Ventana trasera derecha central"},
-    "TOUGE.svg":          {"name": "Tōge",           "placement": "Ventana trasera izquierda superior"},
+    "Arale.svg":          {"name": "Arale",          "placement": "Ventana trasera derecha inferior"},
 }
 
 _BLACK_COLOR = {
@@ -423,7 +424,10 @@ def _scan_stickers_assets(meta_map):
     thumb_dir = root / "thumbnails"
     if not root.is_dir():
         return []
-    result = []
+    # El orden de meta_map (STICKERS_META) define el orden de salida; los archivos
+    # no listados en el meta van al final, alfabéticamente.
+    order = {name: i for i, name in enumerate(meta_map)}
+    collected = []
     for subdir, ext in _STICKER_SOURCES:
         src_dir = root / subdir
         if not src_dir.is_dir():
@@ -439,8 +443,9 @@ def _scan_stickers_assets(meta_map):
             preview = thumb_dir / f"{src.stem}_preview.webp"
             if preview.is_file():
                 entry["preview"] = f"resources/stickers/thumbnails/{src.stem}_preview.webp"
-            result.append(entry)
-    return result
+            collected.append((order.get(src.name, len(order)), src.name.lower(), entry))
+    collected.sort(key=lambda t: (t[0], t[1]))
+    return [entry for _, _, entry in collected]
 
 
 def step_catalog(dry_run=False):
