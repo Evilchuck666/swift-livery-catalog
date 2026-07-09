@@ -774,6 +774,22 @@ button {
   margin-bottom: 1.05rem;
 }
 
+.color-note {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  margin: 0 0 1.05rem;
+  color: var(--muted);
+  font-size: .8rem;
+  font-style: italic;
+  line-height: 1.3;
+}
+
+.color-note__icon {
+  flex: none;
+  opacity: .85;
+}
+
 .resource-head .eyebrow {
   margin-bottom: .35rem;
   color: var(--gold-lite);

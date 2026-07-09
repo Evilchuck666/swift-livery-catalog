@@ -374,6 +374,17 @@
     return head;
   };
 
+  const COLOR_DISCLAIMER = "Los colores de las imágenes renderizadas pueden no coincidir con los colores reales.";
+
+  const colorNote = () => {
+    const p = document.createElement("p");
+    p.className = "color-note";
+    p.setAttribute("role", "note");
+    p.innerHTML = '<svg class="color-note__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" fill="currentColor"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M8.93 6.588 6.64 6.876l-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/></svg>';
+    p.append(createText("span", "", COLOR_DISCLAIMER));
+    return p;
+  };
+
   const finishBadge = item => {
     if (!item.matte) return null;
     const level = item.matteLevel || "none";
@@ -581,6 +592,7 @@
     const section = document.createElement("section");
     section.className = "resource-section";
     section.append(sectionHead("Modelos 3D", "Archivos Blender para importar y editar el coche y el entorno."));
+    section.append(colorNote());
 
     const grid = document.createElement("div");
     grid.className = "resource-grid resource-grid--3d";
