@@ -9,8 +9,11 @@ Sin argumentos ejecuta todos los pasos en orden.
 """
 
 import argparse
+import io
 import json
 import os
+import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -105,6 +108,15 @@ MODELS_3D_META = {
     "Escena.blend": {"name": "Escena completa",          "role": "Vehículo con escenario"},
     "Studio.blend": {"name": "Estudio de iluminación",   "role": "Entorno de render"},
 }
+STICKERS_META = {
+    "Arale.svg":          {"name": "Arale",          "placement": "Ventana trasera derecha inferior"},
+    "Goku.svg":           {"name": "Goku",           "placement": "Ventana trasera derecha superior"},
+    "JAPAN CAR.svg":      {"name": "Japan Car",      "placement": "Ventana trasera izquierda central"},
+    "K14C.svg":           {"name": "K14C",           "placement": "Ventana trasera izquierda inferior"},
+    "Suzuki Warning.svg": {"name": "Suzuki Warning", "placement": "Parabrisas del lado del conductor inferior"},
+    "Tori-Bot.svg":       {"name": "Tori-Bot",       "placement": "Ventana trasera derecha central"},
+    "TOUGE.svg":          {"name": "Tōge",           "placement": "Ventana trasera izquierda superior"},
+}
 
 _BLACK_COLOR = {
     "hex":        "#101820",
@@ -118,6 +130,9 @@ _BLACK_COLOR = {
 
 _IMAGE_EXTS = (".png", ".jpg", ".jpeg")
 _MODEL_EXTS = (".blend",)
+
+# Stickers: subcarpeta de origen por formato → extensión (se procesan las que existan).
+_STICKER_SOURCES = (("SVG", ".svg"), ("PNG", ".png"), ("WebP", ".webp"))
 
 # ── Helper de imagen ──────────────────────────────────────────────────────────
 
@@ -145,6 +160,44 @@ def _prepare_image(img, preserve_alpha=False):
         return bg.convert("RGB")
 
     return img.convert("RGB")
+
+
+def _rasterize_svg(path, box=720):
+    """
+    Rasteriza un SVG a un Image RGBA de Pillow (Pillow no abre SVG por sí solo).
+
+    Encaja el dibujo dentro de una caja box×box conservando la relación de aspecto.
+    Usa rsvg-convert (librsvg) y, si no está, inkscape.
+    """
+    rsvg = shutil.which("rsvg-convert")
+    if rsvg:
+        proc = subprocess.run(
+            [rsvg, "-w", str(box), "-h", str(box), "--keep-aspect-ratio", str(path)],
+            capture_output=True,
+        )
+        if proc.returncode == 0 and proc.stdout:
+            return Image.open(io.BytesIO(proc.stdout))
+        raise SystemExit(
+            f"✗ rsvg-convert falló con {path}:\n{proc.stderr.decode(errors='replace')}"
+        )
+
+    inkscape = shutil.which("inkscape")
+    if inkscape:
+        proc = subprocess.run(
+            [inkscape, str(path), "--export-type=png", "--export-filename=-",
+             "-w", str(box), "-h", str(box)],
+            capture_output=True,
+        )
+        if proc.returncode == 0 and proc.stdout:
+            return Image.open(io.BytesIO(proc.stdout))
+        raise SystemExit(
+            f"✗ inkscape falló con {path}:\n{proc.stderr.decode(errors='replace')}"
+        )
+
+    raise SystemExit(
+        "✗ Para rasterizar SVG necesitas 'rsvg-convert' (librsvg) o 'inkscape'.\n"
+        "  Instálalo (p. ej.: sudo pacman -S librsvg) y reintenta."
+    )
 
 # ── Pasos de build ────────────────────────────────────────────────────────────
 
@@ -234,6 +287,51 @@ def step_thumbs_square(asset_type, preserve_alpha=False):
     print(f"\n✓ Miniaturas en: {thumb_dir.relative_to(ROOT)}")
 
 
+def step_thumbs_stickers():
+    """
+    Genera miniaturas cuadradas 360×360 WebP para los stickers.
+
+    Origen: resources/stickers/{SVG,PNG,WebP}/ (se procesan las subcarpetas que
+    existan). Los SVG se rasterizan con rsvg-convert/inkscape.
+    Estilo: contain (ImageOps.pad, sin recortar) sobre lienzo transparente.
+    Destino: resources/stickers/thumbnails/<stem>_preview.webp (siempre sobrescribe).
+    """
+    root      = RESOURCES / "stickers"
+    thumb_dir = root / "thumbnails"
+    if not root.is_dir():
+        raise SystemExit(
+            f"✗ No existe el directorio: {root}\n"
+            "  Comprueba que 'resources/stickers/' existe en el proyecto."
+        )
+
+    thumb_dir.mkdir(parents=True, exist_ok=True)
+
+    total = 0
+    for subdir, ext in _STICKER_SOURCES:
+        src_dir = root / subdir
+        if not src_dir.is_dir():
+            continue
+        for src in sorted(f for f in src_dir.iterdir()
+                          if f.is_file() and f.suffix.lower() == ext):
+            img = _rasterize_svg(src) if ext == ".svg" else Image.open(src)
+            with img:
+                thumb = ImageOps.pad(
+                    img.convert("RGBA"), _SIZE_SQUARE_THUMB,
+                    method=Image.LANCZOS, color=(0, 0, 0, 0),
+                )
+                thumb.save(
+                    thumb_dir / f"{src.stem}_preview.webp",
+                    "WEBP", quality=_QUALITY_TH, method=_METHOD_TH,
+                )
+            print(f"  ✓ {subdir}/{src.name}")
+            total += 1
+
+    if total == 0:
+        print("  ⚠  No se encontraron stickers en resources/stickers/{SVG,PNG,WebP}/")
+    else:
+        print(f"\n✓ {total} miniaturas en: {thumb_dir.relative_to(ROOT)}")
+
+
 # ── Catálogo ──────────────────────────────────────────────────────────────────
 
 def _find_image(directory, stem):
@@ -319,6 +417,31 @@ def _scan_3d_assets(asset_type, meta_map):
     return result
 
 
+def _scan_stickers_assets(meta_map):
+    root      = RESOURCES / "stickers"
+    thumb_dir = root / "thumbnails"
+    if not root.is_dir():
+        return []
+    result = []
+    for subdir, ext in _STICKER_SOURCES:
+        src_dir = root / subdir
+        if not src_dir.is_dir():
+            continue
+        for src in sorted(f for f in src_dir.iterdir()
+                          if f.is_file() and f.suffix.lower() == ext):
+            m = meta_map.get(src.name, {"name": src.stem, "placement": "TODO"})
+            entry = {
+                "name":      m["name"],
+                "placement": m["placement"],
+                "uri":       f"resources/stickers/{subdir}/{src.name}",
+            }
+            preview = thumb_dir / f"{src.stem}_preview.webp"
+            if preview.is_file():
+                entry["preview"] = f"resources/stickers/thumbnails/{src.stem}_preview.webp"
+            result.append(entry)
+    return result
+
+
 def step_catalog(dry_run=False):
     """
     Escanea todos los recursos y genera assets/catalog-data.js.
@@ -400,6 +523,7 @@ def step_catalog(dry_run=False):
     resources["kamon"]     = _scan_image_assets("kamon", KAMON_META)
     resources["kanji"]     = _scan_image_assets("kanji", KANJI_META)
     resources["models_3d"] = _scan_3d_assets("3d", MODELS_3D_META)
+    resources["stickers"]  = _scan_stickers_assets(STICKERS_META)
 
     data = {
         "items": items,
@@ -447,6 +571,7 @@ Ejemplos:
   python3 build-site.py --thumbs-3d            Solo miniaturas de modelos 3D
   python3 build-site.py --thumbs-kamon         Solo miniaturas de kamon
   python3 build-site.py --thumbs-kanji         Solo miniaturas de kanji
+  python3 build-site.py --thumbs-stickers      Solo miniaturas de stickers
   python3 build-site.py --catalog              Solo el catálogo
   python3 build-site.py --thumbs --catalog     Miniaturas y catálogo
   python3 build-site.py --catalog --dry-run    Vista previa del catálogo sin escribirlo
@@ -456,7 +581,7 @@ Ejemplos:
     pasos = parser.add_argument_group("pasos")
     pasos.add_argument(
         "--thumbs", action="store_true",
-        help="Todas las miniaturas (equivale a --thumbs-livery --thumbs-3d --thumbs-kamon --thumbs-kanji)",
+        help="Todas las miniaturas (equivale a --thumbs-livery --thumbs-3d --thumbs-kamon --thumbs-kanji --thumbs-stickers)",
     )
     pasos.add_argument(
         "--thumbs-livery", action="store_true", dest="thumbs_livery",
@@ -473,6 +598,10 @@ Ejemplos:
     pasos.add_argument(
         "--thumbs-kanji", action="store_true", dest="thumbs_kanji",
         help="Miniaturas 360×360 para los PNG de kanji (fondo blanco)",
+    )
+    pasos.add_argument(
+        "--thumbs-stickers", action="store_true", dest="thumbs_stickers",
+        help="Miniaturas 360×360 para los stickers SVG/PNG/WebP (contain, fondo transparente)",
     )
     pasos.add_argument(
         "--catalog", action="store_true",
@@ -494,16 +623,18 @@ def main():
 
     # --thumbs expande a todos los pasos de miniaturas
     if args.thumbs:
-        args.thumbs_livery = args.thumbs_3d = args.thumbs_kamon = args.thumbs_kanji = True
+        args.thumbs_livery = args.thumbs_3d = args.thumbs_kamon = \
+            args.thumbs_kanji = args.thumbs_stickers = True
 
     # Sin pasos seleccionados → ejecutar todo
     any_step = any([
         args.thumbs_livery, args.thumbs_3d,
-        args.thumbs_kamon,  args.thumbs_kanji,
+        args.thumbs_kamon,  args.thumbs_kanji, args.thumbs_stickers,
         args.catalog,
     ])
     if not any_step:
-        args.thumbs_livery = args.thumbs_3d = args.thumbs_kamon = args.thumbs_kanji = args.catalog = True
+        args.thumbs_livery = args.thumbs_3d = args.thumbs_kamon = \
+            args.thumbs_kanji = args.thumbs_stickers = args.catalog = True
 
     # --dry-run sin --catalog no tiene efecto útil
     if args.dry_run and not args.catalog:
@@ -526,6 +657,10 @@ def main():
     if args.thumbs_kanji:
         print("\n── Kanji · Miniaturas ────────────────────────────────────")
         step_thumbs_square("kanji")
+
+    if args.thumbs_stickers:
+        print("\n── Stickers · Miniaturas ─────────────────────────────────")
+        step_thumbs_stickers()
 
     if args.catalog:
         print("\n── Catálogo ──────────────────────────────────────────────")
