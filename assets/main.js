@@ -474,7 +474,6 @@
       specs.append(specRow("RGB", item.rgb || "—"));
       specs.append(specRow("HSV", hsvStr));
       specs.append(specRow("CMYK", item.cmyk || "—"));
-      specs.append(specRow("Pantone", item.pantone || "—"));
       body.append(specs);
 
       const badge = finishBadge(item);
