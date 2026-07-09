@@ -385,13 +385,14 @@
     const sharedKamon = resources.kamon || [];
     const sharedKanji = resources.kanji || [];
     const sharedModels3D = resources.models_3d || [];
+    const sharedStickers = resources.stickers || [];
 
     const merged = liveries.reduce((acc, key) => {
       const current = resources[key] || {};
       if (!acc.intro && current.intro) acc.intro = current.intro;
       acc.colors.push(...(current.colors || []));
       return acc;
-    }, { intro: "", colors: [], kamon: sharedKamon, kanji: sharedKanji, models_3d: sharedModels3D });
+    }, { intro: "", colors: [], kamon: sharedKamon, kanji: sharedKanji, models_3d: sharedModels3D, stickers: sharedStickers });
 
     const counts = new Map();
     merged.colors.forEach(c => {
@@ -515,7 +516,9 @@
       titleRow.className = "resource-card__title-row";
       titleRow.append(createText("h3", "", item.name || config.fallbackName));
 
-      titleRow.append(createDownloadLink(item.uri));
+      const dl = createDownloadLink(item.uri);
+      if (config.downloadTitle) dl.title = config.downloadTitle;
+      titleRow.append(dl);
       body.append(titleRow);
 
       body.append(createText("p", "file-path", item.uri || ""));
@@ -675,6 +678,19 @@
     }
 
     renderFontResources(root);
+
+    if ((resources.stickers || []).length) {
+      renderImageResources(root, resources, {
+        key: "stickers",
+        title: "Stickers",
+        subtitle: "Vinilos y logotipos incluidos en la carpeta local 'resources/stickers/'.",
+        cardClass: "sticker-card",
+        gridClass: "resource-grid--stickers",
+        fallbackName: "Sticker",
+        downloadTitle: "Descargar vinilo"
+      });
+    }
+
     render3DModelResources(root, resources);
 
     revealElements(root);
@@ -958,6 +974,7 @@
         });
         addFromArray(res.kamon);
         addFromArray(res.kanji);
+        addFromArray(res.stickers);
         liveries.forEach(key => {
           const r = res[key] || {};
           addFromArray(r.kamon);

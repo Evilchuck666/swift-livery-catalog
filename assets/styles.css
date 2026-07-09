@@ -807,6 +807,7 @@ button {
 .resource-grid--kamon,
 .resource-grid--kanji,
 .resource-grid--font,
+.resource-grid--stickers,
 .resource-grid--3d {
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
 }
@@ -1023,13 +1024,15 @@ button {
 }
 
 .kamon-card,
-.kanji-card {
+.kanji-card,
+.sticker-card {
   display: grid;
   grid-template-rows: auto 1fr;
 }
 
 .kamon-card__frame,
-.kanji-card__frame {
+.kanji-card__frame,
+.sticker-card__frame {
   display: grid;
   place-items: center;
   min-height: 250px;
@@ -1048,7 +1051,8 @@ button {
 }
 
 .kamon-card__frame img,
-.kanji-card__frame img {
+.kanji-card__frame img,
+.sticker-card__frame img {
   width: min(100%, 250px);
   max-height: 250px;
   object-fit: contain;
