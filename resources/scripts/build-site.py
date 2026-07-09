@@ -113,6 +113,7 @@ STICKERS_META = {
     "Goku.svg":           {"name": "Goku",           "placement": "Ventana trasera derecha superior"},
     "JAPAN CAR.svg":      {"name": "Japan Car",      "placement": "Ventana trasera izquierda central"},
     "K14C.svg":           {"name": "K14C",           "placement": "Ventana trasera izquierda inferior"},
+    "Suifuto Remon.svg":  {"name": "Suifuto Remon",  "placement": "Ambos lados ventanas traseras (lateral)"},
     "Suzuki Warning.svg": {"name": "Suzuki Warning", "placement": "Parabrisas del lado del conductor inferior"},
     "Tori-Bot.svg":       {"name": "Tori-Bot",       "placement": "Ventana trasera derecha central"},
     "TOUGE.svg":          {"name": "Tōge",           "placement": "Ventana trasera izquierda superior"},
