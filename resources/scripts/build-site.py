@@ -362,7 +362,8 @@ def _colors_from_livery_json(lj):
             "value":      round(float(hsv_v[2]), 2),
         } if len(hsv_v) == 3 else {},
         "cmyk":       cmyk_str,
-        "pantone":    lj.get("pantone", "—"),
+        "3m":         lj.get("3m", ""),
+        "3m_name":    lj.get("3m_name", ""),
         "matte":      "Acabado satinado",
         "matteLevel": "medium",
     }

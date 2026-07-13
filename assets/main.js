@@ -474,6 +474,12 @@
       specs.append(specRow("RGB", item.rgb || "—"));
       specs.append(specRow("HSV", hsvStr));
       specs.append(specRow("CMYK", item.cmyk || "—"));
+      
+      if (item["3m"]) {
+        const m3 = item["3m_name"] ? `${item["3m"]} · ${item["3m_name"]}` : item["3m"];
+        specs.append(specRow("3M", m3));
+      }
+
       body.append(specs);
 
       const badge = finishBadge(item);
