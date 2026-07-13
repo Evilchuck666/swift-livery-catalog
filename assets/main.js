@@ -706,7 +706,7 @@
     if ((resources.stickers || []).length) {
       renderImageResources(root, resources, {
         key: "stickers",
-        title: "Stickers",
+        title: "Stickers laminados",
         subtitle: "Vinilos y logotipos incluidos en la carpeta local 'resources/stickers/'.",
         cardClass: "sticker-card",
         gridClass: "resource-grid--stickers",
