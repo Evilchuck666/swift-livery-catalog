@@ -110,14 +110,14 @@ MODELS_3D_META = {
 }
 # El orden de este dict define el orden en que se muestran los stickers en Recursos.
 STICKERS_META = {
-    "Suzuki Warning.svg": {"name": "Suzuki Warning", "placement": "Parabrisas del lado del conductor inferior"},
-    "Suifuto Remon.svg":  {"name": "Suifuto Remon",  "placement": "Ambos lados ventanas traseras (lateral)"},
-    "TOUGE.svg":          {"name": "Tōge",           "placement": "Ventana trasera izquierda superior"},
-    "JAPAN CAR.svg":      {"name": "Japan Car",      "placement": "Ventana trasera izquierda central"},
-    "K14C.svg":           {"name": "K14C",           "placement": "Ventana trasera izquierda inferior"},
-    "Goku.svg":           {"name": "Goku",           "placement": "Ventana trasera derecha superior"},
-    "Tori-Bot.svg":       {"name": "Tori-Bot",       "placement": "Ventana trasera derecha central"},
-    "Arale.svg":          {"name": "Arale",          "placement": "Ventana trasera derecha inferior"},
+    "Suzuki Warning.svg": {"name": "Suzuki Warning", "placement": "Parabrisas del lado del conductor inferior", "size": "10 × 7 cm"},
+    "Suifuto Remon.svg":  {"name": "Suifuto Remon",  "placement": "Ambos lados ventanas traseras (lateral)",    "size": "20 × 3,5 cm"},
+    "TOUGE.svg":          {"name": "Tōge",           "placement": "Ventana trasera izquierda superior",         "size": "14,5 × 4,5 cm"},
+    "JAPAN CAR.svg":      {"name": "Japan Car",      "placement": "Ventana trasera izquierda central",          "size": "14,5 × 4 cm"},
+    "K14C.svg":           {"name": "K14C",           "placement": "Ventana trasera izquierda inferior",         "size": "12,5 × 5 cm"},
+    "Goku.svg":           {"name": "Goku",           "placement": "Ventana trasera derecha superior",           "size": "6 cm de alto"},
+    "Tori-Bot.svg":       {"name": "Tori-Bot",       "placement": "Ventana trasera derecha central",            "size": "6 cm de alto"},
+    "Arale.svg":          {"name": "Arale",          "placement": "Ventana trasera derecha inferior",           "size": "6 cm de alto"},
 }
 
 _BLACK_COLOR = {
@@ -441,6 +441,8 @@ def _scan_stickers_assets(meta_map):
                 "placement": m["placement"],
                 "uri":       f"resources/stickers/{subdir}/{src.name}",
             }
+            if m.get("size"):
+                entry["size"] = m["size"]
             preview = thumb_dir / f"{src.stem}_preview.webp"
             if preview.is_file():
                 entry["preview"] = f"resources/stickers/thumbnails/{src.stem}_preview.webp"

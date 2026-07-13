@@ -950,6 +950,23 @@ button {
   margin: 0 0 .9rem;
 }
 
+.resource-card__size {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  margin: 0 0 .8rem;
+  color: var(--paper-dim);
+  font-size: .82rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.resource-card__size-icon {
+  flex: none;
+  opacity: .8;
+  color: var(--gold-lite);
+}
+
 .resource-card h3 {
   margin: 0;
   color: var(--paper);

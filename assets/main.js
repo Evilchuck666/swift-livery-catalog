@@ -536,6 +536,14 @@
       titleRow.append(dl);
       body.append(titleRow);
 
+      if (item.size) {
+        const size = document.createElement("p");
+        size.className = "resource-card__size";
+        size.innerHTML = '<svg class="resource-card__size-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" fill="currentColor"><path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h13A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 12.5v-9zM1.5 3a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/><path d="M2 4.5a.5.5 0 0 1 .5-.5H6a.5.5 0 0 1 0 1H3.707l2.147 2.146a.5.5 0 1 1-.708.708L3 5.707V8a.5.5 0 0 1-1 0zm12 7a.5.5 0 0 1-.5.5H10a.5.5 0 0 1 0-1h2.293l-2.147-2.146a.5.5 0 0 1 .708-.708L13 10.293V8a.5.5 0 0 1 1 0z"/></svg>';
+        size.append(createText("span", "", item.size));
+        body.append(size);
+      }
+
       body.append(createText("p", "file-path", item.uri || ""));
 
       card.append(body);
