@@ -968,6 +968,7 @@ button {
   display: grid;
   gap: .45rem;
   margin: 0;
+  container-type: inline-size;
 }
 
 .spec-row {
@@ -979,6 +980,15 @@ button {
   border: 1px solid var(--line);
   border-radius: 10px;
   background: rgba(20, 18, 12, .38);
+}
+
+/* Tarjeta estrecha: apila etiqueta sobre valor para que el valor use todo el ancho.
+   .spec-grid .spec-row gana por especificidad a la regla del @media (min-width:721px). */
+@container (max-width: 250px) {
+  .spec-grid .spec-row {
+    grid-template-columns: 1fr;
+    gap: .15rem;
+  }
 }
 
 .spec-row__label {
@@ -999,6 +1009,16 @@ button {
 
 .spec-row--hex .spec-row__value {
   color: var(--paper);
+}
+
+.spec-row__sub {
+  display: block;
+  margin-top: .2rem;
+  color: var(--muted);
+  font-size: .62rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
 }
 
 .finish-list {

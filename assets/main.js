@@ -357,11 +357,13 @@
     });
   };
 
-  const specRow = (label, value, extraClass = "") => {
+  const specRow = (label, value, extraClass = "", sub = "") => {
     const row = document.createElement("div");
     row.className = `spec-row ${extraClass}`.trim();
     row.append(createText("dt", "spec-row__label", label));
-    row.append(createText("dd", "spec-row__value", value));
+    const dd = createText("dd", "spec-row__value", value);
+    if (sub) dd.append(createText("span", "spec-row__sub", sub));
+    row.append(dd);
     return row;
   };
 
@@ -475,10 +477,7 @@
       specs.append(specRow("HSV", hsvStr));
       specs.append(specRow("CMYK", item.cmyk || "—"));
       
-      if (item["3m"]) {
-        const m3 = item["3m_name"] ? `${item["3m"]} · ${item["3m_name"]}` : item["3m"];
-        specs.append(specRow("3M", m3));
-      }
+      if (item["3m"]) specs.append(specRow("3M", item["3m"], "", item["3m_name"] || ""));
 
       body.append(specs);
 
