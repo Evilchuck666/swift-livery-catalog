@@ -125,7 +125,6 @@ _BLACK_COLOR = {
     "rgb":        "16, 24, 32",
     "hsv":        {"hue": 210.0, "saturation": 50.0, "value": 12.55},
     "cmyk":       "50.00%, 25.00%, 0.00%, 87.45%",
-    "pantone":    "Black 6 C",
     "matte":      "Acabado mate",
     "matteLevel": "none",
 }

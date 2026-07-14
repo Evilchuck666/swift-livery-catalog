@@ -1,6 +1,6 @@
 # Livery Catalogue — Suzuki Swift Sport ZC33S
 
-A static visual catalogue of vinyl livery designs for the Suzuki Swift Sport ZC33S. Displays renders by angle and view, colour specifications (HEX, RGB, HSV, CMYK, Pantone), kamon and kanji production resources, and 3D model assets.
+A static visual catalogue of vinyl livery designs for the Suzuki Swift Sport ZC33S. Displays renders by angle and view, colour specifications (HEX, RGB, HSV, CMYK), kamon and kanji production resources, and 3D model assets.
 
 No build system. No backend. No Node dependencies. Pure HTML, CSS and JavaScript.
 
@@ -66,8 +66,7 @@ No requirements to view the catalogue — any modern browser works.
     "hex": "#RRGGBB",
     "rgb": [R, G, B],
     "hsv": [H, S, V],
-    "cmyk": [C, M, Y, K],
-    "pantone": "XXXX C"
+    "cmyk": [C, M, Y, K]
 }
 ```
 
@@ -79,7 +78,6 @@ No requirements to view the catalogue — any modern browser works.
 | `rgb` | RGB values as integer array `[R, G, B]` |
 | `hsv` | HSV values as float array `[H, S, V]` (H in degrees, S and V in %) |
 | `cmyk` | CMYK values as float array `[C, M, Y, K]` (in %) |
-| `pantone` | Pantone reference |
 
 3. Add the **16 required PNGs** (see list below).
 
