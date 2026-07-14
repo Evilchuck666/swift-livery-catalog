@@ -5,7 +5,7 @@ La idea parte del color Champion Yellow del coche y busca un contraste claro con
 ### Qué contiene
 
 - Renders de la livery en vistas frontales, laterales, traseras, cenitales y de detalle.
-- Especificaciones de color con valores HEX, RGB, HSV, CMYK y referencia Pantone.
+- Especificaciones de color con valores HEX, RGB, HSV, CMYK y una referencia de catálogo de vinilo.
 - Recursos PNG de kamon y kanji para revisar o reutilizar en el proceso de diseño.
 - Archivos 3D y recursos de apoyo para ajustar el modelo, el entorno y la presentación.
 
