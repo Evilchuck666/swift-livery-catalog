@@ -27,9 +27,11 @@ except ImportError:
 
 # ── Rutas ─────────────────────────────────────────────────────────────────────
 
-ROOT       = Path(__file__).resolve().parent.parent.parent
-RESOURCES  = ROOT / "resources"
-CATALOG_JS = ROOT / "assets" / "catalog-data.js"
+ROOT        = Path(__file__).resolve().parent.parent.parent
+RESOURCES   = ROOT / "resources"
+CATALOG_JS  = ROOT / "assets" / "catalog-data.js"
+MAIN_JS     = ROOT / "assets" / "main.js"
+MAIN_MIN_JS = ROOT / "assets" / "main.min.js"
 
 # ── Constantes de calidad WebP ────────────────────────────────────────────────
 
@@ -569,6 +571,38 @@ def step_catalog(dry_run=False):
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
+def step_minify_js():
+    """
+    Minifica assets/main.js → assets/main.min.js con terser.
+
+    main.js es el fuente legible; el sitio sirve el .min (referenciado en
+    index.html). Resuelve terser en PATH y, si no está, lo ejecuta vía
+    `npx --yes terser`.
+    """
+    if not MAIN_JS.is_file():
+        raise SystemExit(f"✗ No existe {MAIN_JS}")
+
+    terser = shutil.which("terser")
+    if terser:
+        cmd = [terser, str(MAIN_JS), "-c", "-m", "-o", str(MAIN_MIN_JS)]
+    else:
+        npx = shutil.which("npx")
+        if not npx:
+            raise SystemExit(
+                "✗ No se encontró 'terser' ni 'npx'.\n"
+                "  Instala terser con: npm i -g terser"
+            )
+        cmd = [npx, "--yes", "terser", str(MAIN_JS), "-c", "-m", "-o", str(MAIN_MIN_JS)]
+
+    proc = subprocess.run(cmd, capture_output=True, text=True)
+    if proc.returncode != 0:
+        raise SystemExit(f"✗ terser falló minificando {MAIN_JS.name}:\n{proc.stderr}")
+
+    src = MAIN_JS.stat().st_size
+    out = MAIN_MIN_JS.stat().st_size
+    print(f"  ✓ {MAIN_JS.name} → {MAIN_MIN_JS.name}  ({src:,} → {out:,} bytes)")
+
+
 def _build_parser():
     parser = argparse.ArgumentParser(
         prog="build-site.py",
@@ -622,6 +656,10 @@ Ejemplos:
         "--catalog", action="store_true",
         help="Genera assets/catalog-data.js escaneando todos los recursos",
     )
+    pasos.add_argument(
+        "--minify-js", action="store_true", dest="minify_js",
+        help="Minifica assets/main.js → assets/main.min.js con terser",
+    )
 
     opciones = parser.add_argument_group("opciones")
     opciones.add_argument(
@@ -645,11 +683,12 @@ def main():
     any_step = any([
         args.thumbs_livery, args.thumbs_3d,
         args.thumbs_kamon,  args.thumbs_kanji, args.thumbs_stickers,
-        args.catalog,
+        args.catalog, args.minify_js,
     ])
     if not any_step:
         args.thumbs_livery = args.thumbs_3d = args.thumbs_kamon = \
-            args.thumbs_kanji = args.thumbs_stickers = args.catalog = True
+            args.thumbs_kanji = args.thumbs_stickers = args.catalog = \
+            args.minify_js = True
 
     # --dry-run sin --catalog no tiene efecto útil
     if args.dry_run and not args.catalog:
@@ -680,6 +719,10 @@ def main():
     if args.catalog:
         print("\n── Catálogo ──────────────────────────────────────────────")
         step_catalog(dry_run=args.dry_run)
+
+    if args.minify_js:
+        print("\n── Minificado JS ─────────────────────────────────────────")
+        step_minify_js()
 
 
 if __name__ == "__main__":

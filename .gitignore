@@ -7,6 +7,7 @@ resources/*
 !resources/about/
 !resources/about/**
 assets/catalog-data.js
+assets/main.min.js
 assets/jszip.min.js
 /.idea/
 .vscode/sftp.json
