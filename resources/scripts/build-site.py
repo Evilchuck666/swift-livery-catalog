@@ -38,8 +38,9 @@ _METHOD_HI  = 6
 _QUALITY_TH = 85   # todas las miniaturas
 _METHOD_TH  = 6
 
-_SIZE_LIVERY_WEBP  = (1600, 900)
-_SIZE_LIVERY_THUMB = (640,  360)
+_SIZE_LIVERY_WEBP     = (1600, 900)
+_SIZE_LIVERY_THUMB    = (640,  360)
+_SIZE_LIVERY_THUMB_SM = (400,  225)
 _SIZE_SQUARE_THUMB = (360,  360)
 
 # ── Metadatos del catálogo ────────────────────────────────────────────────────
@@ -243,6 +244,10 @@ def step_thumbs_livery():
                 )
                 rgb.resize(_SIZE_LIVERY_THUMB, Image.LANCZOS).save(
                     thumb_dir / f"{png.stem}_preview.webp",
+                    "WEBP", quality=_QUALITY_TH, method=_METHOD_TH,
+                )
+                rgb.resize(_SIZE_LIVERY_THUMB_SM, Image.LANCZOS).save(
+                    thumb_dir / f"{png.stem}_preview_sm.webp",
                     "WEBP", quality=_QUALITY_TH, method=_METHOD_TH,
                 )
             print(f"  ✓ {livery_dir.name}/{png.name}")
@@ -516,6 +521,8 @@ def step_catalog(dry_run=False):
                 item["webp"] = f"resources/liveries/{livery_key}/WebP/{stem}.webp"
             if (thumb_dir / f"{stem}_preview.webp").is_file():
                 item["preview"] = f"resources/liveries/{livery_key}/thumbnails/{stem}_preview.webp"
+            if (thumb_dir / f"{stem}_preview_sm.webp").is_file():
+                item["preview_sm"] = f"resources/liveries/{livery_key}/thumbnails/{stem}_preview_sm.webp"
             items.append(item)
 
         lj_name = lj.get("livery", livery_key)

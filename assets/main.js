@@ -305,6 +305,10 @@
         image.loading = "lazy";
         image.decoding = "async";
         image.src = item.preview || item.uri;
+        if (item.preview && item.preview_sm) {
+          image.srcset = `${item.preview_sm} 400w, ${item.preview} 640w`;
+          image.sizes = "(min-width: 721px) 324px, 100vw";
+        }
         image.alt = `Suzuki Swift Sport ZC33S, vista ${view.name.toLowerCase()}, toma ${shot.name.toLowerCase()}.`;
         imageWrap.append(image);
         card.append(imageWrap);
