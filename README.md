@@ -1,5 +1,7 @@
 # Livery Catalogue — Suzuki Swift Sport ZC33S
 
+[![License](https://img.shields.io/badge/license-GPLv3-green)](LICENSE)
+
 A static visual catalogue of vinyl livery designs for the Suzuki Swift Sport ZC33S. Displays renders by angle and view, colour specifications (HEX, RGB, HSV, CMYK), kamon and kanji production resources, and 3D model assets.
 
 No build system. No backend. No Node dependencies. Pure HTML, CSS and JavaScript.
