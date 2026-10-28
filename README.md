@@ -1,4 +1,4 @@
-# Livery Catalogue — Suzuki Swift Sport ZC33S
+# 🍋 Livery Catalogue — Suzuki Swift Sport ZC33S
 
 ![Platform](https://img.shields.io/badge/platform-Web-blue)
 ![HTML](https://img.shields.io/badge/HTML-5-blue)
@@ -6,6 +6,7 @@
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES2020-blue)
 ![Requires](https://img.shields.io/badge/requires-modern%20browser-blue)
 [![License](https://img.shields.io/badge/license-GPLv3-green)](LICENSE)
+[![Build and tests](https://github.com/Evilchuck666/swift-livery-catalog/actions/workflows/checks.yml/badge.svg?branch=main)](https://github.com/Evilchuck666/swift-livery-catalog/actions/workflows/checks.yml)
 
 A static visual catalogue of vinyl livery designs for the Suzuki Swift Sport ZC33S. Displays renders by angle and view, colour specifications (HEX, RGB, HSV, CMYK), kamon and kanji production resources, and 3D model assets.
 
@@ -13,11 +14,15 @@ No build system. No backend. No Node dependencies. Pure HTML, CSS and JavaScript
 
 ---
 
-## Project structure
+## 🧱 Project structure
 
 ```
 .
 ├── index.html              # Main catalogue page
+├── .github/workflows/
+│   └── checks.yml          # Build and tests workflow
+├── tests/
+│   └── test_site.py        # Static catalogue tests
 ├── assets/
 │   ├── main.js             # Catalogue logic (gallery, filters, resources, lightbox)
 │   ├── styles.css          # Styles
@@ -48,7 +53,7 @@ No build system. No backend. No Node dependencies. Pure HTML, CSS and JavaScript
 
 ---
 
-## Requirements
+## 📦 Requirements
 
 - **Python 3 + Pillow** — required only to regenerate thumbnails and `catalog-data.js`.
 
@@ -60,7 +65,7 @@ No requirements to view the catalogue — any modern browser works.
 
 ---
 
-## Adding a new livery
+## 🎨 Adding a new livery
 
 1. Create the folder `resources/liveries/<key>/` (`<key>` is the internal identifier — no spaces or accents, e.g. `rojo`).
 
@@ -96,7 +101,7 @@ python3 resources/scripts/build-site.py
 
 ---
 
-## Build script
+## 🛠️ Build script
 
 `resources/scripts/build-site.py` consolidates all build steps. Run without arguments to execute everything in order.
 
@@ -125,7 +130,7 @@ Thumbnail images always overwrite existing files. The `--dry-run` flag only appl
 
 ---
 
-## Required shots
+## 📸 Required shots
 
 Each livery must have exactly these 16 PNG files in its folder:
 
@@ -152,7 +157,7 @@ The script validates all 16 are present before generating anything.
 
 ---
 
-## Shared assets
+## 🗂️ Shared assets
 
 Kamon, kanji and 3D renders are not tied to any specific livery — they are global resources:
 
@@ -166,7 +171,7 @@ The script scans these folders automatically. To add a new asset, place the PNG 
 
 ---
 
-## About tab content
+## ✍️ About tab content
 
 The **About** tab content is versioned and loaded at runtime via `fetch()`:
 
@@ -179,7 +184,7 @@ Both files support a limited Markdown subset: headings (`##`, `###`), **bold**, 
 
 ---
 
-## Serving the catalogue
+## 🚀 Serving the catalogue
 
 **Option A — HTTP server (recommended)**
 
@@ -195,7 +200,20 @@ Open `index.html` directly from the file manager (`file://`). The gallery and re
 
 ---
 
-## Unversioned files
+## 🧪 Tests
+
+The [`Build and tests`](.github/workflows/checks.yml) workflow runs on every push and pull request. It checks the syntax of `assets/main.js`, the Python scripts and the Blender shell scripts, then runs the catalogue tests. They need only Python 3 and Node.js, with no packages to install:
+
+```bash
+node --check assets/main.js
+python3 -m unittest discover -v tests
+```
+
+The tests use only versioned files. They check that ids are unique and every id used by `main.js` or referenced in the HTML exists, that local files are versioned or listed in `.gitignore`, that external links use HTTPS, that the About files exist, that `sitemap.xml` and `robots.txt` match the canonical URL, and that the required shots below match `build-site.py`.
+
+---
+
+## 🚫 Unversioned files
 
 | Path | Reason |
 |------|--------|

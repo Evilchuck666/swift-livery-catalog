@@ -1,0 +1,41 @@
+name: Build and tests
+
+# Pushes and pull requests check the JavaScript, Python and shell syntax and
+# run the static catalogue tests in tests/ (ids, links, About files, sitemap
+# and the required shots). Images and generated files are not versioned, so
+# the tests only use what is in the repository.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: Check catalogue
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Check JavaScript syntax
+        run: node --check assets/main.js
+
+      - name: Check Python and shell script syntax
+        run: |
+          set -euo pipefail
+          python3 -m py_compile resources/scripts/*.py resources/scripts/blender/*.py
+          for script in resources/scripts/blender/*.sh; do bash -n "$script"; done
+
+      - name: Run catalogue tests
+        run: python3 -m unittest discover -v tests
