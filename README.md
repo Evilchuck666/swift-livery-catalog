@@ -1,6 +1,9 @@
 # Livery Catalogue — Suzuki Swift Sport ZC33S
 
 ![Platform](https://img.shields.io/badge/platform-Web-blue)
+![HTML](https://img.shields.io/badge/HTML-5-blue)
+![CSS](https://img.shields.io/badge/CSS-3-blue)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES2020-blue)
 ![Requires](https://img.shields.io/badge/requires-modern%20browser-blue)
 [![License](https://img.shields.io/badge/license-GPLv3-green)](LICENSE)
 
