@@ -6,7 +6,7 @@
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES2020-blue)
 ![Requires](https://img.shields.io/badge/requires-modern%20browser-blue)
 [![License](https://img.shields.io/badge/license-GPLv3-green)](LICENSE)
-[![Build and tests](https://github.com/Evilchuck666/swift-livery-catalog/actions/workflows/checks.yml/badge.svg?branch=main)](https://github.com/Evilchuck666/swift-livery-catalog/actions/workflows/checks.yml)
+[![Build and tests](https://github.com/Evilchuck666/swift-livery-catalog/actions/workflows/checks.yaml/badge.svg?branch=main)](https://github.com/Evilchuck666/swift-livery-catalog/actions/workflows/checks.yaml)
 
 A static visual catalogue of vinyl livery designs for the Suzuki Swift Sport ZC33S. Displays renders by angle and view, colour specifications (HEX, RGB, HSV, CMYK), kamon and kanji production resources, and 3D model assets.
 
@@ -20,7 +20,7 @@ No build system. No backend. No Node dependencies. Pure HTML, CSS and JavaScript
 .
 ├── index.html              # Main catalogue page
 ├── .github/workflows/
-│   └── checks.yml          # Build and tests workflow
+│   └── checks.yaml         # Build and tests workflow
 ├── tests/
 │   └── test_site.py        # Static catalogue tests
 ├── assets/
@@ -202,7 +202,7 @@ Open `index.html` directly from the file manager (`file://`). The gallery and re
 
 ## 🧪 Tests
 
-The [`Build and tests`](.github/workflows/checks.yml) workflow runs on every push and pull request. It checks the syntax of `assets/main.js`, the Python scripts and the Blender shell scripts, then runs the catalogue tests. They need only Python 3 and Node.js, with no packages to install:
+The [`Build and tests`](.github/workflows/checks.yaml) workflow runs on every push and pull request. It checks the syntax of `assets/main.js`, the Python scripts and the Blender shell scripts, then runs the catalogue tests. They need only Python 3 and Node.js, with no packages to install:
 
 ```bash
 node --check assets/main.js
