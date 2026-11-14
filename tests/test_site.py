@@ -103,15 +103,15 @@ class SiteTests(unittest.TestCase):
         robots = (ROOT / "robots.txt").read_text(encoding="utf-8")
         self.assertIn(f"Sitemap: {canonical}sitemap.xml", robots)
 
-    def test_readme_lists_the_required_shots(self):
+    def test_technical_guide_lists_the_required_shots(self):
         tree = ast.parse(BUILD_SITE.read_text(encoding="utf-8"))
         shots = next(
             [key.value for key in node.value.keys]
             for node in tree.body
             if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", None) == "SHOT_META"
         )
-        readme = (ROOT / "README.md").read_text(encoding="utf-8")
-        listed = re.findall(r"^(car_\w+)\.png$", readme, re.MULTILINE)
+        guide = (ROOT / "TECHNICAL_GUIDE.md").read_text(encoding="utf-8")
+        listed = re.findall(r"^(car_\w+)\.png$", guide, re.MULTILINE)
         self.assertEqual(listed, shots)
 
 
