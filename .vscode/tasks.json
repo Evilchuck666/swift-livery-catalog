@@ -1,0 +1,132 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Serve: local HTTP server",
+      "detail": "Serves the project root at http://localhost:8080 (needed by the About tab and the ZIP download).",
+      "type": "process",
+      "command": "${command:python.interpreterPath}",
+      "args": ["-m", "http.server", "8080", "--bind", "127.0.0.1"],
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "http-server",
+        "pattern": {
+          "regexp": "^__never_matches__$",
+          "file": 1,
+          "location": 2,
+          "message": 3
+        },
+        "background": {
+          "activeBegin": true,
+          "beginsPattern": "^Serving HTTP",
+          "endsPattern": "^Serving HTTP"
+        }
+      }
+    },
+    {
+      "label": "Build: everything",
+      "detail": "Thumbnails, catalog-data.js and main.min.js (needs Pillow and terser or npx).",
+      "type": "process",
+      "command": "${command:python.interpreterPath}",
+      "args": ["resources/scripts/build-site.py"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build: thumbnails",
+      "type": "process",
+      "command": "${command:python.interpreterPath}",
+      "args": ["resources/scripts/build-site.py", "--thumbs"],
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build: catalog",
+      "type": "process",
+      "command": "${command:python.interpreterPath}",
+      "args": ["resources/scripts/build-site.py", "--catalog"],
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build: catalog (dry run)",
+      "type": "process",
+      "command": "${command:python.interpreterPath}",
+      "args": ["resources/scripts/build-site.py", "--catalog", "--dry-run"],
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build: minify JavaScript",
+      "type": "process",
+      "command": "${command:python.interpreterPath}",
+      "args": ["resources/scripts/build-site.py", "--minify-js"],
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Check: JavaScript syntax",
+      "type": "process",
+      "command": "node",
+      "args": ["--check", "assets/main.js"],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Check: Python and shell syntax",
+      "type": "shell",
+      "command": "set -euo pipefail; python3 -m py_compile resources/scripts/*.py resources/scripts/blender/*.py; for script in resources/scripts/blender/*.sh; do bash -n \"$script\"; done",
+      "options": {
+        "shell": {
+          "executable": "bash",
+          "args": ["-c"]
+        }
+      },
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Test: catalogue tests",
+      "type": "process",
+      "command": "${command:python.interpreterPath}",
+      "args": ["-m", "unittest", "discover", "-v", "tests"],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Check: all (as in CI)",
+      "detail": "Runs the same steps as the Build and tests workflow.",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Check: JavaScript syntax",
+        "Check: Python and shell syntax",
+        "Test: catalogue tests"
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Deploy: FTP mirror (one pass)",
+      "detail": "Copies the whole project to the \"backup\" profile of .vscode/sftp.json.",
+      "type": "process",
+      "command": "${command:python.interpreterPath}",
+      "args": ["resources/scripts/deploy-mirror.py", "--once"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Deploy: FTP mirror (watch)",
+      "detail": "Keeps the \"backup\" profile of .vscode/sftp.json in sync until stopped.",
+      "type": "process",
+      "command": "${command:python.interpreterPath}",
+      "args": ["resources/scripts/deploy-mirror.py"],
+      "isBackground": true,
+      "problemMatcher": []
+    }
+  ]
+}

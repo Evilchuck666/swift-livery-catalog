@@ -1,0 +1,31 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Web: Chrome on local server",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:8080",
+      "webRoot": "${workspaceFolder}",
+      "preLaunchTask": "Serve: local HTTP server"
+    },
+    {
+      "name": "Python: build-site.py",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/resources/scripts/build-site.py",
+      "args": "${command:pickArgs}",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Python: catalogue tests",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "unittest",
+      "args": ["discover", "-v", "tests"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    }
+  ]
+}

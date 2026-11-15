@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "ms-python.python",
+    "ms-python.debugpy",
+    "timonwong.shellcheck",
+    "github.vscode-github-actions",
+    "mrmlnc.vscode-apache",
+    "natizyskunk.sftp"
+  ]
+}
